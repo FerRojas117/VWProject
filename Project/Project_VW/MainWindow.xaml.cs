@@ -20,7 +20,7 @@ namespace Project_VW
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
     /// 
-    public partial class MainWindow : Window
+    public partial class MainWindow : NavigationWindow
     {
         // Holds our connection with the database
         SQLiteConnection m_dbConnection;
@@ -39,15 +39,14 @@ namespace Project_VW
         }
 
        
-
         // Writes the highscores to the console sorted on score in descending order.
         void printHighscores()
         {
             string sql = "select * from highscores order by score desc";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                tbSettingText.AppendText("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+           // while (reader.Read())
+              //  tbSettingText.AppendText("Name: " + reader["name"] + "\tScore: " + reader["score"]);
              
         }
 
