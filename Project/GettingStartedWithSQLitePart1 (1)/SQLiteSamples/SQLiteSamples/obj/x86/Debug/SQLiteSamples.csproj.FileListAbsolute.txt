@@ -1,0 +1,9 @@
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\bin\Debug\SQLiteSamples.exe
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\bin\Debug\SQLiteSamples.pdb
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\bin\Debug\System.Data.SQLite.dll
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\bin\Debug\System.Data.SQLite.xml
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\obj\x86\Debug\SQLiteSamples.csprojAssemblyReference.cache
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\obj\x86\Debug\SQLiteSamples.csproj.CoreCompileInputs.cache
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\obj\x86\Debug\SQLiteSamples.csproj.CopyComplete
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\obj\x86\Debug\SQLiteSamples.exe
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\GettingStartedWithSQLitePart1 (1)\SQLiteSamples\SQLiteSamples\obj\x86\Debug\SQLiteSamples.pdb
