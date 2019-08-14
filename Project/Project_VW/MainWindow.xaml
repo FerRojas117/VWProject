@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Project_VW"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Pruebas NAR" Height="500" Width="950"
+        Title="Pruebas NAR" Height="600" Width="1080"
         Source="login.xaml"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"

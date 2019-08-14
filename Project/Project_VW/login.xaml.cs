@@ -28,24 +28,94 @@ namespace Project_VW
         public login()
         {
             InitializeComponent();
-        }
-
-        // Creates a connection with our database file.
-        void connectToDatabase()
-        {
             conexion = new SQLiteConnection("Data Source=PruebasNar_DB.db;Version=3;");
-            conexion.Open();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             user = usuario.Text;
-            pass = password.Text;
+            pass = passwordBox.Password.ToString();
             inicioSesion(user, pass);
         }
         public void inicioSesion(string user, string pass)
         {
-            string theQuery = "SELECT * FROM usuarios WHERE ";
+            // check if user exists
+            string user_exists = "";
+            openConn();
+            string qry_know_userExists = "SELECT count(user) AS numero FROM usuarios WHERE user = '" + user + "'";
+            using (command = new SQLiteCommand(qry_know_userExists, conexion) )
+            {
+                SQLiteDataReader reader = command.ExecuteReader();
+                while ( reader.Read() )
+                {
+                    user_exists = Convert.ToString(reader["numero"]);
+                }
+            }
+            // if not, then will return
+            if( user_exists != "1" )
+            {
+                sendMBandCloseConn("Revisa tu usuario, no es correcto el nombre.");
+                return;
+            }
+            // else will check password
+            string qry_get_userID = "SELECT ID, user, password FROM usuarios WHERE user ='" + user + "'";
+            string user_ID, user_name, user_password = "";
+            using (command = new SQLiteCommand(qry_get_userID, conexion))
+            {
+                SQLiteDataReader reader = command.ExecuteReader();
+                while ( reader.Read() )
+                {
+                    user_ID = Convert.ToString(reader["user"]);
+                    user_name = Convert.ToString(reader["ID"]);
+                    user_password = Convert.ToString(reader["password"]);
+                }
+                // here we will check the password
+                if( pass != user_password )
+                {
+                    sendMBandCloseConn("Revisa tu contraseña, no es correcta.");
+                    return;
+                }
+                MessageBox.Show("Inicio de Sesión correcto.");
+            }
+            closeConn();
+
+            // pasar a siguiente página
+
+            admin Admin = new admin();
+            NavigationService.Navigate(Admin);
+;        }
+
+        public void openConn()
+        {
+            try
+            {
+                conexion.Open();
+            }
+            catch (Exception ex)
+            {
+               sendMBandCloseConn("No pudo abrirse de forma correcta la base de datos.\n" + ex.Message);
+            }
+        }
+
+        public void closeConn()
+        {
+            try
+            {
+                conexion.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No pudo cerrarse de forma correccta la base de datos.\n" +
+                    ex.Message
+                );
+            }
+        }
+
+        public void sendMBandCloseConn(string message)
+        {
+            MessageBox.Show(message);
+            closeConn();
         }
     }
 }

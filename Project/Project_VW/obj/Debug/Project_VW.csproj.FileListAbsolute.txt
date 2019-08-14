@@ -48,3 +48,7 @@ C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\Pro
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\Project_VW.csproj.CopyComplete
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\Project_VW.exe
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\Project_VW.pdb
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\login.g.cs
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\login.baml
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\admin.g.cs
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\admin.baml
