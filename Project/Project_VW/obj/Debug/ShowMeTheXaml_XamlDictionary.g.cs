@@ -7,82 +7,152 @@ namespace ShowMeTheXAML
     {
         static XamlDictionary()
         {
-            XamlResolver.Set("drawers_1", @"<smtx:XamlDisplay Key=""drawers_1"" MaxHeight=""{x:Static system:Double.MaxValue}"" Margin=""35,42,5,31"" xmlns:smtx=""clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"">
-  <materialDesign:DrawerHost Margin=""0,0,-520,0"" HorizontalAlignment=""Center"" VerticalAlignment=""Center"" BorderThickness=""2"" BorderBrush=""{DynamicResource MaterialDesignDivider}"" Height=""527"" Width=""1040"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"">
-    <materialDesign:DrawerHost.LeftDrawerContent>
-      <StackPanel Margin=""16"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
-        <TextBlock Margin=""4"" HorizontalAlignment=""Center"">LEFT FIELD</TextBlock>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" CommandParameter=""{x:Static Dock.Left}"" Margin=""4"" HorizontalAlignment=""Center"" Style=""{DynamicResource MaterialDesignFlatButton}"">
-                        CLOSE THIS
-                    </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" Margin=""4"" HorizontalAlignment=""Center"" Style=""{DynamicResource MaterialDesignFlatButton}"">
-                        CLOSE ALL
-                    </Button>
-      </StackPanel>
-    </materialDesign:DrawerHost.LeftDrawerContent>
-    <materialDesign:DrawerHost.TopDrawerContent>
-      <StackPanel Margin=""16"" HorizontalAlignment=""Center"" Orientation=""Horizontal"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
-        <TextBlock Margin=""4"" VerticalAlignment=""Center"">TOP BANANA</TextBlock>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" Style=""{DynamicResource MaterialDesignFlatButton}"" Margin=""4"" VerticalAlignment=""Center"">
-                        CLOSE ALL
-                    </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" CommandParameter=""{x:Static Dock.Top}"" Style=""{DynamicResource MaterialDesignFlatButton}"" Margin=""4"" VerticalAlignment=""Center"">
-                        CLOSE THIS
-                    </Button>
-      </StackPanel>
-    </materialDesign:DrawerHost.TopDrawerContent>
-    <materialDesign:DrawerHost.RightDrawerContent>
-      <StackPanel Margin=""16"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
-        <TextBlock Margin=""4"" HorizontalAlignment=""Center"">THE RIGHT STUFF</TextBlock>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" CommandParameter=""{x:Static Dock.Right}"" Margin=""4"" HorizontalAlignment=""Center"" Style=""{DynamicResource MaterialDesignFlatButton}"">
-                        CLOSE THIS
-                    </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" Margin=""4"" HorizontalAlignment=""Center"" Style=""{DynamicResource MaterialDesignFlatButton}"">
-                        CLOSE ALL
-                    </Button>
-      </StackPanel>
-    </materialDesign:DrawerHost.RightDrawerContent>
-    <materialDesign:DrawerHost.BottomDrawerContent>
-      <StackPanel Margin=""16"" HorizontalAlignment=""Center"" Orientation=""Horizontal"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
-        <TextBlock Margin=""4"" VerticalAlignment=""Center"">BOTTOM BRACKET</TextBlock>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" Style=""{DynamicResource MaterialDesignFlatButton}"" Margin=""4"" VerticalAlignment=""Center"">
-                        CLOSE ALL
-                    </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"" CommandParameter=""{x:Static Dock.Bottom}"" Style=""{DynamicResource MaterialDesignFlatButton}"" Margin=""4"" VerticalAlignment=""Center"">
-                        CLOSE THIS
-                    </Button>
-      </StackPanel>
-    </materialDesign:DrawerHost.BottomDrawerContent>
-    <Grid MinWidth=""480"" MinHeight=""480"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
-      <Grid VerticalAlignment=""Center"" HorizontalAlignment=""Center"">
-        <Grid.RowDefinitions>
-          <RowDefinition />
-          <RowDefinition />
-          <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Button Command=""{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"" CommandParameter=""{x:Static Dock.Left}"" Grid.Row=""1"" Grid.Column=""0"" Margin=""4"">
-          <materialDesign:PackIcon Kind=""ArrowLeft"" />
+            XamlResolver.Set("menus_1", @"<smtx:XamlDisplay Key=""menus_1"" DockPanel.Dock=""Top"" Margin=""5 5 0 5"" xmlns:smtx=""clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"">
+  <Menu IsMainMenu=""True"" Height=""52"" Margin=""0,0,-537,0"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
+    <MenuItem Header=""_File"">
+      <MenuItem Header=""Save"">
+        <MenuItem.Icon>
+          <materialDesign:PackIcon Kind=""ContentSave"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header=""Save As.."" />
+      <MenuItem Header=""Exit"" InputGestureText=""Ctrl+E"">
+        <MenuItem.Icon>
+          <materialDesign:PackIcon Kind=""ExitToApp"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <Separator />
+      <MenuItem Header=""Excellent"" IsCheckable=""True"" IsChecked=""True"" />
+      <MenuItem Header=""Rubbish"" IsCheckable=""True"" />
+      <MenuItem Header=""Dig Deeper"" InputGestureText=""Ctrl+D"">
+        <MenuItem Header=""Enlightenment?"" IsCheckable=""True"" />
+        <MenuItem Header=""Disappointment"" IsCheckable=""True"" />
+      </MenuItem>
+      <MenuItem Header=""Look Deeper"" InputGestureText=""Ctrl+D"">
+        <MenuItem Header=""Plain"" />
+        <MenuItem Header=""Ice Cream"" />
+      </MenuItem>
+    </MenuItem>
+    <MenuItem Header=""_Edit"">
+      <MenuItem Header=""_Cut"" Command=""Cut"">
+        <MenuItem.Icon>
+          <materialDesign:PackIcon Kind=""ContentCut"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header=""_Copy"" Command=""Copy"">
+        <MenuItem.Icon>
+          <materialDesign:PackIcon Kind=""ContentCopy"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header=""_Paste"" Command=""Paste"">
+        <MenuItem.Icon>
+          <materialDesign:PackIcon Kind=""ContentPaste"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </MenuItem.Icon>
+      </MenuItem>
+    </MenuItem>
+  </Menu>
+</smtx:XamlDisplay>");
+XamlResolver.Set("menus_2", @"<smtx:XamlDisplay Key=""menus_2"" DockPanel.Dock=""Top"" Margin=""5 0 0 0"" xmlns:smtx=""clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"">
+  <ToolBarTray Margin=""0,0,-537,2"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
+    <ToolBar Style=""{DynamicResource MaterialDesignToolBar}"" ClipToBounds=""False"" Margin=""0,0,-555,-13"">
+      <Button ToolTip=""Follow me on Twitter"">
+        <materialDesign:PackIcon Kind=""TwitterBox"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <Button ToolTip=""Save"">
+        <materialDesign:PackIcon Kind=""ContentSave"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <Separator />
+      <Button Command=""Cut"" ToolTip=""Cut"" ToolBar.OverflowMode=""AsNeeded"">
+        <materialDesign:PackIcon Kind=""ContentCut"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <Button Command=""Copy"" ToolTip=""Copy that stuff"" ToolBar.OverflowMode=""AsNeeded"">
+        <materialDesign:PackIcon Kind=""ContentCopy"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <Separator />
+      <Button Command=""Paste"" ToolTip=""Paste some stuff"" ToolBar.OverflowMode=""AsNeeded"">
+        <materialDesign:PackIcon Kind=""ContentPaste"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <!-- when badging in a toolbar, make sure the parent ToolBar.ClipToBounds=""False"", and
+                     manually apply the button style -->
+      <materialDesign:Badged ToolBar.OverflowMode=""AsNeeded"" Badge=""{materialDesign:PackIcon Alert}"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"">
+        <Button ToolTip=""Badge it up!"" Style=""{StaticResource {x:Static ToolBar.ButtonStyleKey}}"">
+          <materialDesign:PackIcon Kind=""AirplaneTakeoff"" />
         </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"" CommandParameter=""{x:Static Dock.Top}"" Grid.Row=""0"" Grid.Column=""1"" Margin=""4"">
-          <materialDesign:PackIcon Kind=""ArrowUp"" />
-        </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"" CommandParameter=""{x:Static Dock.Right}"" Grid.Row=""1"" Grid.Column=""2"" Margin=""4"">
-          <materialDesign:PackIcon Kind=""ArrowRight"" />
-        </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"" CommandParameter=""{x:Static Dock.Bottom}"" Grid.Row=""2"" Grid.Column=""1"" Margin=""4"">
-          <materialDesign:PackIcon Kind=""ArrowDown"" />
-        </Button>
-        <Button Command=""{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"" Grid.Row=""1"" Grid.Column=""1"" Margin=""4"" Style=""{DynamicResource MaterialDesignRaisedAccentButton}"">
-          <materialDesign:PackIcon Kind=""ArrowAll"" />
-        </Button>
-      </Grid>
-    </Grid>
-  </materialDesign:DrawerHost>
+      </materialDesign:Badged>
+      <Separator />
+      <ListBox>
+        <ListBoxItem ToolTip=""This is a lonley toggle with TextBlock instead of icon"">
+          <TextBlock>W</TextBlock>
+        </ListBoxItem>
+      </ListBox>
+      <Separator />
+      <ListBox SelectedIndex=""0"">
+        <ListBox.ToolTip>
+          <StackPanel>
+            <TextBlock Text=""MaterialDesignToolToggleFlatListBox"" />
+            <TextBlock Text=""Exclusive selection"" />
+            <TextBlock Text=""ListBoxAssist.IsToggle allows more natural toggle behaviour"" />
+          </StackPanel>
+        </ListBox.ToolTip>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatAlignLeft"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatAlignCenter"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatAlignRight"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatAlignJustify"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+      </ListBox>
+      <Separator />
+      <ListBox SelectionMode=""Extended"">
+        <ListBox.ToolTip>
+          <StackPanel>
+            <TextBlock Text=""MaterialDesignToolToggleListBox"" />
+            <TextBlock Text=""Multiple selection"" />
+            <TextBlock Text=""ListBoxAssist.IsToggle allows more natural toggle behaviour"" />
+          </StackPanel>
+        </ListBox.ToolTip>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatBold"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+        <ListBoxItem>
+          <materialDesign:PackIcon Kind=""FormatItalic"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+        <ListBoxItem x:Name=""UnderlineCheckbox"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"">
+          <materialDesign:PackIcon Kind=""FormatUnderline"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+        </ListBoxItem>
+      </ListBox>
+      <Separator />
+      <Label Content=""Font size:"" VerticalAlignment=""Center"" />
+      <ComboBox>
+        <ComboBoxItem Content=""10"" />
+        <ComboBoxItem IsSelected=""True"" Content=""12"" />
+        <ComboBoxItem Content=""14"" />
+        <ComboBoxItem Content=""16"" />
+      </ComboBox>
+      <CheckBox>
+                        Check
+                    </CheckBox>
+      <Button ToolTip=""Take a nap"" ToolBar.OverflowMode=""Always"">
+        <materialDesign:PackIcon Kind=""Hotel"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </Button>
+      <RadioButton GroupName=""XXX"" Content=""Radio"" />
+      <RadioButton GroupName=""XXX"" Content=""Ga Ga"" />
+      <Separator />
+      <RadioButton GroupName=""YYY"" Style=""{StaticResource MaterialDesignToolRadioButton}"">
+        <materialDesign:PackIcon Kind=""Radio"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </RadioButton>
+      <RadioButton GroupName=""YYY"" Style=""{StaticResource MaterialDesignToolRadioButton}"">
+        <materialDesign:PackIcon Kind=""EmoticonPoop"" xmlns:materialDesign=""http://materialdesigninxaml.net/winfx/xaml/themes"" />
+      </RadioButton>
+      <Separator />
+      <ToggleButton />
+    </ToolBar>
+  </ToolBarTray>
 </smtx:XamlDisplay>");
         }
     }
