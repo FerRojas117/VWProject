@@ -19,7 +19,7 @@ xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
         <Label Content="Password" HorizontalAlignment="Left" Margin="180,200,0,0" VerticalAlignment="Top" Width="115" FontSize="20" RenderTransformOrigin="1.114,0.531" Height="46"/>
         <Label Content="Usuario" HorizontalAlignment="Left" Margin="180,117,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.733,0.46" FontSize="20" Height="49"/>
         <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="325,200,0,0" VerticalAlignment="Top" Height="47" Width="191" FontSize="20"/>
-        <Label Content="Bienvenido a Pruebas NAR" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="59" Width="322" FontSize="26"/>
+        <Label Content="E-Funktion" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="59" Width="322" FontSize="26"/>
 
     </Grid>
 </Page>
