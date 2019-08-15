@@ -46,10 +46,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="Usuario" VerticalAlignment="Center" FontSize="16"/>
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
-                    <StackPanel Width="150">
-                        <Button Content="Settings"/>
-                        <Button Content="Account"/>
-                        <Button Content="Help"/>
+                    <StackPanel Width="200">
+                        <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click"/>
+                        <Button Content="Eliminar Usuario"/>
+                        <Button Content="Reset contraseñas..."/>
                         <Separator/>
                         <Button Content="Logout"/>
                     </StackPanel>
@@ -80,6 +80,7 @@
 
                     <Image Height="80" VerticalAlignment="Bottom"/>
                 </Grid>
+                <!-- Botones laterlaes, menu de hacer pruebas -->
                 <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
                     <ListViewItem x:Name="ItemHome" Height="60">
                         <StackPanel Orientation="Horizontal">
@@ -106,6 +107,7 @@
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
+                
             </StackPanel>
         </Grid>
     </Grid>
