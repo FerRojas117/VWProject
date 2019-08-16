@@ -72,6 +72,7 @@
     <Compile Include="NuevoUsuario.xaml.cs">
       <DependentUpon>NuevoUsuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SesionUsuario.cs" />
     <Compile Include="UserControl1_test.xaml.cs">
       <DependentUpon>UserControl1_test.xaml</DependentUpon>
     </Compile>

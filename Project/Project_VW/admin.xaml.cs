@@ -45,6 +45,13 @@ namespace Project_VW
             GridMain.Children.Add(usc);
         }
 
+        private void InfoUsuario_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("UID: " + SesionUsuario.getUserID() +
+                     ", UN: " + SesionUsuario.getUser() +
+                     ", UT: " + SesionUsuario.getUserTipo());
+        }
+
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UserControl usc = null;

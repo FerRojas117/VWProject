@@ -7,9 +7,19 @@
              xmlns:local="clr-namespace:Project_VW"
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
-    <Grid Background="#FFDEDEDE">
-        <materialDesign:Card Height="396" Margin="70,114,65,0">
-            
+
+
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <materialDesign:Card Height="396" Margin="68,103,67,0">
+
         </materialDesign:Card>
+
     </Grid>
+   
 </UserControl>

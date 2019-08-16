@@ -58,24 +58,48 @@ namespace Project_VW
                 return;
             }
             // else will check password
-            string qry_get_userID = "SELECT ID, user, password FROM usuarios WHERE user ='" + user + "'";
-            string user_ID, user_name, user_password = "";
+            string qry_get_userID = "SELECT * FROM usuarios WHERE user ='" + user + "'";
+            string user_ID = "", user_name = "", tipo_user = "", activo = "", user_password  = "";
+
             using (command = new SQLiteCommand(qry_get_userID, conexion))
             {
                 SQLiteDataReader reader = command.ExecuteReader();
                 while ( reader.Read() )
                 {
-                    user_ID = Convert.ToString(reader["user"]);
-                    user_name = Convert.ToString(reader["ID"]);
+                    user_ID = Convert.ToString(reader["ID"]);
+                    user_name = Convert.ToString(reader["user"]);
                     user_password = Convert.ToString(reader["password"]);
+                    tipo_user = Convert.ToString(reader["tipo_user"]);
+                    activo = Convert.ToString(reader["activo"]);
+                }
+                // here we will check if user is active(is not deleted)
+                if ( activo == "2" )
+                {
+                    sendMBandCloseConn("Lo siento. No tienes permiso para entrar al sistema");
+                    return;
                 }
                 // here we will check the password
-                if( pass != user_password )
+                if ( pass != user_password )
                 {
                     sendMBandCloseConn("Revisa tu contraseña, no es correcta.");
                     return;
                 }
-                MessageBox.Show("Inicio de Sesión correcto.");
+                // else, we will store data session and Update last login
+                string qry_updt_lastLogin = "UPDATE usuarios SET last_login = datetime() WHERE ID ='" + user_ID + "'";
+                using (command = new SQLiteCommand(qry_updt_lastLogin, conexion))
+                {
+
+                }
+                SesionUsuario.setID(Convert.ToInt32(user_ID));
+                SesionUsuario.setUser(user_name);
+                SesionUsuario.setUserTipo(Convert.ToInt32(tipo_user));
+
+                MessageBox.Show(
+                    "Inicio de Sesión correcto. " +
+                    "UID: " + SesionUsuario.getUserID() +
+                    ", UN: " + SesionUsuario.getUser() +
+                    ", UT: " + SesionUsuario.getUserTipo()
+                );
             }
             closeConn();
 
