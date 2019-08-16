@@ -36,7 +36,6 @@
     </Page.Triggers>
 
     <Grid Background="#FFDEDEDE">
-        
         <!-- Main grid that will be the one that changes by appending usercontrol pages  -->
         <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="1010" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -53,7 +52,7 @@
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
-                        <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click"/>
+                        <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
                         <Button Content="Eliminar Usuario"/>
                         <Button Content="Reset contraseñas..."/>
                         <Separator/>

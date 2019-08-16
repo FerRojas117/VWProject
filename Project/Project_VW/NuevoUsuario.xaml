@@ -8,7 +8,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
 
+    <UserControl.Resources>
+        <Style x:Key="DropDownStyle" TargetType="TextBlock">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ControlType}" Value="dropDown">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
+    
+    
+ 
+<!-- -->
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,10 +30,13 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <materialDesign:Card Height="396" Margin="68,103,67,0">
-
+        <materialDesign:Card Height="406" Margin="68,103,31,0">
+            <StackPanel>
+                <TextBlock Text="This is going to be the dropdown control."
+                   Style="{StaticResource DropDownStyle}"/>
+            </StackPanel>
         </materialDesign:Card>
 
     </Grid>
-   
+
 </UserControl>

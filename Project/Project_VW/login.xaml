@@ -13,7 +13,6 @@ xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
     <Grid>
 
         <materialDesign:Card Height="321" Margin="165,74,261,0"/>
-
         <Button Content="Entrar" HorizontalAlignment="Left" Margin="325,312,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click" Height="44" FontSize="18" RenderTransformOrigin="1.118,0.573"/>
         <TextBox x:Name="usuario" HorizontalAlignment="Left" Height="47" Margin="325,117,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" FontSize="20"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="180,200,0,0" VerticalAlignment="Top" Width="115" FontSize="20" RenderTransformOrigin="1.114,0.531" Height="46"/>

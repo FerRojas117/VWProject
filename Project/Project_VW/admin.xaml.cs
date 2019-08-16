@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,33 @@ namespace Project_VW
     /// </summary>
     public partial class admin : Page
     {
+        private Visibility visibility;
+        public Visibility Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+            set
+            {
+                visibility = value;
+
+                OnPropertyChanged("Visibility");
+            }
+        }
         public admin()
         {
             InitializeComponent();
+            Visibility = Visibility.Visible;
+            // DataContext explains WPF in which object WPF has to check the binding path. Here Vis is in "this" then:
+            DataContext = this;
+            if (SesionUsuario.getUserTipo() == 2)
+                NuevoUsuario.Visibility = Visibility.Collapsed;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Visibility = Visibility.Collapsed;
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
@@ -71,5 +96,6 @@ namespace Project_VW
                     break;
             }
         }
+
     }
 }
