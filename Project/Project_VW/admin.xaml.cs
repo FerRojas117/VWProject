@@ -30,7 +30,11 @@ namespace Project_VW
             InitializeComponent();
 
             if (SesionUsuario.getUserTipo() == 2)
+            {
                 NuevoUsuario.Visibility = Visibility.Collapsed;
+                EliminarUsuario.Visibility = Visibility.Collapsed;
+            }
+                
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -55,6 +59,14 @@ namespace Project_VW
             UserControl usc = null;
             GridMain.Children.Clear();
             usc = new NuevoUsuario();
+            GridMain.Children.Add(usc);
+        }
+
+        private void EliminarUsuario_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new EliminarUsuario();
             GridMain.Children.Add(usc);
         }
 

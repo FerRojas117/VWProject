@@ -19,23 +19,28 @@
         </Style>
     </UserControl.Resources>
 
-    
-    
- 
-<!-- -->
+
+
+
+    <!-- -->
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        
         <materialDesign:Card Height="406" Margin="68,103,31,0">
-            <StackPanel>
-                <TextBlock Text="This is going to be the dropdown control."
-                   Style="{StaticResource DropDownStyle}"/>
-            </StackPanel>
+            <Grid>
+                <Label Content="Usuario" HorizontalAlignment="Left" Margin="24,69,0,0" VerticalAlignment="Top" Height="57" Width="158" FontSize="20"/>
+                <TextBox x:Name="usuario_box" HorizontalAlignment="Left" Height="59" Margin="203,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239" FontSize="20"/>
+                <Button Content="CREAR USUARIO" HorizontalAlignment="Left" Margin="548,170,0,0" VerticalAlignment="Top" Width="306" Height="74" Click="Button_Click"/>
+                <PasswordBox x:Name="password_box" HorizontalAlignment="Left" Margin="203,153,0,0" VerticalAlignment="Top" Height="60" Width="239" FontSize="20"/>
+                <PasswordBox x:Name="confirmPassword_box" HorizontalAlignment="Left" Margin="203,252,0,0" VerticalAlignment="Top" Height="53" Width="239" FontSize="20"/>
+                <Label Content="Password" HorizontalAlignment="Left" Margin="24,153,0,0" VerticalAlignment="Top" Height="73" Width="150" FontSize="20"/>
+                <Label Content="Confirmar&#xD;&#xA;Password" HorizontalAlignment="Left" Margin="24,252,0,0" VerticalAlignment="Top" Height="68" Width="111" FontSize="20"/>
+                <CheckBox x:Name="esAdmin" Content="Hacerlo Administrador" HorizontalAlignment="Left" Margin="140,348,0,0" VerticalAlignment="Top" FontSize="20" IsChecked="false"/>
+                <Label Content="Añadir Nuevo Usuario" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
+
+            </Grid>
         </materialDesign:Card>
+
+
 
     </Grid>
 

@@ -13,25 +13,63 @@ namespace Project_VW
         // Holds our connection with the database
         SQLiteConnection conexion;
         SQLiteCommand command;
-        public void connectDB()
+        SQLiteDataReader reader;
+        public DB()
         {
-            conexion = new SQLiteConnection("Data Source=PruebasNar_DB.db;Version=3;");
+            conexion = new SQLiteConnection("Data Source=PruebasNar_DB.db;Version=3;");   
+        }
+        public void openConn()
+        {
             try
             {
                 conexion.Open();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
-                throw;
+                sendMBandCloseConn("No pudo abrirse de forma correcta la base de datos.\n" + ex.Message);
+            }
+        }
+        public SQLiteConnection getConn()
+        {
+            return conexion;
+        }
+        public SQLiteCommand getComm()
+        {
+            return command;
+        }
+        public SQLiteCommand setComm(string the_query )
+        {
+            return command = new SQLiteCommand(the_query, conexion);
+        }
+        public void setReader()
+        {
+             reader = command.ExecuteReader();
+        }
+
+        public SQLiteDataReader getReader()
+        {
+            return reader;
+        }
+
+        public void closeConn()
+        {
+            try
+            {
+                conexion.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No pudo cerrarse de forma correccta la base de datos.\n" +
+                    ex.Message
+                );
             }
         }
 
-        public void ExecuteQuery(string the_query)
+        public void sendMBandCloseConn(string message)
         {
-            connectDB();
-            command = conexion.CreateCommand();
-            
+            MessageBox.Show(message);
+            closeConn();
         }
     }
 }

@@ -53,7 +53,7 @@
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
                         <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
-                        <Button Content="Eliminar Usuario"/>
+                        <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
                         <Button Content="Reset contraseñas..."/>
                         <Separator/>
                         <Button Content="Logout"/>
