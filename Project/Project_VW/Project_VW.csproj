@@ -79,6 +79,8 @@
     <Compile Include="UserControl2_test.xaml.cs">
       <DependentUpon>UserControl2_test.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Page Include="admin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

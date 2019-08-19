@@ -21,26 +21,14 @@ namespace Project_VW
     /// </summary>
     public partial class admin : Page
     {
-        private Visibility visibility;
-        public Visibility Visibility
-        {
-            get
-            {
-                return visibility;
-            }
-            set
-            {
-                visibility = value;
-
-                OnPropertyChanged("Visibility");
-            }
-        }
+        
         public admin()
         {
+            var viewModel = new ViewModel();
+            viewModel.FirstName = "Kevin";   
+
             InitializeComponent();
-            Visibility = Visibility.Visible;
-            // DataContext explains WPF in which object WPF has to check the binding path. Here Vis is in "this" then:
-            DataContext = this;
+
             if (SesionUsuario.getUserTipo() == 2)
                 NuevoUsuario.Visibility = Visibility.Collapsed;
         }
