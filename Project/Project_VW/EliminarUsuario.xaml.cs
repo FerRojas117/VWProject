@@ -26,14 +26,14 @@ namespace Project_VW
         public EliminarUsuario()
         {
             db = new DB();
-            cbp = new List<ComboBoxPairs>();
             InitializeComponent();
             fillUsers();
         }
 
         public void fillUsers()
         {
-            string qry_getUsers = "SELECT ID, user FROM usuarios";
+            cbp = new List<ComboBoxPairs>();
+            string qry_getUsers = "SELECT ID, user FROM usuarios WHERE tipo_user = 2;";
             db.openConn();
             using (db.setComm(qry_getUsers))
             {
@@ -57,8 +57,38 @@ namespace Project_VW
             ComboBoxPairs cbp = (ComboBoxPairs)comboUsuarios.SelectedItem;
             string user_selected = cbp.user;
             string ID_user = cbp.ID;
+            MessageBoxResult result = MessageBox.Show(
+                "Estás seguro de eliminar el usuario: " + user_selected + ", con ID: " + ID_user + "?",
+                "Eliminar Usuario",
+                MessageBoxButton.YesNoCancel
+            );
 
-            MessageBox.Show("Usuario seleccionado: " + user_selected + ", ID: " + ID_user);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    int affectedRows = 0;
+                    string qry_deleteUser = "DELETE FROM usuarios WHERE ID = '" + ID_user +"'";
+                    db.openConn();
+                    using (db.setComm(qry_deleteUser))
+                    {
+                        affectedRows = db.getComm().ExecuteNonQuery();
+                    }
+                    if (affectedRows == 0)
+                    {
+                        db.sendMBandCloseConn("Usuario No eliminado. Problema desconocido.");
+                        return;
+                    }
+                    db.sendMBandCloseConn("Usuario Eliminado exitosamente.");
+                    comboUsuarios.ItemsSource = null;   
+                    fillUsers();
+                    break;
+                case MessageBoxResult.No:
+                    MessageBox.Show("Usuario No eliminado.", "Eliminar Usuario");
+                    break;
+                case MessageBoxResult.Cancel:
+                    MessageBox.Show("Usuario No eliminado.", "Eliminar Usuario");
+                    break;
+            }
         }
     }
 

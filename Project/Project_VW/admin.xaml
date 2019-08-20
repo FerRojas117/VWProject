@@ -52,6 +52,7 @@
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
+                        <Button x:Name="AgregarAuto" Content="Agregar Auto" Click="AnadirAuto_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
                         <Button Content="Reset contraseñas..."/>

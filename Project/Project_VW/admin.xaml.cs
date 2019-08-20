@@ -54,6 +54,14 @@ namespace Project_VW
             ButtonOpenMenu.Visibility = Visibility.Visible;
         }
 
+        private void AnadirAuto_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new NuevoUsuario();
+            GridMain.Children.Add(usc);
+        }
+
         private void AnadirUsuario_Click(object sender, RoutedEventArgs e)
         {
             UserControl usc = null;
