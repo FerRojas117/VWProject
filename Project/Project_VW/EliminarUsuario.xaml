@@ -14,12 +14,7 @@
 
                 <Button Content="ELIMINAR USUARIO" HorizontalAlignment="Left" Margin="548,170,0,0" VerticalAlignment="Top" Width="306" Height="74" Click="Button_Click"/>
                 <Label Content="Eliminar Usuario" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
-                <ComboBox HorizontalAlignment="Left" Margin="76,187,0,0" VerticalAlignment="Top" Width="276" Height="57" FontSize="20"
-                 SelectedValue="{Binding FilterService.usuarios, Mode=TwoWay}"
-                 ItemsSource="{Binding usuarios, Mode=OneTime}"
-                 SelectedValuePath="TKey"
-                 DisplayMemberPath="TValue" 
-                />
+                <ComboBox x:Name="comboUsuarios" HorizontalAlignment="Left" Margin="76,187,0,0" VerticalAlignment="Top" Width="276" Height="57" FontSize="20"/>
 
             </Grid>
         </materialDesign:Card>

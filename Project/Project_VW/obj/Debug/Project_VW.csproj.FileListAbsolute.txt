@@ -70,3 +70,5 @@ C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\U
 C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\UserControl2_test.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\EliminarUsuario.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\EliminarUsuario.baml
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\EliminarUsuario.g.cs
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\EliminarUsuario.baml

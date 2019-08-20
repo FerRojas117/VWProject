@@ -20,12 +20,13 @@ namespace Project_VW
     /// </summary>
     public partial class EliminarUsuario : UserControl
     {
-        Dictionary<string, string> usuarios;
+
+        List<ComboBoxPairs> cbp;
         DB db;
         public EliminarUsuario()
         {
             db = new DB();
-            usuarios = new Dictionary<string, string>();
+            cbp = new List<ComboBoxPairs>();
             InitializeComponent();
             fillUsers();
         }
@@ -39,26 +40,37 @@ namespace Project_VW
                db.setReader();
                while( db.getReader().Read() )
                {
-                    usuarios.Add(
-                      Convert.ToString(db.getReader()["ID"]),
-                      Convert.ToString(db.getReader()["user"])
-                    );
+                    cbp.Add(new ComboBoxPairs(
+                      Convert.ToString(db.getReader()["user"]),
+                      Convert.ToString(db.getReader()["ID"]) 
+                    ));
                }
             }
+            comboUsuarios.DisplayMemberPath = "user";
+            comboUsuarios.SelectedValuePath = "ID";
+            comboUsuarios.ItemsSource = cbp;
             db.closeConn();
-        }
-
-        public Dictionary<string, string> Usuarios
-        {
-            get
-            {
-                return usuarios;
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           // 
+            ComboBoxPairs cbp = (ComboBoxPairs)comboUsuarios.SelectedItem;
+            string user_selected = cbp.user;
+            string ID_user = cbp.ID;
+
+            MessageBox.Show("Usuario seleccionado: " + user_selected + ", ID: " + ID_user);
+        }
+    }
+
+    public class ComboBoxPairs
+    {
+        public string user { get; set; }
+        public string ID { get; set; }
+
+        public ComboBoxPairs(string user_p, string ID_P)
+        {
+            user = user_p;
+            ID = ID_P;
         }
     }
 }
