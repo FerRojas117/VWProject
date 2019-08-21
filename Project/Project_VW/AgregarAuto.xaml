@@ -5,16 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_VW"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
         <materialDesign:Card Height="406" Margin="68,103,31,0">
+            <!--
             <Grid>
                 <Label Content="Añadir Nuevo Auto" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
-                <TextBox HorizontalAlignment="Left" Height="31" Margin="52,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="147"/>
+                <TextBox HorizontalAlignment="Left" Height="79" Margin="52,168,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="162" AcceptsReturn="True" SpellCheck.IsEnabled="True" FontSize="20" TextChanged="TextBox_TextChanged"/>
+                <Label Content="Nombre de Auto&#xD;&#xA;y &#xD;&#xA;Modelo" HorizontalAlignment="Left" Margin="52,49,0,0" VerticalAlignment="Top" Height="94" Width="162" FontSize="20" HorizontalContentAlignment="Center"/>
+        
+            </Grid>
+            -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
+                <Label Grid.Column="0" Width="158" Margin="144,16,154,301" FontSize="20" HorizontalContentAlignment="Center" Content="Nombre de&#xD;&#xA;Auto y &#xD;&#xA;Modelo"/>
+                <TextBox Grid.Column="0" Margin="114,134,132,168" SpellCheck.IsEnabled="True" AcceptsReturn="True" HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="0" Margin="0,284,0,90">Añadir Auto</Button>
+                <smtx:XamlDisplay Grid.Column="1" Key="shadow_15" Margin="16 16 0 16">
+                    <materialDesign:Card  materialDesign:ShadowAssist.ShadowDepth="Depth5" Padding="32" HorizontalAlignment="Left" Width="429" Margin="0,0,-209,0" Height="365">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0"></Label>
+                            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0 20 0 0">
+
+                            </StackPanel>
+                        </Grid>
+                        
+                    </materialDesign:Card>
+                </smtx:XamlDisplay>
 
             </Grid>
+
         </materialDesign:Card>
     </Grid>
 </UserControl>

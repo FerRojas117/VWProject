@@ -8,8 +8,30 @@ namespace Project_VW
 {
     public static class SesionUsuario
     {
-        static string user;
-        static int ID, tipo_user;
+        static string user, nombre_evento;
+        static int ID, tipo_user, ID_evento;
+
+
+
+        // Store nombre de evento
+        public static void setIDEvento(int ID_event)
+        {
+            ID_evento = ID_event;
+        }
+        public static int getIDEvento()
+        {
+            return ID_evento;
+        }
+
+        // Store nombre de evento
+        public static void setEvento(string nombre_event)
+        {
+            nombre_evento = nombre_event;
+        }
+        public static string getEvento()
+        {
+            return nombre_evento;
+        }
 
         // Store ussers
         public static void setUser(string user_name)

@@ -21,6 +21,7 @@ namespace Project_VW
     public partial class AgregarEvento : UserControl
     {
         DB db;
+        admin ad;
         public AgregarEvento()
         {
             db = new DB();
@@ -32,7 +33,7 @@ namespace Project_VW
             string evento = evento_box.Text;
             string descripcion = descripcion_box.Text;
             int affectedRows = 0;
-            string qry_getEvents = "SELECT COUNT(*) FROM evento";
+            string qry_getEvents = "SELECT COUNT(*) AS numEventos FROM evento";
             db.openConn();
             using (db.setComm(qry_getEvents))
             {
@@ -56,9 +57,16 @@ namespace Project_VW
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        string qry_update = "UPDATE evento SET is_current = 2 WHERE is_current = 1;";
+                        string qry_update = "UPDATE evento SET is_current = 2 WHERE is_current = 1";
                         using (db.setComm(qry_update))
-                        { }
+                        {
+                            affectedRows = db.getComm().ExecuteNonQuery();
+                        }
+                        if (affectedRows == 0)
+                        {
+                            db.sendMBandCloseConn("No se pudo establecer evento como defecto. Inténtalo de nuevo");
+                            return;
+                        }
                         string qry_newEvent = "INSERT INTO evento (nombre, descripcion, is_current)";
                         qry_newEvent += "VALUES('" + evento + "', '" + descripcion + "', 1)";
                         using (db.setComm(qry_newEvent))
@@ -71,6 +79,8 @@ namespace Project_VW
                             return;
                         }
                         db.sendMBandCloseConn("Evento agregado exitosamente. Establecido como evento por defecto.");
+                        ad = new admin();
+                        ad.changeEventTitle();
                         break;
                     case MessageBoxResult.No:
                         string qry_newEvent_no = "INSERT INTO evento (nombre, descripcion, is_current)";

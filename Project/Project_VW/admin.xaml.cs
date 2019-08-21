@@ -29,8 +29,9 @@ namespace Project_VW
             InitializeComponent();
             db = new DB();
             string qry_getEvento = "SELECT COUNT(nombre) AS numEventos FROM evento WHERE is_current = 1";
-            string qry_getEventoNom = "SELECT nombre FROM evento WHERE is_current = 1";
+            string qry_getEventoNom = "SELECT nombre, ID FROM evento WHERE is_current = 1";
             string nom_evento_actual = "";
+            int ID_evento_actual = 0;
             db.openConn();
             using (db.setComm(qry_getEvento))
             {
@@ -38,8 +39,7 @@ namespace Project_VW
                 while (db.getReader().Read())
                 {
                     affectedRows = Convert.ToInt32(db.getReader()["numEventos"]);
-                }
-                
+                } 
             }
             if (affectedRows == 0)
             {
@@ -52,10 +52,13 @@ namespace Project_VW
                     db.setReader();
                     while (db.getReader().Read())
                     {
-                        nom_evento_actual =  Convert.ToString(db.getReader()["nombre"]);
+                        nom_evento_actual = Convert.ToString(db.getReader()["nombre"]);
+                        ID_evento_actual = Convert.ToInt32(db.getReader()["ID"]);
                     }
+                    SesionUsuario.setEvento(nom_evento_actual);
+                    SesionUsuario.setIDEvento(ID_evento_actual);
                 }
-                nombreEvento.Text = SesionUsuario.getUserTipoString() + " - Evento Actual: " + nom_evento_actual;
+                changeEventTitle();
             }
             
            
@@ -69,6 +72,13 @@ namespace Project_VW
             }
             nombreUsuario.Text = SesionUsuario.getUser();
                 
+        }
+        public void changeEventTitle()
+        {
+            nombreEvento.Text = "";
+            nombreEvento.Text = SesionUsuario.getUserTipoString() + " - Evento Actual: " +
+                    SesionUsuario.getEvento() +
+                    ". ID: " + SesionUsuario.getIDEvento();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -120,11 +130,22 @@ namespace Project_VW
             GridMain.Children.Add(usc);
         }
 
+        private void CambiarEvento_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new CambiarEvento();
+            GridMain.Children.Add(usc);
+        }
+
         private void InfoUsuario_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("UID: " + SesionUsuario.getUserID() +
                      ", UN: " + SesionUsuario.getUser() +
-                     ", UT: " + SesionUsuario.getUserTipo());
+                     ", UT: " + SesionUsuario.getUserTipo() +
+                     ", EV: " + SesionUsuario.getEvento() +
+                     ", EVID: " + SesionUsuario.getIDEvento() 
+            );
         }
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
