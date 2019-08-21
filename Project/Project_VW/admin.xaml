@@ -48,10 +48,11 @@
                 <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
             </Grid.Effect>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="{Binding Path=FirstName}" VerticalAlignment="Center" FontSize="16"/>
+                <TextBlock x:Name="nombreUsuario" VerticalAlignment="Center" FontSize="16"/>
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
+                        <Button x:Name="AgregarEvento" Content="Agregar Evento..." Click="addEvento_Click"/>
                         <Button x:Name="AgregarAuto" Content="Agregar Auto" Click="AnadirAuto_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
@@ -61,7 +62,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Administrador</TextBlock>
+            <TextBlock x:Name="nombreEvento" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"></TextBlock>
         </Grid>
         <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF31577E">
             <Grid.Effect>

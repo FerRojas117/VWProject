@@ -21,19 +21,53 @@ namespace Project_VW
     /// </summary>
     public partial class admin : Page
     {
+        DB db;
+        int affectedRows = 0;
         
         public admin()
         {
-            var viewModel = new ViewModel();
-            viewModel.FirstName = "Kevin";   
-
             InitializeComponent();
+            db = new DB();
+            string qry_getEvento = "SELECT COUNT(nombre) AS numEventos FROM evento WHERE is_current = 1";
+            string qry_getEventoNom = "SELECT nombre FROM evento WHERE is_current = 1";
+            string nom_evento_actual = "";
+            db.openConn();
+            using (db.setComm(qry_getEvento))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    affectedRows = Convert.ToInt32(db.getReader()["numEventos"]);
+                }
+                
+            }
+            if (affectedRows == 0)
+            {
+                nombreEvento.Text = SesionUsuario.getUserTipoString();
+            }
+            else
+            {
+                using (db.setComm(qry_getEventoNom))
+                {
+                    db.setReader();
+                    while (db.getReader().Read())
+                    {
+                        nom_evento_actual =  Convert.ToString(db.getReader()["nombre"]);
+                    }
+                }
+                nombreEvento.Text = SesionUsuario.getUserTipoString() + " - Evento Actual: " + nom_evento_actual;
+            }
+            
+           
+            db.closeConn();
 
+            // Remove elements if not administrator
             if (SesionUsuario.getUserTipo() == 2)
             {
                 NuevoUsuario.Visibility = Visibility.Collapsed;
                 EliminarUsuario.Visibility = Visibility.Collapsed;
             }
+            nombreUsuario.Text = SesionUsuario.getUser();
                 
         }
 
@@ -59,6 +93,14 @@ namespace Project_VW
             UserControl usc = null;
             GridMain.Children.Clear();
             usc = new NuevoUsuario();
+            GridMain.Children.Add(usc);
+        }
+
+        private void addEvento_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new AgregarEvento();
             GridMain.Children.Add(usc);
         }
 

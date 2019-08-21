@@ -41,6 +41,18 @@ namespace Project_VW
             return tipo_user;
         }
 
-   
+        public static string getUserTipoString()
+        {
+            switch(tipo_user)
+            {
+                case 1:
+                    return "Administrador";
+                case 2:
+                    return "Probador";
+            }
+            return "Uuario";
+        }
+
+
     }
 }

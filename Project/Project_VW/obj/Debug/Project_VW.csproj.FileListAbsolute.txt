@@ -74,3 +74,7 @@ C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\E
 C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\EliminarUsuario.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\AgregarAuto.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\AgregarAuto.baml
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\AgregarAuto.g.cs
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\AgregarEvento.g.cs
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\AgregarAuto.baml
+C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\AgregarEvento.baml
