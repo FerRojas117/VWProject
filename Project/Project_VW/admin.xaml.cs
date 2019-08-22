@@ -61,7 +61,6 @@ namespace Project_VW
                 changeEventTitle();
             }
             
-           
             db.closeConn();
 
             // Remove elements if not administrator
@@ -102,7 +101,7 @@ namespace Project_VW
         {
             UserControl usc = null;
             GridMain.Children.Clear();
-            usc = new NuevoUsuario();
+            usc = new AgregarAuto();
             GridMain.Children.Add(usc);
         }
 

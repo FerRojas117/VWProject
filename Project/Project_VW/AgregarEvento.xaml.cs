@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace Project_VW
     {
         DB db;
         admin ad;
+      
         public AgregarEvento()
         {
             db = new DB();

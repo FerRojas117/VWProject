@@ -22,7 +22,7 @@ namespace Project_VW
     {
         List<ComboBoxPairsEvento> cbp;
         DB db;
-        admin ad;
+
         public CambiarEvento()
         {
             db = new DB();
@@ -81,7 +81,7 @@ namespace Project_VW
             }
         }
     }
-     public class ComboBoxPairsEvento
+    public class ComboBoxPairsEvento
     {
         public string nombre { get; set; }
         public string ID { get; set; }

@@ -24,22 +24,32 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Width="158" Margin="144,16,154,301" FontSize="20" HorizontalContentAlignment="Center" Content="Nombre de&#xD;&#xA;Auto y &#xD;&#xA;Modelo"/>
-                <TextBox Grid.Column="0" Margin="114,134,132,168" SpellCheck.IsEnabled="True" AcceptsReturn="True" HorizontalContentAlignment="Center"/>
-                <Button Grid.Column="0" Margin="0,284,0,90">Añadir Auto</Button>
+                <Label x:Name="labelAuto" Grid.Column="0" Width="158" Margin="101,105,197,213" FontSize="20" HorizontalContentAlignment="Center" Content="Nombre de&#xD;&#xA;Auto y &#xD;&#xA;Modelo"/>
+                <TextBox x:Name="nombreAuto" Grid.Column="0" Margin="101,198,145,104" SpellCheck.IsEnabled="True" AcceptsReturn="True" HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="0" Margin="10,16,235,328" Height="Auto" FontSize="20" Click="addAuto_Click">Añadir Auto</Button>
+                <Button Grid.Column="0" Margin="235,16,10,328" Height="Auto" FontSize="20" Click="searchAuto_Click" Content="Buscar Auto"/>
+                <Button x:Name="crearAuto" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Agregar Auto" Click="crearAuto_Click"/>
+                <Button x:Name="relacionarAuto" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Relacionar Auto" Click="relacionarAuto_Click"/>
+                <ComboBox x:Name="buscarAuto" Grid.Column="0" Height="62" Margin="101,154,118,190"/>
                 <smtx:XamlDisplay Grid.Column="1" Key="shadow_15" Margin="16 16 0 16">
                     <materialDesign:Card  materialDesign:ShadowAssist.ShadowDepth="Depth5" Padding="32" HorizontalAlignment="Left" Width="429" Margin="0,0,-209,0" Height="365">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="60 px"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0"></Label>
-                            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0 20 0 0">
+                            
+                                <materialDesign:Card Grid.Row="0"  materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="10,0,0,0" Background="#FF673BB7" >
+
+                                    <Label Grid.Row="0" Content="Selecciona Sistemas para relacionar&#xD;&#xA; el vehículo con estos" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
+                                </materialDesign:Card>
+                           
+                            <Label x:Name="noSystems" Grid.Row="1" Margin="49,92,57,77" Content="No hay sistemas &#xD;&#xA;disponibles por el momento" HorizontalContentAlignment="Center" FontSize="20"></Label>
+                            <StackPanel x:Name="stackSystems" Grid.Row="1" Orientation="Vertical" Margin="0 20 0 0">
 
                             </StackPanel>
                         </Grid>
-                        
+
                     </materialDesign:Card>
                 </smtx:XamlDisplay>
 
