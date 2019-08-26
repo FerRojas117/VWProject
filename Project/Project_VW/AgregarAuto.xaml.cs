@@ -14,6 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+
+/// <summary>
+///  still missing :
+///  relation of new inserted car 
+///  show existing cars to relate to a system
+///  show systems that are NOT related to a specific car
+///  when looking for a car
+/// </summary>
+
+
+
 namespace Project_VW
 {
     /// <summary>
@@ -108,7 +120,8 @@ namespace Project_VW
             MessageBox.Show(nombreModeloAuto);
             string qry_insAuto = "INSERT INTO autos (modelo) VALUES ('" +
                 nombreModeloAuto + "')";
-
+            db.openConn();
+            // if car was not inserted or if there is no systems registered, then
             if ( affectedRows == 0 ||  getNumSelectedCB() == 0)
             {
                 MessageBoxResult result = MessageBox.Show(
@@ -119,8 +132,7 @@ namespace Project_VW
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        db.openConn();
- 
+
                         using (db.setComm(qry_insAuto))
                         {
                             affectedRows = db.getComm().ExecuteNonQuery();
@@ -141,7 +153,6 @@ namespace Project_VW
             }
             else
             { 
-                db.openConn();
                 using (db.setComm(qry_insAuto))
                 {
                     affectedRows = db.getComm().ExecuteNonQuery();
@@ -151,16 +162,24 @@ namespace Project_VW
                     db.sendMBandCloseConn("No se pudo crear AUTO. Inténtalo de nuevo");
                     return;
                 }
+                // We get the ID of the last inserted car successfully,
+                // we then have to relate with  a system
                 string sql = "SELECT last_insert_rowid()";
                 SQLiteCommand cmd = new SQLiteCommand(sql, db.getConn());
-                int lastID = (Int32)cmd.ExecuteScalar();
+                int lastID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // insert code for relation of system
+
                 db.sendMBandCloseConn("Auto Agregado exitosamente. " + "ID: " + lastID);
+                
             }
         }
 
         private void relacionarAuto_Click(object sender, RoutedEventArgs e)
         {
-         
+            // we have to check if the relation extists 
+            // with index of car and systems, and discriminate info
+
             buscarAuto.Visibility = Visibility.Visible;
             relacionarAuto.Visibility = Visibility.Visible;
         }
