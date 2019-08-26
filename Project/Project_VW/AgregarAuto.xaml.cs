@@ -18,10 +18,9 @@ using System.Windows.Shapes;
 
 /// <summary>
 ///  still missing :
-///  relation of new inserted car 
-///  show existing cars to relate to a system
-///  show systems that are NOT related to a specific car
-///  when looking for a car
+///  show existing cars to relate to a system -DONE
+///  relation of new inserted car - DONE 
+///  show systems that are NOT related to a specific car when looking for a car
 /// </summary>
 
 
@@ -35,13 +34,15 @@ namespace Project_VW
     {
         DB db;
         List<CheckBoxPairsSistemas> cbp;
+        List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         int affectedRows = 0;
+        string qry_getNoSistemas = "SELECT COUNT(*) AS numSistemas FROM sistema";
 
         public AgregarAuto()
         {
 
             cbp = new List<CheckBoxPairsSistemas>();
-            string qry_getNoSistemas = "SELECT COUNT(*) AS numSistemas FROM sistema";
+            
             InitializeComponent();
             // put elements not visible till we click on the buttons
             noSystems.Visibility = Visibility.Collapsed;
@@ -52,8 +53,34 @@ namespace Project_VW
             // controles de Buscar Auto
             buscarAuto.Visibility = Visibility.Collapsed;
             relacionarAuto.Visibility = Visibility.Collapsed;
-
             db = new DB();
+            fillSystems();
+        }
+
+        private void addAuto_Click(object sender, RoutedEventArgs e)
+        {
+            buscarAuto.Visibility = Visibility.Collapsed;
+            relacionarAuto.Visibility = Visibility.Collapsed;
+
+            labelAuto.Visibility = Visibility.Visible;
+            nombreAuto.Visibility = Visibility.Visible;
+            crearAuto.Visibility = Visibility.Visible;
+        }
+
+        private void searchAuto_Click(object sender, RoutedEventArgs e)
+        {
+            labelAuto.Visibility = Visibility.Collapsed;
+            nombreAuto.Visibility = Visibility.Collapsed;
+            crearAuto.Visibility = Visibility.Collapsed;
+
+            buscarAuto.Visibility = Visibility.Visible;
+            relacionarAuto.Visibility = Visibility.Visible;
+
+            fillCars();
+        }
+
+        public void fillSystems()
+        {
             db.openConn();
             using (db.setComm(qry_getNoSistemas))
             {
@@ -83,7 +110,48 @@ namespace Project_VW
                         ));
                     }
                 }
-                foreach(CheckBoxPairsSistemas cpe in cbp)
+                foreach (CheckBoxPairsSistemas cpe in cbp)
+                {
+                    CheckBox cb = new CheckBox();
+                    cb.Name = "_" + cpe.ID;
+                    cb.Content = cpe.nombre;
+                    stackSystems.Children.Add(cb);
+                }
+                db.closeConn();
+            }
+        }
+        public void fillSystems(int ID_car)
+        {
+            db.openConn();
+            using (db.setComm(qry_getNoSistemas))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    affectedRows = Convert.ToInt32(db.getReader()["numSistemas"]);
+                }
+            }
+            if (affectedRows == 0)
+            {
+                db.sendMBandCloseConn("No hay Sistemas registrados. Por el momento");
+                noSystems.Visibility = Visibility.Visible;
+            }
+            // llenar el stack con los sistemas encontrados
+            else
+            {
+                string qry_getSistemas = "SELECT ID, nombre FROM sistema";
+                using (db.setComm(qry_getSistemas))
+                {
+                    db.setReader();
+                    while (db.getReader().Read())
+                    {
+                        cbp.Add(new CheckBoxPairsSistemas(
+                            Convert.ToString(db.getReader()["ID"]),
+                            Convert.ToString(db.getReader()["nombre"])
+                        ));
+                    }
+                }
+                foreach (CheckBoxPairsSistemas cpe in cbp)
                 {
                     CheckBox cb = new CheckBox();
                     cb.Name = "_" + cpe.ID;
@@ -94,24 +162,28 @@ namespace Project_VW
             }
         }
 
-        private void addAuto_Click(object sender, RoutedEventArgs e)
+        public void fillCars()
         {
-            buscarAuto.Visibility = Visibility.Collapsed;
-            relacionarAuto.Visibility = Visibility.Collapsed;
 
-            labelAuto.Visibility = Visibility.Visible;
-            nombreAuto.Visibility = Visibility.Visible;
-            crearAuto.Visibility = Visibility.Visible;
-        }
+            cbp_browseAutos = new List<ComboBoxPairsBrowseAutos>();
+            string qry_getEventos = "SELECT ID, modelo FROM autos";
+            db.openConn();
+            using (db.setComm(qry_getEventos))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    cbp_browseAutos.Add(new ComboBoxPairsBrowseAutos(
+                      Convert.ToString(db.getReader()["ID"]),
+                      Convert.ToString(db.getReader()["modelo"])
+                    ));
+                }
+            }
+            db.closeConn();
+            buscarAuto.DisplayMemberPath = "modelo";
+            buscarAuto.SelectedValuePath = "ID";
+            buscarAuto.ItemsSource = cbp_browseAutos;
 
-        private void searchAuto_Click(object sender, RoutedEventArgs e)
-        {
-            labelAuto.Visibility = Visibility.Collapsed;
-            nombreAuto.Visibility = Visibility.Collapsed;
-            crearAuto.Visibility = Visibility.Collapsed;
-
-            buscarAuto.Visibility = Visibility.Visible;
-            relacionarAuto.Visibility = Visibility.Visible;
         }
 
         private void crearAuto_Click(object sender, RoutedEventArgs e)
@@ -166,12 +238,39 @@ namespace Project_VW
                 // we then have to relate with  a system
                 string sql = "SELECT last_insert_rowid()";
                 SQLiteCommand cmd = new SQLiteCommand(sql, db.getConn());
-                int lastID = Convert.ToInt32(cmd.ExecuteScalar());
+                int lastInsertAutoID = Convert.ToInt32(cmd.ExecuteScalar());
+                // Insert relation of auto and system
+                string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
+                qry_insAutoSystem += "(" + lastInsertAutoID + ", ";
+                string qry_insAutoSystemMod;
+                string ID_currentCB;
 
                 // insert code for relation of system
-
-                db.sendMBandCloseConn("Auto Agregado exitosamente. " + "ID: " + lastID);
-                
+                foreach(CheckBox cb in stackSystems.Children)
+                {
+                    // we get the id of the name of each cb, combobox, 
+                    // of course we have to know if cb was checked
+                    if(cb.IsChecked.HasValue && cb.IsChecked.Value == true)
+                    {
+                        ID_currentCB = cb.Name.ToString();
+                        ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
+                        // we append to the list of IDS of checked comboboxes
+                        // could not append several insert values so we do one insert each
+                        qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ")";
+                        MessageBox.Show("QRY: " + qry_insAutoSystemMod);
+                        using (db.setComm(qry_insAutoSystemMod))
+                        {
+                            affectedRows = db.getComm().ExecuteNonQuery();
+                        }
+                        if (affectedRows == 0)
+                        {
+                            db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de auto y sistemas.");
+                            return;
+                        }
+                    }
+                }
+                db.sendMBandCloseConn("Auto agregado exitosamente a la base de datos." +
+                           " Se relacionó con varios eventos.");
             }
         }
 
@@ -179,7 +278,6 @@ namespace Project_VW
         {
             // we have to check if the relation extists 
             // with index of car and systems, and discriminate info
-
             buscarAuto.Visibility = Visibility.Visible;
             relacionarAuto.Visibility = Visibility.Visible;
         }
@@ -211,4 +309,18 @@ namespace Project_VW
             nombre = user_p;
         }
     }
+
+
+    public class ComboBoxPairsBrowseAutos
+    {
+        public string ID { get; set; }
+        public string modelo { get; set; }
+
+        public ComboBoxPairsBrowseAutos(string ID_P, string user_p)
+        {
+            ID = ID_P;
+            modelo = user_p;
+        }
+    }
+
 }
