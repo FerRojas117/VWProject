@@ -20,7 +20,9 @@ using System.Windows.Shapes;
 ///  still missing :
 ///  show existing cars to relate to a system -DONE
 ///  relation of new inserted car - DONE 
-///  show systems that are NOT related to a specific car when looking for a car
+///  show systems that are NOT related to a specific car when looking for a car - DONE
+///  fix bug, when adding a car, stacks are appending, gotta delete them
+///  Stack is not scrollable, got to check that
 /// </summary>
 
 
@@ -34,6 +36,7 @@ namespace Project_VW
     {
         DB db;
         List<CheckBoxPairsSistemas> cbp;
+        List<CheckBoxPairsSistemas> cbp_Sistemas;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         int affectedRows = 0;
         string qry_getNoSistemas = "SELECT COUNT(*) AS numSistemas FROM sistema";
@@ -42,7 +45,6 @@ namespace Project_VW
         {
 
             cbp = new List<CheckBoxPairsSistemas>();
-            
             InitializeComponent();
             // put elements not visible till we click on the buttons
             noSystems.Visibility = Visibility.Collapsed;
@@ -65,6 +67,8 @@ namespace Project_VW
             labelAuto.Visibility = Visibility.Visible;
             nombreAuto.Visibility = Visibility.Visible;
             crearAuto.Visibility = Visibility.Visible;
+            fillStackWithAllSystems();
+
         }
 
         private void searchAuto_Click(object sender, RoutedEventArgs e)
@@ -110,55 +114,32 @@ namespace Project_VW
                         ));
                     }
                 }
-                foreach (CheckBoxPairsSistemas cpe in cbp)
-                {
-                    CheckBox cb = new CheckBox();
-                    cb.Name = "_" + cpe.ID;
-                    cb.Content = cpe.nombre;
-                    stackSystems.Children.Add(cb);
-                }
+                fillStackWithAllSystems();
                 db.closeConn();
             }
         }
-        public void fillSystems(int ID_car)
+
+        // append all available systems, put in another function
+        public void fillStackWithAllSystems()
         {
-            db.openConn();
-            using (db.setComm(qry_getNoSistemas))
+            foreach (CheckBoxPairsSistemas cpe in cbp)
             {
-                db.setReader();
-                while (db.getReader().Read())
-                {
-                    affectedRows = Convert.ToInt32(db.getReader()["numSistemas"]);
-                }
+                CheckBox cb = new CheckBox();
+                cb.Name = "_" + cpe.ID;
+                cb.Content = cpe.nombre;
+                stackSystems.Children.Add(cb);
             }
-            if (affectedRows == 0)
+        }
+
+
+        public void fillSystemsExcept()
+        {
+            foreach (CheckBoxPairsSistemas cpe in cbp_Sistemas)
             {
-                db.sendMBandCloseConn("No hay Sistemas registrados. Por el momento");
-                noSystems.Visibility = Visibility.Visible;
-            }
-            // llenar el stack con los sistemas encontrados
-            else
-            {
-                string qry_getSistemas = "SELECT ID, nombre FROM sistema";
-                using (db.setComm(qry_getSistemas))
-                {
-                    db.setReader();
-                    while (db.getReader().Read())
-                    {
-                        cbp.Add(new CheckBoxPairsSistemas(
-                            Convert.ToString(db.getReader()["ID"]),
-                            Convert.ToString(db.getReader()["nombre"])
-                        ));
-                    }
-                }
-                foreach (CheckBoxPairsSistemas cpe in cbp)
-                {
-                    CheckBox cb = new CheckBox();
-                    cb.Name = "_" + cpe.ID;
-                    cb.Content = cpe.nombre;
-                    stackSystems.Children.Add(cb);
-                }
-                db.closeConn();
+                CheckBox cb = new CheckBox();
+                cb.Name = "_" + cpe.ID;
+                cb.Content = cpe.nombre;
+                stackSystems.Children.Add(cb);
             }
         }
 
@@ -184,6 +165,42 @@ namespace Project_VW
             buscarAuto.SelectedValuePath = "ID";
             buscarAuto.ItemsSource = cbp_browseAutos;
 
+
+            // clear childs of stackpanel with systems
+            stackSystems.Children.Clear();
+            
+        }
+
+        // on dropdownclosed, we fill the systems so we can get the 
+        // systems that are still not related to this vehicle
+        private void buscarAuto_DropDownClosed(object sender, EventArgs e)
+        {
+            // clear childs of stackpanel with systems
+            if (buscarAuto.SelectedValue == null)
+                return;
+
+            stackSystems.Children.Clear();
+            cbp_Sistemas = new List<CheckBoxPairsSistemas>();
+            string ID_selectedCar = buscarAuto.SelectedValue.ToString();
+            db.openConn();
+            string qry_getSistemas = "SELECT * FROM sistema WHERE ID NOT IN(";
+            qry_getSistemas += "SELECT sistema_ID FROM rel_autos_sist ";
+            qry_getSistemas += "WHERE autos_ID = " + ID_selectedCar + ")";
+
+            using (db.setComm(qry_getSistemas))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    cbp_Sistemas.Add(new CheckBoxPairsSistemas(
+                        Convert.ToString(db.getReader()["ID"]),
+                        Convert.ToString(db.getReader()["nombre"])
+                    ));
+                }
+            }
+            // we fill stackpanel with systems that are not related with this car
+            fillSystemsExcept();
+            db.closeConn();
         }
 
         private void crearAuto_Click(object sender, RoutedEventArgs e)

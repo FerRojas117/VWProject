@@ -30,7 +30,7 @@
                 <Button Grid.Column="0" Margin="235,16,10,328" Height="Auto" FontSize="20" Click="searchAuto_Click" Content="Buscar Auto"/>
                 <Button x:Name="crearAuto" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Agregar Auto" Click="crearAuto_Click"/>
                 <Button x:Name="relacionarAuto" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Relacionar Auto" Click="relacionarAuto_Click"/>
-                <ComboBox x:Name="buscarAuto" Grid.Column="0" Height="62" Margin="101,154,118,190"/>
+                <ComboBox x:Name="buscarAuto" Grid.Column="0" Height="62" Margin="101,154,118,190" DropDownClosed="buscarAuto_DropDownClosed"/>
                 <smtx:XamlDisplay Grid.Column="1" Key="shadow_15" Margin="16 16 0 16">
                     <materialDesign:Card  materialDesign:ShadowAssist.ShadowDepth="Depth5" Padding="32" HorizontalAlignment="Left" Width="429" Margin="0,0,-209,0" Height="365">
                         <Grid>
