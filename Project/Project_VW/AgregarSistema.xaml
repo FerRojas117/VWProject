@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Project_VW.AgregarSistema"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_VW"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="540" d:DesignWidth="1010">
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+        <materialDesign:Card Height="406" Margin="68,103,31,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="labelSistema" Grid.Column="0" Width="158" Margin="101,110,197,190" FontSize="20" HorizontalContentAlignment="Center" Content="Nombre &#xD;&#xA;del nuevo&#xD;&#xA;Sistema"/>
+                <TextBox x:Name="nombreSistema" Grid.Column="0" Margin="101,198,145,104" SpellCheck.IsEnabled="True" AcceptsReturn="True" HorizontalContentAlignment="Center" FontSize="20"/>
+                <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="0" Margin="10,16,235,328" Height="Auto" FontSize="20" Click="addSistema_Click">Añadir Sistema</Button>
+                <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="0" Margin="235,16,10,328" Height="Auto" FontSize="20" Click="searchSistema_Click" Content="Buscar Sistema"/>
+                <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" x:Name="crearSistema" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Agregar Sistema" Click="crearSistema_Click"/>
+                <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" x:Name="relacionarSistema" Grid.Column="0" Margin="235,334,10,10" Height="Auto" FontSize="20" Content="Relacionar Sistema" Click="relacionarSistema_Click"/>
+                <ComboBox x:Name="buscarSistema" Grid.Column="0" Height="62" Margin="101,154,118,190" DropDownClosed="buscarSistema_DropDownClosed"/>
+
+                <materialDesign:Card Grid.Column="1"  materialDesign:ShadowAssist.ShadowDepth="Depth5" Padding="10" HorizontalAlignment="Left" Width="429" Margin="10,15,-209,0" Height="375">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60 px"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <materialDesign:Card Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="10,0,0,0" Background="#FF673BB7">
+                            <Label Grid.Row="0" Content="Selecciona Autos para relacionar&#xD;&#xA; el sistema con estos" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
+                        </materialDesign:Card>
+
+                        <Label x:Name="noAutos" Grid.Row="1" Margin="49,92,57,77" Content="No hay Autos &#xD;&#xA;disponibles por el momento" HorizontalContentAlignment="Center" FontSize="20"></Label>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="stackAutos"  Orientation="Vertical" Margin="0 0 0 0">
+                            
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+
+                </materialDesign:Card>
+
+            </Grid>
+            
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

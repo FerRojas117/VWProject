@@ -105,6 +105,14 @@ namespace Project_VW
             GridMain.Children.Add(usc);
         }
 
+        private void AnadirSistema_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new AgregarSistema();
+            GridMain.Children.Add(usc);
+        }
+
         private void addEvento_Click(object sender, RoutedEventArgs e)
         {
             UserControl usc = null;

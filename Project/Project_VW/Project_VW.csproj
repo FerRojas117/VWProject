@@ -75,6 +75,9 @@
     <Compile Include="AgregarEvento.xaml.cs">
       <DependentUpon>AgregarEvento.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AgregarSistema.xaml.cs">
+      <DependentUpon>AgregarSistema.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CambiarEvento.xaml.cs">
       <DependentUpon>CambiarEvento.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AgregarEvento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AgregarSistema.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -122,6 +122,7 @@ namespace Project_VW
         // append all available systems, put in another function
         public void fillStackWithAllSystems()
         {
+            stackSystems.Children.Clear();
             foreach (CheckBoxPairsSistemas cpe in cbp)
             {
                 CheckBox cb = new CheckBox();
@@ -232,7 +233,7 @@ namespace Project_VW
                             return;
                         }
                         db.sendMBandCloseConn("Auto agregado exitosamente a la base de datos."+
-                            " No se relacionó con ningún evento.");
+                            " No se relacionó con ningún sistema.");
                         break;
                     case MessageBoxResult.No:
                         MessageBox.Show("Auto no creado.", "Crear Auto");
@@ -287,16 +288,13 @@ namespace Project_VW
                     }
                 }
                 db.sendMBandCloseConn("Auto agregado exitosamente a la base de datos." +
-                           " Se relacionó con varios eventos.");
+                           " Se relacionó con varios sistemas.");
             }
         }
 
         private void relacionarAuto_Click(object sender, RoutedEventArgs e)
         {
-            // we have to check if the relation extists 
-            // with index of car and systems, and discriminate info
-            buscarAuto.Visibility = Visibility.Visible;
-            relacionarAuto.Visibility = Visibility.Visible;
+            
         }
 
         public int getNumSelectedCB()
