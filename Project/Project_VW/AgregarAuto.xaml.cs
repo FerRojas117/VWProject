@@ -25,7 +25,7 @@ using System.Windows.Shapes;
 ///  Stack is not scrollable, got to check that
 /// </summary>
 
-
+    
 
 namespace Project_VW
 {
@@ -257,44 +257,57 @@ namespace Project_VW
                 string sql = "SELECT last_insert_rowid()";
                 SQLiteCommand cmd = new SQLiteCommand(sql, db.getConn());
                 int lastInsertAutoID = Convert.ToInt32(cmd.ExecuteScalar());
-                // Insert relation of auto and system
-                string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
-                qry_insAutoSystem += "(" + lastInsertAutoID + ", ";
-                string qry_insAutoSystemMod;
-                string ID_currentCB;
-
-                // insert code for relation of system
-                foreach(CheckBox cb in stackSystems.Children)
-                {
-                    // we get the id of the name of each cb, combobox, 
-                    // of course we have to know if cb was checked
-                    if(cb.IsChecked.HasValue && cb.IsChecked.Value == true)
-                    {
-                        ID_currentCB = cb.Name.ToString();
-                        ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
-                        // we append to the list of IDS of checked comboboxes
-                        // could not append several insert values so we do one insert each
-                        qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ")";
-                        MessageBox.Show("QRY: " + qry_insAutoSystemMod);
-                        using (db.setComm(qry_insAutoSystemMod))
-                        {
-                            affectedRows = db.getComm().ExecuteNonQuery();
-                        }
-                        if (affectedRows == 0)
-                        {
-                            db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de auto y sistemas.");
-                            return;
-                        }
-                    }
-                }
+                // function to insert relations of a car 
+                autosRelations(lastInsertAutoID);
                 db.sendMBandCloseConn("Auto agregado exitosamente a la base de datos." +
                            " Se relacionó con varios sistemas.");
             }
         }
 
+
+        public void autosRelations(int carID)
+        {
+            // SEPARATE IN A FUNCTION
+            // Insert relation of auto and systems
+            string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
+            qry_insAutoSystem += "(" + carID + ", ";
+            string qry_insAutoSystemMod;
+            string ID_currentCB;
+
+            // insert code for relation of system
+            foreach (CheckBox cb in stackSystems.Children)
+            {
+                // we get the id of the name of each cb, combobox, 
+                // of course we have to know if cb was checked
+                if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
+                {
+                    ID_currentCB = cb.Name.ToString();
+                    ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
+                    // we append to the list of IDS of checked comboboxes
+                    // could not append several insert values so we do one insert each
+                    qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ")";
+                    using (db.setComm(qry_insAutoSystemMod))
+                    {
+                        affectedRows = db.getComm().ExecuteNonQuery();
+                    }
+                    if (affectedRows == 0)
+                    {
+                        db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de auto y sistemas.");
+                        return;
+                    }
+                }
+            }
+        }
+
         private void relacionarAuto_Click(object sender, RoutedEventArgs e)
         {
-            
+            // clear childs of stackpanel with systems
+            if (buscarAuto.SelectedValue == null)
+                return;
+            string ID_selectedCar = buscarAuto.SelectedValue.ToString();
+            db.openConn();
+            autosRelations(Convert.ToInt32(ID_selectedCar));
+            db.sendMBandCloseConn("Auto relacionado exitosamente con varios sistemas.");
         }
 
         public int getNumSelectedCB()

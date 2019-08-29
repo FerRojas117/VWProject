@@ -11,8 +11,6 @@ namespace Project_VW
         static string user, nombre_evento;
         static int ID, tipo_user, ID_evento;
 
-
-
         // Store nombre de evento
         public static void setIDEvento(int ID_event)
         {

@@ -242,47 +242,57 @@ namespace Project_VW
                 string sql = "SELECT last_insert_rowid()";
                 SQLiteCommand cmd = new SQLiteCommand(sql, db.getConn());
                 int lastInsertSystemID = Convert.ToInt32(cmd.ExecuteScalar());
-                // Insert relation of auto and system
-                string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
-                qry_insAutoSystem += "(";
-                string qry_insAutoSystemMod;
-                string ID_currentCB;
 
-                // insert code for relation of system
-                foreach (CheckBox cb in stackAutos.Children)
-                {
-                    // we get the id of the name of each cb, combobox, 
-                    // of course we have to know if cb was checked
-                    if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
-                    {
-                        ID_currentCB = cb.Name.ToString();
-                        ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
-                        // we append to the list of IDS of checked comboboxes
-                        // could not append several insert values so we do one insert at a time
-                        qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ", " + lastInsertSystemID + ")";
-                        MessageBox.Show("QRY: " + qry_insAutoSystemMod);
-                        using (db.setComm(qry_insAutoSystemMod))
-                        {
-                            affectedRows = db.getComm().ExecuteNonQuery();
-                        }
-                        if (affectedRows == 0)
-                        {
-                            db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de sistemas y autos.");
-                            return;
-                        }
-                    }
-                }
+                sistemsRelations(lastInsertSystemID);
+
+
                 db.sendMBandCloseConn("Sistema agregado exitosamente a la base de datos." +
                            " Se relacionó con varios autos.");
             }
         }
 
+        public void sistemsRelations(int systemID)
+        {
+            // Insert relation of auto and system
+            string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
+            qry_insAutoSystem += "(";
+            string qry_insAutoSystemMod;
+            string ID_currentCB;
+
+            // insert code for relation of system
+            foreach (CheckBox cb in stackAutos.Children)
+            {
+                // we get the id of the name of each cb, combobox, 
+                // of course we have to know if cb was checked
+                if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
+                {
+                    ID_currentCB = cb.Name.ToString();
+                    ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
+                    // we append to the list of IDS of checked comboboxes
+                    // could not append several insert values so we do one insert at a time
+                    qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ", " + systemID + ")";
+                    MessageBox.Show("QRY: " + qry_insAutoSystemMod);
+                    using (db.setComm(qry_insAutoSystemMod))
+                    {
+                        affectedRows = db.getComm().ExecuteNonQuery();
+                    }
+                    if (affectedRows == 0)
+                    {
+                        db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de sistemas y autos.");
+                        return;
+                    }
+                }
+            }
+        }
+
         private void relacionarSistema_Click(object sender, RoutedEventArgs e)
         {
-            // we have to check if the relation extists 
-            // with index of car and systems, and discriminate info
-            buscarSistema.Visibility = Visibility.Visible;
-            relacionarSistema.Visibility = Visibility.Visible;
+            if (buscarSistema.SelectedValue == null)
+                return;
+            string ID_selectedSystem = buscarSistema.SelectedValue.ToString();
+            db.openConn();
+            sistemsRelations(Convert.ToInt32(ID_selectedSystem));
+            db.sendMBandCloseConn("Sistema relacionado exitosamente con varios autos.");
         }
 
         public int getNumSelectedCB()

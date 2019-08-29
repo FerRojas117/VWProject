@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Project_VW.NuevaFuncion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_VW"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="540" d:DesignWidth="1010">
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+
+
+        <materialDesign:Card Height="406" Margin="68,103,31,0">
+
+            <Grid >
+
+                <Label Margin="341,76,406,297" Content="Nombre de Función"/>
+                <TextBox x:Name="NombreFuncion" HorizontalAlignment="Left" Height="41" Margin="341,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                
+                <Label Margin="341,285,404,88" Content="Descripcion"/>
+                <TextBox x:Name="Jahr" HorizontalAlignment="Left" Height="41" Margin="540,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                <Label Margin="341,180,406,190" Content="RdW"/>
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="10,10,10,0" Background="#FF673BB7" >
+                    <Label Content="AÑADIR FUNCIÓN A SISTEMA" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
+                </materialDesign:Card>
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="27,76,601,0" Background="#FF673BB7" Height="308" >
+                    <Grid>
+                        <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="56,40,66,170" FontSize="16" Content="&#xD;&#xA;Escoge sistema&#xD;&#xA;a añadir la función" Foreground="#DDF7F7F7"/>
+                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Left" Margin="31,164,0,0" VerticalAlignment="Top" Width="227" Height="76" Foreground="White" BorderBrush="#89FFFFFF"/>
+                    </Grid>
+                </materialDesign:Card>
+
+                <Button Content="Crear Función" HorizontalAlignment="Left" Margin="760,346,0,0" VerticalAlignment="Top" Width="141" Height="50" Click="AddFunktion_Click"/>
+                <TextBox x:Name="RdW" HorizontalAlignment="Left" Height="41" Margin="341,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                <Label Margin="735,76,10,297" Content="NAR"/>
+                <TextBox x:Name="NAR" HorizontalAlignment="Left" Height="41" Margin="735,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                <Label Margin="540,180,207,190" Content="Gesetz"/>
+                <TextBox x:Name="Gesetz" HorizontalAlignment="Left" Height="41" Margin="542,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                <Label Margin="735,180,12,190" Content="KW"/>
+                <TextBox x:Name="KW" HorizontalAlignment="Left" Height="41" Margin="735,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                <TextBox x:Name="DescripFuncion" HorizontalAlignment="Left" Height="66" Margin="341,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="378" AcceptsReturn="True" SpellCheck.IsEnabled="True"/>
+                <Label Margin="540,73,207,297" Content="Jahr"/>
+
+
+
+            </Grid>
+
+
+
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

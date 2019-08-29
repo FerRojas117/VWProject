@@ -121,6 +121,14 @@ namespace Project_VW
             GridMain.Children.Add(usc);
         }
 
+        private void AnadirFuncion_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new NuevaFuncion();
+            GridMain.Children.Add(usc);
+        }
+
         private void AnadirUsuario_Click(object sender, RoutedEventArgs e)
         {
             UserControl usc = null;
@@ -166,7 +174,7 @@ namespace Project_VW
                     usc = new UserControl1_test();
                     GridMain.Children.Add(usc);
                     break;
-                case "ItemCreate":
+                case "EditFunciones":
                     usc = new UserControl2_test();
                     GridMain.Children.Add(usc);
                     break;

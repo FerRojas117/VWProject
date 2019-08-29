@@ -55,6 +55,7 @@
                         <Button x:Name="AgregarEvento" Content="Agregar Evento..." Click="addEvento_Click"/>
                         <Button x:Name="AgregarAuto" Content="Agregar Auto" Click="AnadirAuto_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="AgregarSistema" Content="Agregar Sistema" Click="AnadirSistema_Click"/>
+                        <Button x:Name="AgregarFuncion" Content="Agregar Funcion..." Click="AnadirFuncion_Click"/>
                         <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
                         <Button Content="Reset contraseñas..."/>
@@ -97,10 +98,10 @@
                             <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemCreate" Height="60">
+                    <ListViewItem x:Name="EditFunciones" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10"/>
+                            <TextBlock Text="Editar Funciones" VerticalAlignment="Center" Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Height="60">

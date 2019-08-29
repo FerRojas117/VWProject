@@ -86,3 +86,5 @@ C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\C
 C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\CambiarEvento.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\AgregarSistema.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\AgregarSistema.baml
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\NuevaFuncion.g.cs
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\NuevaFuncion.baml
