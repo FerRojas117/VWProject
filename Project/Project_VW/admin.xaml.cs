@@ -175,7 +175,7 @@ namespace Project_VW
                     GridMain.Children.Add(usc);
                     break;
                 case "EditFunciones":
-                    usc = new UserControl2_test();
+                    usc = new EditFunciones();
                     GridMain.Children.Add(usc);
                     break;
                 default:

@@ -8,8 +8,62 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        <materialDesign:Card Height="406" Margin="68,103,31,0">
-            
+
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="1" Height="50" Margin="68,40,31,0" Background="#FF673AB7" Foreground="White">
+            <Grid>
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="515,0,0,0" VerticalAlignment="Top" Width="207" Height="48" BorderBrush="#89FFFFFF"/>
+                <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="104,0,491,0" Content="Filtrar por: " FontSize="20" Foreground="#DDFFFFFF"  />
+            </Grid>
         </materialDesign:Card>
+
+        <materialDesign:Card  Height="406" Margin="68,103,31,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ComboBox x:Name="FirstFilter" Grid.Row="0" Margin="29,12,653,10" Height="46" ></ComboBox>
+                <ComboBox x:Name="SecondFilter" Grid.Row="0" Margin="323,12,361,10" Height="46" RenderTransformOrigin="0.45,0.847" ></ComboBox>
+                <ComboBox x:Name="ThirdFilter" Grid.Row="0" Margin="627,12,61,10" Height="46" ></ComboBox>
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Grid.Row="1" Margin="10,10,10,0" Height="318">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="5*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="Descripcion" Content="Descripcion" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="93" FontSize="12"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="NAR" Content="NAR" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Width="72"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="RDW" Content="RdW" HorizontalAlignment="Left" Margin="218,10,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="Gesetz" Content="Gesetz" HorizontalAlignment="Left" Margin="313,10,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="KW" Content="KW" HorizontalAlignment="Left" Margin="411,0,0,11" VerticalAlignment="Bottom" Width="75"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="0" x:Name="Jahr" Content="Jahr" HorizontalAlignment="Left" Margin="507,0,0,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="0.535,0.1"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="0" x:Name="Bemerkungen" Content="bemerkungen" HorizontalAlignment="Left" Margin="507,0,0,10" VerticalAlignment="Bottom" Width="119" RenderTransformOrigin="0.535,0.1"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="0" x:Name="Einsatz" Content="Einsatz" HorizontalAlignment="Left" Margin="646,0,0,11" VerticalAlignment="Bottom" Width="81" RenderTransformOrigin="0.535,0.1"/>
+                        <Button materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="0" x:Name="Abgesichert" Content="Abgesichert" HorizontalAlignment="Left" Margin="762,0,0,11" VerticalAlignment="Bottom" Width="119" RenderTransformOrigin="0.535,0.1"/>
+
+                        <materialDesign:Card Grid.Row="1" materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="30,10,49,0" Height="245" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF3A3434" Foreground="#DDFFFFFF" Content="Campo"></Label>
+                                <TextBox Grid.Column="1" Margin="64,58,99,69"></TextBox>
+                            </Grid>
+                        </materialDesign:Card>
+
+                    </Grid>
+                </materialDesign:Card>
+
+
+            </Grid>
+
+        </materialDesign:Card>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            ToolTip="MaterialDesignFloatingActionAccentButton" Margin="895,434,10,10" Height="Auto" Width="Auto" FontSize="20">
+            <materialDesign:PackIcon Kind="Plus" Height="48" Width="48" />
+        </Button>
+        
     </Grid>
 </UserControl>
