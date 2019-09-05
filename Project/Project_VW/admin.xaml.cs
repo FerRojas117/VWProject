@@ -171,7 +171,7 @@ namespace Project_VW
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
                 case "ItemHome":
-                    usc = new UserControl1_test();
+                    usc = new Index();
                     GridMain.Children.Add(usc);
                     break;
                 case "EditFunciones":

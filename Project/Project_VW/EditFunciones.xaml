@@ -11,7 +11,7 @@
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
 
-        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="1" Height="50" Margin="68,40,31,0"  Foreground="White">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Row="1" Height="50" Margin="68,40,31,0"  Foreground="White">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="58*"/>
@@ -26,7 +26,7 @@
             </Grid>
         </materialDesign:Card>
 
-        <materialDesign:Card  Height="406" Margin="68,103,31,0">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="406" Margin="68,103,31,0">
             <TabControl Style="{StaticResource MaterialDesignTabControl}">
                 <TabItem Header="DESCRIPCIÓN">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="16">

@@ -8,14 +8,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="366*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        
 
-    <materialDesign:Card Height="406" Margin="68,103,31,0">
-           <!-- <Border  Background="Red" Height="12" VerticalAlignment="Top" MouseEnter="StackPanel_MouseEnter" MouseLeave="StackPanel_MouseLeave"></Border> -->
+
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">
+            <Grid>
+                <StackPanel>
+                    <Expander Name="myExpander" Background="Tan" 
+          HorizontalAlignment="Left" Header="My Expander" 
+          ExpandDirection="Down" IsExpanded="False" Width="100">
+                        <TextBlock TextWrapping="Wrap">
+    Lorem ipsum dolor sit amet, consectetur
+    adipisicing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua
+                        </TextBlock>
+                    </Expander>
+                </StackPanel>
+            </Grid>
+
         </materialDesign:Card>
     </Grid>
 </UserControl>
