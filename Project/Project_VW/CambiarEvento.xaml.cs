@@ -71,11 +71,11 @@ namespace Project_VW
                     SesionUsuario.setIDEvento(ID_evento);
                     break;
                 case MessageBoxResult.No:
-                    MessageBox.Show("Usuario No eliminado.", "Eliminar Usuario");
+                    MessageBox.Show("Evento no cambiado.", "cambiar evento");
                     db.closeConn();
                     break;
                 case MessageBoxResult.Cancel:
-                    MessageBox.Show("Usuario No eliminado.", "Eliminar Usuario");
+                    MessageBox.Show("Evento no cambiado.", "cambiar evento");
                     db.closeConn();
                     break;
             }

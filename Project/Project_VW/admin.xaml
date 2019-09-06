@@ -47,8 +47,10 @@
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
             </Grid.Effect>
+            <Label Width="80" Margin="742,0,258,0" HorizontalContentAlignment="center" VerticalContentAlignment="Center" FontSize="20">Evento:</Label>
+            <ComboBox x:Name="EventoChanger" DropDownClosed="cambiarEvento_DropDownClosed" Margin="864,16,92,10" Height="34"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock x:Name="nombreUsuario" VerticalAlignment="Center" FontSize="16"/>
+                <TextBlock x:Name="nombreUsuario" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"/>
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
@@ -117,7 +119,7 @@
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
-                
+
             </StackPanel>
         </Grid>
     </Grid>

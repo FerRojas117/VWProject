@@ -22,6 +22,7 @@ namespace Project_VW
     public partial class admin : Page
     {
         DB db;
+        List<ComboBoxPairsEvento> cbp;
         int affectedRows = 0;
         
         public admin()
@@ -63,6 +64,8 @@ namespace Project_VW
             
             db.closeConn();
 
+            fillEventos();
+
             // Remove elements if not administrator
             if (SesionUsuario.getUserTipo() == 2)
             {
@@ -72,6 +75,42 @@ namespace Project_VW
             nombreUsuario.Text = SesionUsuario.getUser();
                 
         }
+
+        private void cambiarEvento_DropDownClosed(object sender, EventArgs e)
+        {
+            // clear childs of stackpanel with systems
+            if (EventoChanger.SelectedValue == null)
+                return;
+            ComboBoxPairsEvento cbp = (ComboBoxPairsEvento)EventoChanger.SelectedItem;
+            string evento_selected = cbp.nombre;
+            int ID_evento = Convert.ToInt32(cbp.ID);
+            SesionUsuario.setEvento(evento_selected);
+            SesionUsuario.setIDEvento(ID_evento);
+            EventoChanger.Text = evento_selected;
+
+        }
+        public void fillEventos()
+        {
+            cbp = new List<ComboBoxPairsEvento>();
+            string qry_getEventos = "SELECT ID, nombre FROM evento";
+            db.openConn();
+            using (db.setComm(qry_getEventos))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    cbp.Add(new ComboBoxPairsEvento(
+                      Convert.ToString(db.getReader()["nombre"]),
+                      Convert.ToString(db.getReader()["ID"])
+                    ));
+                }
+            }
+            db.closeConn();
+            EventoChanger.DisplayMemberPath = "nombre";
+            EventoChanger.SelectedValuePath = "ID";
+            EventoChanger.ItemsSource = cbp;
+        }
+
         public void changeEventTitle()
         {
             nombreEvento.Text = "";

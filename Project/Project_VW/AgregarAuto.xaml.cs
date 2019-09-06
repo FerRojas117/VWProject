@@ -267,25 +267,49 @@ namespace Project_VW
 
         public void autosRelations(int carID)
         {
+
+            // GET ALL EVENTS SO WE CREATE A
+            List<int> eventos_IDs = new List<int>();
+            string qry_getAllEvents = "SELECT ID FROM evento";
+            using (db.setComm(qry_getAllEvents))
+            {
+                
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    eventos_IDs.Add(Convert.ToInt32(db.getReader()["ID"]));
+                }
+            }
+            
+            //EDIT_CAMPOS_FUNCTION REGISTER IN THE TABLE
             // SEPARATE IN A FUNCTION
             // Insert relation of auto and systems
             string qry_insAutoSystem = "INSERT INTO rel_autos_sist (autos_ID, sistema_ID) VALUES ";
             qry_insAutoSystem += "(" + carID + ", ";
+            
             string qry_insAutoSystemMod;
             string ID_currentCB;
 
             // insert code for relation of system
+
+            string qry_editcampos = "INSERT INTO edit_campos_funktion ";
+            qry_editcampos += "(funktion_ID, evento_ID, auto_ID) VALUES (";
+            string qry_getSysFunktions = "SELECT";
             foreach (CheckBox cb in stackSystems.Children)
             {
                 // we get the id of the name of each cb, combobox, 
                 // of course we have to know if cb was checked
                 if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
                 {
+                    // ID OF CURRENT SYSTEM
                     ID_currentCB = cb.Name.ToString();
                     ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
                     // we append to the list of IDS of checked comboboxes
                     // could not append several insert values so we do one insert each
                     qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ")";
+
+                    
+
                     using (db.setComm(qry_insAutoSystemMod))
                     {
                         affectedRows = db.getComm().ExecuteNonQuery();
@@ -295,8 +319,15 @@ namespace Project_VW
                         db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de auto y sistemas.");
                         return;
                     }
+                    
+                    foreach(int ptr in eventos_IDs)
+                    {
+                        
+                    }
                 }
             }
+
+
         }
 
         private void relacionarAuto_Click(object sender, RoutedEventArgs e)

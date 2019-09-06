@@ -17,20 +17,29 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-
-        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="68,40,31,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
-                <StackPanel>
-                    <Expander Name="myExpander" Background="Tan" 
+
+                <Label Grid.ColumnSpan="3" Margin="141,0,492,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" > FIltra Auto </Label>
+                <ComboBox Text="FiltroAutos" x:Name="ThirdFilter"   Margin="452,4,218,0" Height="46" />
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">
+
+            <Grid>
+                <ScrollViewer>
+                    <StackPanel>
+                        <Expander Name="myExpander" Background="Tan" 
           HorizontalAlignment="Left" Header="My Expander" 
           ExpandDirection="Down" IsExpanded="False" Width="100">
-                        <TextBlock TextWrapping="Wrap">
+                            <TextBlock TextWrapping="Wrap">
     Lorem ipsum dolor sit amet, consectetur
     adipisicing elit, sed do eiusmod tempor incididunt ut
     labore et dolore magna aliqua
-                        </TextBlock>
-                    </Expander>
-                </StackPanel>
+                            </TextBlock>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
 
         </materialDesign:Card>
