@@ -320,10 +320,6 @@ namespace Project_VW
                         return;
                     }
                     
-                    foreach(int ptr in eventos_IDs)
-                    {
-                        
-                    }
                 }
             }
 

@@ -90,6 +90,9 @@
     <Compile Include="EliminarUsuario.xaml.cs">
       <DependentUpon>EliminarUsuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="funcionesSistema.xaml.cs">
+      <DependentUpon>funcionesSistema.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EliminarUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="funcionesSistema.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
