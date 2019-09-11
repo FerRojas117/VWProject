@@ -23,10 +23,12 @@ namespace Project_VW
         DB db;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
+        List<Expander> expList;
         public Index()
         {
             InitializeComponent();
             db = new DB();
+            fillCars();
         }
 
         public void fillCars()
@@ -74,7 +76,9 @@ namespace Project_VW
             List<Funcion> funktionSistemas;
             Sistema st;
             Funcion ft;
-            Edit_Campos_Funcion ecf;
+            Bemerkung bmrkng;
+            Edit_Campos_Funcion ecf = null;
+            
 
             int ID_func;
 
@@ -97,6 +101,8 @@ namespace Project_VW
             qry_sistDeAuto += "WHERE autos_ID = ";
             qry_sistDeAuto += ID_selectedCar;
 
+
+            // get infromation of systems
             db.openConn();
             // count systems that relate to a car 
             using (db.setComm(qry_sistDeAutoCount))
@@ -138,6 +144,7 @@ namespace Project_VW
                 qry_getFunctionsCount += "FROM funktion WHERE sistema_ID = ";
                 string qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
                 qry_getFunctions += ptrSistema.ID;
+                qry_getFunctionsCount += ptrSistema.ID;
 
                 // check if system has funktions
                 using (db.setComm(qry_getFunctionsCount))
@@ -152,7 +159,7 @@ namespace Project_VW
                 {
                     continue;
                 }
-
+                funktionSistemas = new List<Funcion>();
                 // let's look for its information, its bemerkungen and its
                 // einsatz and abgesichert fields
                 using (db.setComm(qry_getFunctions))
@@ -162,128 +169,153 @@ namespace Project_VW
                     {
                         bemerkungsFunktion = new List<Bemerkung>();
 
-                        ID = Convert.ToString(db.getReader()["FID"]);
-                        nombre = Convert.ToString(db.getReader()["FN"]);
-                        NAR = Convert.ToString(db.getReader()["FNAR"]);
-                        RDW = Convert.ToString(db.getReader()["FRDW"]);
-                        Gesetz = Convert.ToString(db.getReader()["FG"]);
-                        KW = Convert.ToString(db.getReader()["FKW"]);
-                        Jahr = Convert.ToString(db.getReader()["FJ"]);
-                        descripcion = Convert.ToString(db.getReader()["FD"]);
+                        ID = Convert.ToString(db.getReader()["ID"]);
+                        nombre = Convert.ToString(db.getReader()["nombre"]);
+                        NAR = Convert.ToString(db.getReader()["NAR"]);
+                        RDW = Convert.ToString(db.getReader()["RDW"]);
+                        Gesetz = Convert.ToString(db.getReader()["Gesetz"]);
+                        KW = Convert.ToString(db.getReader()["KW"]);
+                        Jahr = Convert.ToString(db.getReader()["Jahr"]);
+                        descripcion = Convert.ToString(db.getReader()["descripcion"]);
+
+                        ft = new Funcion(
+                            ID,
+                            nombre,
+                            NAR,
+                            RDW,
+                            Gesetz,
+                            KW,
+                            Jahr,
+                            descripcion
+                        );
 
                         // we get infromation from funktion 
-                        // we have to get information from bemerkungen from
+                        // we have to get information from bemerkungen of
                         // this funktion and its specific information
                         // about edit_campos_funcion
 
 
-                    }
-                }
+                        // count first if there is bemerkungen
+                        string qry_bmrFunktionCount = "SELECT COUNT (*) as bmrkCount FROM bemerkung WHERE funktion_ID = ";
+                        qry_bmrFunktionCount += ID;
+                        qry_bmrFunktionCount += " AND evento_ID = ";
+                        qry_bmrFunktionCount += SesionUsuario.getIDEvento();
 
-            }
-            
-            
-            
-            using (db.setComm(qry_getFunctions))
-            {
-                db.setReader();
-                while (db.getReader().Read())
+                        using (db.setComm(qry_bmrFunktionCount))
+                        {
+                            db.setReader();
+                            while (db.getReader().Read())
+                            {
+                                registerCounter = Convert.ToInt32(db.getReader()["bmrkCount"]);
+                            }
+                        }
+
+                        // if there is no bemerkungen in this function, we wont 
+                        // add a thing in the lsit from bemerkungen
+                        if (registerCounter <= 0) { }
+                        else
+                        {
+                            // filter bemerkungen by funktionID and eventID 
+
+                            string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
+                            qry_bmrFunktion += ID;
+                            qry_bmrFunktion += " AND evento_ID = ";
+                            qry_bmrFunktion += SesionUsuario.getIDEvento();
+
+                            using (db.setComm(qry_bmrFunktion))
+                            {
+                                db.setReader();
+                                while (db.getReader().Read())
+                                {
+                                    bmrkng = new Bemerkung(
+                                        Convert.ToString(db.getReader()["ID"]),
+                                        Convert.ToString(db.getReader()["bemerkung"]),
+                                        Convert.ToString(db.getReader()["funktion_ID"]),
+                                        Convert.ToString(db.getReader()["editado_por"]),
+                                        Convert.ToString(db.getReader()["evento_ID"])
+                                    );
+                                    // store bemerkungen in list
+                                    ft.addBemerkungFuncion(bmrkng);
+                                }
+                            }
+                            
+                        }
+
+                        string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
+                        qry_ECFCount += "FROM edit_campos_funktion ";
+                        qry_ECFCount += "WHERE funktion_ID = " + ID;
+                        qry_ECFCount += " AND evento_ID = " + SesionUsuario.getIDEvento();
+                        qry_ECFCount += " AND auto_ID = " + ID_selectedCar;
+
+                        string qry_ECF = "SELECT * ";
+                        qry_ECF += "FROM edit_campos_funktion ";
+                        qry_ECF += "WHERE funktion_ID = " + ID;
+                        qry_ECF += " AND evento_ID = " + SesionUsuario.getIDEvento();
+                        qry_ECF += " AND auto_ID = " + ID_selectedCar;
+
+
+                        // filter edit campos funcion 
+                        // by funktion id, evento,ID and auto_ID
+
+                        // FIRST COUNT IF THE TABLE EXISTS
+                        using (db.setComm(qry_ECFCount))
+                        {
+                            db.setReader();
+                            while (db.getReader().Read())
+                            {
+                                registerCounter = Convert.ToInt32(db.getReader()["existsECF"]);
+                            }
+                        }
+
+                        if (registerCounter <= 0) { }
+                        else
+                        {
+                            using (db.setComm(qry_ECF))
+                            {
+                                db.setReader();
+                                while (db.getReader().Read())
+                                {
+                                    ecf = new Edit_Campos_Funcion(
+                                        Convert.ToString(db.getReader()["ID"]),
+                                        Convert.ToString(db.getReader()["einsatz"]),
+                                        Convert.ToString(db.getReader()["abgesichert"])
+                                    );
+                                    ft.addECFFuncion(ecf);
+                                }
+                            }
+                        }
+                        // END information retrieval
+                        ptrSistema.addFuncionSistema(ft);
+                        //funktionSistemas.Add(ft);
+                    }
+                    
+                }
+               /* foreach (Funcion f in ptrSistema.funkDeSistema)
                 {
-                    
-                    bemerkungsFunktion = new List<Bemerkung>();
-
-                    ID = Convert.ToString(db.getReader()["FID"]);
-                    nombre = Convert.ToString(db.getReader()["FN"]);
-                    NAR = Convert.ToString(db.getReader()["FNAR"]);
-                    RDW = Convert.ToString(db.getReader()["FRDW"]);
-                    Gesetz = Convert.ToString(db.getReader()["FG"]);
-                    KW = Convert.ToString(db.getReader()["FKW"]);
-                    Jahr = Convert.ToString(db.getReader()["FJ"]);
-                    descripcion = Convert.ToString(db.getReader()["FD"]);
-                    // GET BEMERKUNGEN FROM THIS FUNCTION
-                    int numBemerkungen = 0;
-                    int numEditCamposF = 0;
-
-                    string qry_bmrkng = "SELECT * FROM bemerkung WHERE funktion_ID = ";
-                    qry_bmrkng += ID;
-                    string qry_bmrkngCount = "SELECT COUNT(*) as num FROM bemerkung WHERE funktion_ID = ";
-                    qry_bmrkngCount += ID;
-
-                    // READ ALL OF THEM 
-                    using (db.setComm(qry_bmrkngCount))
-                    {
-                        db.setReader();
-                        while (db.getReader().Read())
-                        {
-                            numBemerkungen = Convert.ToInt32(db.getReader()["num"]);
-                        }
-                    }
-
-                    if(numBemerkungen > 0)
-                    {
-                        using (db.setComm(qry_bmrkngCount))
-                        {
-                            db.setReader();
-                            while (db.getReader().Read())
-                            {
-                                Bemerkung bmr = new Bemerkung(
-                                   Convert.ToString(db.getReader()["ID"]),
-                                   Convert.ToString(db.getReader()["bemerkung"]),
-                                   Convert.ToString(db.getReader()["funktion_ID"]),
-                                   Convert.ToString(db.getReader()["editado_por"]),
-                                   Convert.ToString(db.getReader()["evento_ID"])
-                               );
-                                bemerkungsFunktion.Add(bmr);
-                            }
-                        } 
-                    }
-
-                    // GET einsatz AND abgesichert
-                    string qry_getEFCFunkCount = "SELECT COUNT(*) AS num FROM ";
-                    qry_getEFCFunkCount += "edit_campos_funktion WHERE ";
-                    qry_getEFCFunkCount += "funktion_ID = ";
-                    qry_getEFCFunkCount += ID;
-                    qry_getEFCFunkCount += " AND evento_ID = ";
-                    qry_getEFCFunkCount += SesionUsuario.getIDEvento();
-                    qry_getEFCFunkCount += " AND auto_ID = ";
-                    qry_getEFCFunkCount += ID_selectedCar;
-
-                    
-                    string qry_getEFCFunk = "SELECT einsatz, abgesichert FROM ";
-                    qry_getEFCFunk += "edit_campos_funktion WHERE ";
-                    qry_getEFCFunk += "funktion_ID = ";
-                    qry_getEFCFunk += ID;
-                    qry_getEFCFunk += " AND evento_ID = ";
-                    qry_getEFCFunk += SesionUsuario.getIDEvento();
-                    qry_getEFCFunk += " AND auto_ID = ";
-                    qry_getEFCFunk += ID_selectedCar;
-                    
-
-                    using (db.setComm(qry_getEFCFunkCount))
-                    {
-                        db.setReader();
-                        while (db.getReader().Read())
-                        {
-                            numEditCamposF = Convert.ToInt32(db.getReader()["num"]);
-                        }
-                    }
-
-                    // IF it exists table of edit campos funcion then append 
-                    //instance to object function
-                    if(numEditCamposF > 0)
-                    {
-                        using (db.setComm(qry_getEFCFunk))
-                        {
-                            db.setReader();
-                            while (db.getReader().Read())
-                            {
-                                einsatz = Convert.ToString(db.getReader()["einsatz"]);
-                                abgesichert = Convert.ToString(db.getReader()["abgesichert"]);
-                            }
-                        }
-                    }
+                    MessageBox.Show(f.ID);
                 }
+                */
             }
+            db.closeConn();
+
+            // end of systems of car retrieval
+            // got to 
+            expList = new List<Expander>();
+            foreach (Sistema s in sistemasDelAuto)
+            {
+                Expander xpanderS = new Expander();
+                xpanderS.Background = Brushes.Tan;
+                xpanderS.Header = s.nombre;
+                foreach (Funcion f in s.funkDeSistema)
+                {
+                    Expander xpanderF = new Expander();
+                    xpanderF.Background = ;
+                    xpanderF.Header = f.nombre;
+                    xpanderS.Content = xpanderF;
+                }
+                SistemasAutos.Children.Add(xpanderS);
+            }
+
         }
     }
 
@@ -350,18 +382,18 @@ namespace Project_VW
 
     public class Edit_Campos_Funcion
     {
-        public string einsatz, abgesichert;
-        public bool exists;
+        public string ID, einsatz, abgesichert;
+
 
         public Edit_Campos_Funcion(
+            string ID,
             string einsatz,
-            string abgesichert,
-            bool exists
+            string abgesichert
         )
         {
+            this.ID = ID;
             this.einsatz = einsatz;
             this.abgesichert = abgesichert;
-            this.exists = exists;
         }
     }
 

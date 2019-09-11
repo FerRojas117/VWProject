@@ -30,7 +30,7 @@
                 <ScrollViewer>
                     <StackPanel x:Name="SistemasAutos" Margin="5 5 5 5" Width="auto">
                      
-                            
+                            <!--
                             <Expander Name="myExpander" Background="Tan" 
           HorizontalAlignment="Center" Header="My Expander" 
           ExpandDirection="Down" IsExpanded="False">
@@ -49,7 +49,7 @@
     labore et dolore magna aliqua
                                 </TextBlock>
                             </Expander>
-                      
+                      -->
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
