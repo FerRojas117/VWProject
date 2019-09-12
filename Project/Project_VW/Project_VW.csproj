@@ -84,6 +84,9 @@
     <Compile Include="CambiarEvento.xaml.cs">
       <DependentUpon>CambiarEvento.xaml</DependentUpon>
     </Compile>
+    <Compile Include="displayFunciones.xaml.cs">
+      <DependentUpon>displayFunciones.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditFunciones.xaml.cs">
       <DependentUpon>EditFunciones.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CambiarEvento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="displayFunciones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

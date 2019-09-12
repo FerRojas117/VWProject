@@ -21,6 +21,7 @@ namespace Project_VW
     public partial class Index : UserControl
     {
         DB db;
+        DB getFunc;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
         List<Expander> expList;
@@ -162,22 +163,26 @@ namespace Project_VW
                 funktionSistemas = new List<Funcion>();
                 // let's look for its information, its bemerkungen and its
                 // einsatz and abgesichert fields
-                using (db.setComm(qry_getFunctions))
+                getFunc = new DB();
+                getFunc.openConn();
+                using (getFunc.setComm(qry_getFunctions))
                 {
-                    db.setReader();
-                    while (db.getReader().Read())
+                    getFunc.setReader();
+                    Console.WriteLine("before");
+                    while (getFunc.getReader().Read())
                     {
                         bemerkungsFunktion = new List<Bemerkung>();
 
-                        ID = Convert.ToString(db.getReader()["ID"]);
-                        nombre = Convert.ToString(db.getReader()["nombre"]);
-                        NAR = Convert.ToString(db.getReader()["NAR"]);
-                        RDW = Convert.ToString(db.getReader()["RDW"]);
-                        Gesetz = Convert.ToString(db.getReader()["Gesetz"]);
-                        KW = Convert.ToString(db.getReader()["KW"]);
-                        Jahr = Convert.ToString(db.getReader()["Jahr"]);
-                        descripcion = Convert.ToString(db.getReader()["descripcion"]);
+                        ID = Convert.ToString(getFunc.getReader()["ID"]);
+                        nombre = Convert.ToString(getFunc.getReader()["nombre"]);
+                        NAR = Convert.ToString(getFunc.getReader()["NAR"]);
+                        RDW = Convert.ToString(getFunc.getReader()["RDW"]);
+                        Gesetz = Convert.ToString(getFunc.getReader()["Gesetz"]);
+                        KW = Convert.ToString(getFunc.getReader()["KW"]);
+                        Jahr = Convert.ToString(getFunc.getReader()["Jahr"]);
+                        descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
 
+                        Console.WriteLine(ID);
                         ft = new Funcion(
                             ID,
                             nombre,
@@ -212,8 +217,7 @@ namespace Project_VW
 
                         // if there is no bemerkungen in this function, we wont 
                         // add a thing in the lsit from bemerkungen
-                        if (registerCounter <= 0) { }
-                        else
+                        if (registerCounter > 0) 
                         {
                             // filter bemerkungen by funktionID and eventID 
 
@@ -267,8 +271,7 @@ namespace Project_VW
                             }
                         }
 
-                        if (registerCounter <= 0) { }
-                        else
+                        if (registerCounter > 0)
                         {
                             using (db.setComm(qry_ECF))
                             {
@@ -284,35 +287,49 @@ namespace Project_VW
                                 }
                             }
                         }
+                        else ft.addECFFuncion(ecf);
                         // END information retrieval
                         ptrSistema.addFuncionSistema(ft);
                         //funktionSistemas.Add(ft);
                     }
-                    
+                    Console.WriteLine("after");
                 }
-               /* foreach (Funcion f in ptrSistema.funkDeSistema)
+                getFunc.closeConn();
+                foreach (Funcion f in ptrSistema.funkDeSistema)
                 {
                     MessageBox.Show(f.ID);
                 }
-                */
+                
             }
             db.closeConn();
 
-            // end of systems of car retrieval
-            // got to 
-            expList = new List<Expander>();
+           
+        // end of systems of car retrieval
+        // got to show everything
+        expList = new List<Expander>();
             foreach (Sistema s in sistemasDelAuto)
             {
                 Expander xpanderS = new Expander();
                 xpanderS.Background = Brushes.Tan;
                 xpanderS.Header = s.nombre;
-                foreach (Funcion f in s.funkDeSistema)
-                {
-                    Expander xpanderF = new Expander();
-                    xpanderF.Background = ;
-                    xpanderF.Header = f.nombre;
-                    xpanderS.Content = xpanderF;
-                }
+                
+                StackPanel spf = new StackPanel();
+
+                /*
+               foreach (Funcion f in s.funkDeSistema)
+               {
+                   // expander of cxurrent function
+                   Expander xpanderF = new Expander
+                   {
+                       Background = Brushes.Tan,
+                       Header = f.nombre,
+                       Content = f.descripcion
+                   };
+                   spf.Children.Add(xpanderF);
+               }
+               */
+                
+                xpanderS.Content = spf;              
                 SistemasAutos.Children.Add(xpanderS);
             }
 
@@ -383,8 +400,7 @@ namespace Project_VW
     public class Edit_Campos_Funcion
     {
         public string ID, einsatz, abgesichert;
-
-
+      
         public Edit_Campos_Funcion(
             string ID,
             string einsatz,

@@ -99,3 +99,5 @@ C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\bin\Debug\uz-
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\Index.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\funcionesSistema.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\funcionesSistema.baml
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\displayFunciones.g.cs
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject\Project\Project_VW\obj\Debug\displayFunciones.baml
