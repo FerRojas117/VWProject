@@ -305,6 +305,8 @@ namespace Project_VW
 
            
         // end of systems of car retrieval
+
+
         // got to show everything
         expList = new List<Expander>();
             foreach (Sistema s in sistemasDelAuto)
@@ -314,7 +316,9 @@ namespace Project_VW
                 xpanderS.Header = s.nombre;
                 
                 StackPanel spf = new StackPanel();
-
+                TextBox tb_FID = new TextBox();
+                /// append textbox and test two way binding 
+                /// take as a model the class displayFunciones
                 /*
                foreach (Funcion f in s.funkDeSistema)
                {
@@ -341,6 +345,12 @@ namespace Project_VW
         public string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
         public List<Bemerkung> bemFuncion;
         public Edit_Campos_Funcion ecf;
+
+        public string ID_S
+        {
+            get { return ID; }
+            set { ID = value; }
+        }
         public Funcion(
             string ID,
             string nombre,

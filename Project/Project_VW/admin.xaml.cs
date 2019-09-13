@@ -217,6 +217,10 @@ namespace Project_VW
                     usc = new EditFunciones();
                     GridMain.Children.Add(usc);
                     break;
+                case "TestTB":
+                    usc = new displayFunciones();
+                    GridMain.Children.Add(usc);
+                    break;
                 default:
                     break;
             }

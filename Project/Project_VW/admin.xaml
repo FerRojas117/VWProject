@@ -106,7 +106,7 @@
                             <TextBlock Text="Editar Funciones" VerticalAlignment="Center" Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60">
+                    <ListViewItem x:Name="TestTB" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Ticket" Height="25" Width="25" Margin="10"/>
                             <TextBlock Text="Tickets" VerticalAlignment="Center"  Margin="20 10"/>
