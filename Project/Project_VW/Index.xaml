@@ -20,7 +20,7 @@
         <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="68,40,31,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
 
-                <Label Grid.ColumnSpan="3" Margin="141,0,492,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" > FIltra Auto </Label>
+                <Label Grid.ColumnSpan="3" Margin="141,0,492,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" >FIltra Auto</Label>
                 <ComboBox Text="FiltroAutos" x:Name="filtroAutos" Margin="452,4,218,0" Height="46" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" />
             </Grid>
         </materialDesign:Card>
@@ -29,8 +29,8 @@
             <Grid>
                 <ScrollViewer>
                     <StackPanel x:Name="SistemasAutos" Margin="5 5 5 5" Width="auto">
-                     
-                            <!--
+
+                        <!--
                             <Expander Name="myExpander" Background="Tan" 
           HorizontalAlignment="Center" Header="My Expander" 
           ExpandDirection="Down" IsExpanded="False">
@@ -55,5 +55,10 @@
             </Grid>
 
         </materialDesign:Card>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10"  Click="CheckAtrrClass" Margin="653,456,10,10" Grid.Column="1" Grid.RowSpan="2">
+            <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" />
+        </Button>
+
     </Grid>
 </UserControl>

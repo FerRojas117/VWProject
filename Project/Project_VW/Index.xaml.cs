@@ -25,6 +25,7 @@ namespace Project_VW
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
         List<Expander> expList;
+        //List<DataGrid> gridOfEachSystem;
         public Index()
         {
             InitializeComponent();
@@ -70,6 +71,7 @@ namespace Project_VW
             // objeto de sistema de la base de datos
 
             string ID_selectedCar = filtroAutos.SelectedValue.ToString();
+
             SistemasAutos.Children.Clear();
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -87,7 +89,7 @@ namespace Project_VW
             // We will filter bemerkungen and edit campos funktion later
 
 
-            // COUNT 
+            // COUNT IF THERE IS SYSTEMS
             string qry_sistDeAutoCount = "SELECT COUNT(sistema.ID) AS numDeSist ";
             qry_sistDeAutoCount += "FROM sistema ";
             qry_sistDeAutoCount += "INNER JOIN rel_autos_sist ";
@@ -137,7 +139,10 @@ namespace Project_VW
                 }
             }
 
+        
 
+
+            #region Get funktions of each system
             // GET Funktions from each System
             foreach (Sistema ptrSistema in sistemasDelAuto)
             {
@@ -165,10 +170,12 @@ namespace Project_VW
                 // einsatz and abgesichert fields
                 getFunc = new DB();
                 getFunc.openConn();
+
+                #region Get Functions of each system
                 using (getFunc.setComm(qry_getFunctions))
                 {
                     getFunc.setReader();
-                    Console.WriteLine("before");
+
                     while (getFunc.getReader().Read())
                     {
                         bemerkungsFunktion = new List<Bemerkung>();
@@ -183,16 +190,17 @@ namespace Project_VW
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
 
                         Console.WriteLine(ID);
-                        ft = new Funcion(
-                            ID,
-                            nombre,
-                            NAR,
-                            RDW,
-                            Gesetz,
-                            KW,
-                            Jahr,
-                            descripcion
-                        );
+                        ft = new Funcion()
+                        {
+                            ID =  ID,
+                            nombre = nombre,
+                            NAR = NAR,
+                            RDW = RDW,
+                            Gesetz = Gesetz,
+                            KW = KW,
+                            Jahr = Jahr,
+                            descripcion = descripcion
+                        };
 
                         // we get infromation from funktion 
                         // we have to get information from bemerkungen of
@@ -241,8 +249,7 @@ namespace Project_VW
                                     // store bemerkungen in list
                                     ft.addBemerkungFuncion(bmrkng);
                                 }
-                            }
-                            
+                            }                           
                         }
 
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
@@ -271,6 +278,15 @@ namespace Project_VW
                             }
                         }
 
+                        // IF table does not exists, then insert table
+                        // with values:
+                        // in einsatz and abgesichert and edited_by ALL empty
+                        // funktion_ID, the funktion that we are currently itearating
+                        // evento_ID, the event that we are on
+                        // and car_ID, the car id that the user has chosen.
+
+
+
                         if (registerCounter > 0)
                         {
                             using (db.setComm(qry_ECF))
@@ -288,88 +304,92 @@ namespace Project_VW
                             }
                         }
                         else ft.addECFFuncion(ecf);
+
+
+
                         // END information retrieval
                         ptrSistema.addFuncionSistema(ft);
-                        //funktionSistemas.Add(ft);
-                    }
-                    Console.WriteLine("after");
+                    }                
                 }
+               
+                // add ItemsSource to GRID of funktions of each system
+                ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
+
+
+                // add ItemsSource to GRID of EditCamposFunkt of each system
+                
+
+                #endregion
                 getFunc.closeConn();
                 foreach (Funcion f in ptrSistema.funkDeSistema)
                 {
                     MessageBox.Show(f.ID);
                 }
-                
             }
             db.closeConn();
 
-           
-        // end of systems of car retrieval
+            #endregion
 
+            // end of systems of car retrieval
 
-        // got to show everything
-        expList = new List<Expander>();
+            // put information in frontend
+            showInformationOfCar();
+        }
+
+        public void showInformationOfCar()
+        {
+            // got to show everything
+            expList = new List<Expander>();
             foreach (Sistema s in sistemasDelAuto)
             {
                 Expander xpanderS = new Expander();
                 xpanderS.Background = Brushes.Tan;
                 xpanderS.Header = s.nombre;
-                
+
                 StackPanel spf = new StackPanel();
-                TextBox tb_FID = new TextBox();
-                /// append textbox and test two way binding 
-                /// take as a model the class displayFunciones
-                /*
-               foreach (Funcion f in s.funkDeSistema)
-               {
-                   // expander of cxurrent function
-                   Expander xpanderF = new Expander
-                   {
-                       Background = Brushes.Tan,
-                       Header = f.nombre,
-                       Content = f.descripcion
-                   };
-                   spf.Children.Add(xpanderF);
-               }
-               */
-                
-                xpanderS.Content = spf;              
+                //StackPanel spf = new StackPanel();
+                spf.Orientation = Orientation.Horizontal;
+
+                //append datagrid to each stackpanel 
+                spf.Children.Add(s.gvSystem);
+
+
+                xpanderS.Content = spf;
                 SistemasAutos.Children.Add(xpanderS);
             }
-
         }
+
+        private void CheckAtrrClass(object sender, RoutedEventArgs e)
+        {
+            string nombresAtributos = "";
+            foreach (Sistema s in sistemasDelAuto)
+            {
+                foreach (Funcion f in s.funkDeSistema)
+                {
+                    nombresAtributos += f.nombre + ", ";
+                }
+            }
+            MessageBox.Show(nombresAtributos);
+        }
+
     }
 
     public class Funcion
     {
-        public string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
+        public string ID { get; set; }
+        public string nombre { get; set; }
+        public string NAR { get; set; }
+        public string RDW { get; set; }
+        public string Gesetz { get; set; }
+        public string KW { get; set; }
+        public string Jahr { get; set; }
+        public string descripcion { get; set; }
         public List<Bemerkung> bemFuncion;
-        public Edit_Campos_Funcion ecf;
-
-        public string ID_S
+        public List<Edit_Campos_Funcion> ecf;
+     
+        public Funcion()
         {
-            get { return ID; }
-            set { ID = value; }
-        }
-        public Funcion(
-            string ID,
-            string nombre,
-            string NAR,
-            string RDW,
-            string Gesetz,
-            string KW,
-            string Jahr,
-            string descripcion
-        )
-        {
-            this.ID = ID;
-            this.nombre = nombre;
-            this.NAR = NAR;
-            this.RDW = RDW;
-            this.Gesetz = Gesetz;
-            this.KW = KW;
-            this.Jahr = Jahr;
-            this.descripcion = descripcion;
+          
             bemFuncion = new List<Bemerkung>();
             ecf = null;
         }
@@ -381,7 +401,7 @@ namespace Project_VW
 
         public void addECFFuncion(Edit_Campos_Funcion ecf)
         {
-            this.ecf = ecf;
+            this.ecf.Add(ecf);
         }
 
     }
@@ -429,7 +449,9 @@ namespace Project_VW
         public int ID;
         public string nombre;
         public List<Funcion> funkDeSistema;
-
+        public DataGrid gvSystem;
+        public DataGrid gvBemerkungen;
+        public DataGrid gvEditCamposFunk;
 
         public Sistema(
             int ID,
@@ -439,6 +461,7 @@ namespace Project_VW
             this.ID = ID;
             this.nombre = nombre;
             funkDeSistema = new List<Funcion>();
+            gvSystem = new DataGrid();
         }
 
         public void addFuncionSistema(Funcion f)
