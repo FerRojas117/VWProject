@@ -25,13 +25,19 @@ namespace Project_VW
         DB getFunc;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
+        List<Cars> selectedCars;
         List<Expander> expList;
+        bool allAutos = false;
         //List<DataGrid> gridOfEachSystem;
         public Index()
         {
             InitializeComponent();
             db = new DB();
             fillCars();
+            cbp_browseAutos.Add(new ComboBoxPairsBrowseAutos(
+                      "-1",
+                      "TODOS"
+                    ));
         }
 
         public void fillCars()
@@ -57,14 +63,22 @@ namespace Project_VW
         }
 
         
+        public void showAllCars()
+        {
+
+        }
+
+        public void showOneCar()
+        {
+
+        }
+
        
         public void fAuto_dropdownClosed(object sender, EventArgs e)
         {
             // if nothing was chosen then return
             if (filtroAutos.SelectedValue == null)
                 return;
-
-            // funktion_ID = 1 AND evento_ID = 6 AND auto_ID = 18; "
 
             string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
             string einsatz, abgesichert;
@@ -73,7 +87,18 @@ namespace Project_VW
 
             string ID_selectedCar = filtroAutos.SelectedValue.ToString();
 
+            
+            // Have to add all cars or just one,
+            // methods are already declared, have to implement them
+            // there is already a list of global cars, to add as many as necessary
             SistemasAutos.Children.Clear();
+            if (Convert.ToInt32(ID_selectedCar) == -1)
+            {
+                
+            }
+
+
+
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
             List<Bemerkung> bemerkungsFunktion;
@@ -347,10 +372,6 @@ namespace Project_VW
 
                 #endregion
                 getFunc.closeConn();
-                foreach (Funcion f in ptrSistema.funkDeSistema)
-                {
-                    MessageBox.Show(f.ID);
-                }
             }
          
 
@@ -468,6 +489,21 @@ namespace Project_VW
         public string abgesichert { get; set; }
         
     }
+
+
+    public class Cars
+    {
+        public string ID, modelo;
+        public List<Sistema> carSystems;
+        public Cars(string ID, string modelo, List<Sistema> carSystems)
+        {
+            this.ID = ID;
+            this.modelo = modelo;
+            this.carSystems = carSystems;
+        }
+
+    }
+
 
 
     public class Sistema

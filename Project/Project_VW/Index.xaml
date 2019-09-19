@@ -21,7 +21,9 @@
             <Grid>
 
                 <Label Grid.ColumnSpan="3" Margin="141,0,492,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" >FIltra Auto</Label>
-                <ComboBox Text="FiltroAutos" x:Name="filtroAutos" Margin="452,4,218,0" Height="46" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" />
+                <ComboBox Text="FiltroAutos" x:Name="filtroAutos" Margin="452,4,218,0" Height="46" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" >
+                   
+                </ComboBox>
             </Grid>
         </materialDesign:Card>
         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">
