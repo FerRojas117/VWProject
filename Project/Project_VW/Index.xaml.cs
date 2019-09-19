@@ -21,6 +21,7 @@ namespace Project_VW
     public partial class Index : UserControl
     {
         DB db;
+        DB db_forloops;
         DB getFunc;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
@@ -139,8 +140,8 @@ namespace Project_VW
                 }
             }
 
-        
 
+            db.closeConn();
 
             #region Get funktions of each system
             // GET Funktions from each System
@@ -151,20 +152,24 @@ namespace Project_VW
                 string qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
                 qry_getFunctions += ptrSistema.ID;
                 qry_getFunctionsCount += ptrSistema.ID;
+                db_forloops = new DB();
 
+                db_forloops.openConn();
                 // check if system has funktions
-                using (db.setComm(qry_getFunctionsCount))
+                using (db_forloops.setComm(qry_getFunctionsCount))
                 {
-                    db.setReader();
-                    while (db.getReader().Read())
+                    db_forloops.setReader();
+                    while (db_forloops.getReader().Read())
                     {
-                        registerCounter = Convert.ToInt32(db.getReader()["numFuncSistema"]);
+                        registerCounter = Convert.ToInt32(db_forloops.getReader()["numFuncSistema"]);
                     }
                 }
                 if(registerCounter <= 0)
                 {
                     continue;
                 }
+                db_forloops.closeConn();
+
                 funktionSistemas = new List<Funcion>();
                 // let's look for its information, its bemerkungen and its
                 // einsatz and abgesichert fields
@@ -214,17 +219,19 @@ namespace Project_VW
                         qry_bmrFunktionCount += " AND evento_ID = ";
                         qry_bmrFunktionCount += SesionUsuario.getIDEvento();
 
-                        using (db.setComm(qry_bmrFunktionCount))
+                        db_forloops.openConn();
+                        using (db_forloops.setComm(qry_bmrFunktionCount))
                         {
-                            db.setReader();
-                            while (db.getReader().Read())
+                            db_forloops.setReader();
+                            while (db_forloops.getReader().Read())
                             {
-                                registerCounter = Convert.ToInt32(db.getReader()["bmrkCount"]);
+                                registerCounter = Convert.ToInt32(db_forloops.getReader()["bmrkCount"]);
                             }
                         }
-
+                        db_forloops.closeConn();
                         // if there is no bemerkungen in this function, we wont 
                         // add a thing in the lsit from bemerkungen
+                        db_forloops.openConn();
                         if (registerCounter > 0) 
                         {
                             // filter bemerkungen by funktionID and eventID 
@@ -234,23 +241,24 @@ namespace Project_VW
                             qry_bmrFunktion += " AND evento_ID = ";
                             qry_bmrFunktion += SesionUsuario.getIDEvento();
 
-                            using (db.setComm(qry_bmrFunktion))
+                            using (db_forloops.setComm(qry_bmrFunktion))
                             {
-                                db.setReader();
-                                while (db.getReader().Read())
+                                db_forloops.setReader();
+                                while (db_forloops.getReader().Read())
                                 {
                                     bmrkng = new Bemerkung(
-                                        Convert.ToString(db.getReader()["ID"]),
-                                        Convert.ToString(db.getReader()["bemerkung"]),
-                                        Convert.ToString(db.getReader()["funktion_ID"]),
-                                        Convert.ToString(db.getReader()["editado_por"]),
-                                        Convert.ToString(db.getReader()["evento_ID"])
+                                        Convert.ToString(db_forloops.getReader()["ID"]),
+                                        Convert.ToString(db_forloops.getReader()["bemerkung"]),
+                                        Convert.ToString(db_forloops.getReader()["funktion_ID"]),
+                                        Convert.ToString(db_forloops.getReader()["editado_por"]),
+                                        Convert.ToString(db_forloops.getReader()["evento_ID"])
                                     );
                                     // store bemerkungen in list
                                     ft.addBemerkungFuncion(bmrkng);
                                 }
                             }                           
                         }
+                        db_forloops.closeConn();
 
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
                         qry_ECFCount += "FROM edit_campos_funktion ";
@@ -269,15 +277,17 @@ namespace Project_VW
                         // by funktion id, evento,ID and auto_ID
 
                         // FIRST COUNT IF THE TABLE EXISTS
-                        using (db.setComm(qry_ECFCount))
+                        db_forloops.openConn();
+                        using (db_forloops.setComm(qry_ECFCount))
                         {
-                            db.setReader();
-                            while (db.getReader().Read())
+                            db_forloops.setReader();
+                            while (db_forloops.getReader().Read())
                             {
-                                registerCounter = Convert.ToInt32(db.getReader()["existsECF"]);
+                                registerCounter = Convert.ToInt32(db_forloops.getReader()["existsECF"]);
                             }
                         }
-
+                        db_forloops.closeConn();
+                       
                         // IF table does not exists, then insert table
                         // with values:
                         // in einsatz and abgesichert and edited_by ALL empty
@@ -285,39 +295,55 @@ namespace Project_VW
                         // evento_ID, the event that we are on
                         // and car_ID, the car id that the user has chosen.
 
-
-
-                        if (registerCounter > 0)
+                        if (registerCounter <= 0)
                         {
-                            using (db.setComm(qry_ECF))
+                            // close the other connection so we dont lock the db file
+                          
+                            int affectedRows;
+                            string insrtEditCampos = "INSERT INTO edit_campos_funktion";
+                            insrtEditCampos += "(einsatz, abgesichert, editado_por, ";
+                            insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
+                            insrtEditCampos += " '" + "', '" + "', '" + "', ";
+                            insrtEditCampos += ID + ", " + SesionUsuario.getIDEvento() + ", ";
+                            insrtEditCampos += ID_selectedCar + ")";
+
+                            using (getFunc.setComm(insrtEditCampos))
                             {
-                                db.setReader();
-                                while (db.getReader().Read())
+                                affectedRows = getFunc.getComm().ExecuteNonQuery();
+                            }
+                            if (affectedRows == 0)
+                            {
+                                MessageBox.Show("No se pudo obtener de manera correcta la informacion de una funcion. " + "FID: " + ID);
+                            }
+
+                        }
+
+
+                        db_forloops.openConn();
+                        using (db_forloops.setComm(qry_ECF))
+                        {
+                            db_forloops.setReader();
+                            while (db_forloops.getReader().Read())
+                            {
+                                ecf = new Edit_Campos_Funcion()
                                 {
-                                    ecf = new Edit_Campos_Funcion(
-                                        Convert.ToString(db.getReader()["ID"]),
-                                        Convert.ToString(db.getReader()["einsatz"]),
-                                        Convert.ToString(db.getReader()["abgesichert"])
-                                    );
-                                    ft.addECFFuncion(ecf);
-                                }
+                                    ID = Convert.ToString(db_forloops.getReader()["ID"]),
+                                    einsatz = Convert.ToString(db_forloops.getReader()["einsatz"]),
+                                    abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"])
+                                };
+                                ptrSistema.addECFFuncion(ecf);
                             }
                         }
-                        else ft.addECFFuncion(ecf);
-
-
-
+                        db_forloops.closeConn();
                         // END information retrieval
                         ptrSistema.addFuncionSistema(ft);
                     }                
                 }
-               
-                // add ItemsSource to GRID of funktions of each system
+
+                // add funktions of each system to ItemsSource of GRID
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
-
-
+                ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
-                
 
                 #endregion
                 getFunc.closeConn();
@@ -326,7 +352,7 @@ namespace Project_VW
                     MessageBox.Show(f.ID);
                 }
             }
-            db.closeConn();
+         
 
             #endregion
 
@@ -338,7 +364,7 @@ namespace Project_VW
 
         public void showInformationOfCar()
         {
-            // got to show everything
+            // SHOW infromation that was retreived from car
             expList = new List<Expander>();
             foreach (Sistema s in sistemasDelAuto)
             {
@@ -346,13 +372,22 @@ namespace Project_VW
                 xpanderS.Background = Brushes.Tan;
                 xpanderS.Header = s.nombre;
 
+               
+
                 StackPanel spf = new StackPanel();
-                //StackPanel spf = new StackPanel();
+                // stackpanel for EditCampos FUnktion
+                StackPanel spf_ECF = new StackPanel();
+                // change to horizontal to put ECF next to info of funktion
                 spf.Orientation = Orientation.Horizontal;
+
+                // add datagrid of edit campos funk to  spf_ECF
+                spf_ECF.Children.Add(s.gvEditCamposFunk);
 
                 //append datagrid to each stackpanel 
                 spf.Children.Add(s.gvSystem);
+                spf.Children.Add(spf_ECF);
 
+                spf.CanHorizontallyScroll = true;
 
                 xpanderS.Content = spf;
                 SistemasAutos.Children.Add(xpanderS);
@@ -361,6 +396,7 @@ namespace Project_VW
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
         {
+            string einsatzUndAbgesichert = "";
             string nombresAtributos = "";
             foreach (Sistema s in sistemasDelAuto)
             {
@@ -368,8 +404,13 @@ namespace Project_VW
                 {
                     nombresAtributos += f.nombre + ", ";
                 }
+                foreach (Edit_Campos_Funcion ecf in s.ecf)
+                {
+                    einsatzUndAbgesichert += ecf.einsatz + ", ";
+                }
             }
             MessageBox.Show(nombresAtributos);
+            MessageBox.Show(einsatzUndAbgesichert);
         }
 
     }
@@ -385,23 +426,16 @@ namespace Project_VW
         public string Jahr { get; set; }
         public string descripcion { get; set; }
         public List<Bemerkung> bemFuncion;
-        public List<Edit_Campos_Funcion> ecf;
+       
      
         public Funcion()
         {
-          
             bemFuncion = new List<Bemerkung>();
-            ecf = null;
         }
 
         public void addBemerkungFuncion(Bemerkung b)
         {
             bemFuncion.Add(b);
-        }
-
-        public void addECFFuncion(Edit_Campos_Funcion ecf)
-        {
-            this.ecf.Add(ecf);
         }
 
     }
@@ -429,18 +463,10 @@ namespace Project_VW
 
     public class Edit_Campos_Funcion
     {
-        public string ID, einsatz, abgesichert;
-      
-        public Edit_Campos_Funcion(
-            string ID,
-            string einsatz,
-            string abgesichert
-        )
-        {
-            this.ID = ID;
-            this.einsatz = einsatz;
-            this.abgesichert = abgesichert;
-        }
+        public string ID { get; set; }
+        public string einsatz { get; set; }
+        public string abgesichert { get; set; }
+        
     }
 
 
@@ -449,9 +475,11 @@ namespace Project_VW
         public int ID;
         public string nombre;
         public List<Funcion> funkDeSistema;
+        public List<Edit_Campos_Funcion> ecf;
         public DataGrid gvSystem;
-        public DataGrid gvBemerkungen;
         public DataGrid gvEditCamposFunk;
+        public DataGrid gvBemerkungen;
+
 
         public Sistema(
             int ID,
@@ -461,12 +489,19 @@ namespace Project_VW
             this.ID = ID;
             this.nombre = nombre;
             funkDeSistema = new List<Funcion>();
+            ecf = new List<Edit_Campos_Funcion>();
             gvSystem = new DataGrid();
+            gvEditCamposFunk = new DataGrid();
         }
 
         public void addFuncionSistema(Funcion f)
         {
             funkDeSistema.Add(f);
+        }
+
+        public void addECFFuncion(Edit_Campos_Funcion ecf)
+        {
+            this.ecf.Add(ecf);
         }
     }
 
