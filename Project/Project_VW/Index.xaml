@@ -19,11 +19,19 @@
 
         <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="68,40,31,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
 
-                <Label Grid.ColumnSpan="3" Margin="141,0,492,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" >FIltra Auto</Label>
-                <ComboBox Text="FiltroAutos" x:Name="filtroAutos" Margin="452,4,218,0" Height="46" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" >
-                   
-                </ComboBox>
+
+                <materialDesign:PackIcon Kind="car" Height="50" Width="147" Margin="255,0,0,0" Foreground="Black"/>
+
+                <ComboBox  x:Name="filtroAutos" Margin="10,0,152,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
+
+                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Grid.Column="1" Margin="346,0,0,0" Foreground="Black"/>
+                <ComboBox  x:Name="filtroEventos" Margin="121,0,148,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="1" />
+
             </Grid>
         </materialDesign:Card>
         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">

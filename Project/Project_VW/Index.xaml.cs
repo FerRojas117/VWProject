@@ -28,16 +28,42 @@ namespace Project_VW
         List<Cars> selectedCars;
         List<Expander> expList;
         bool allAutos = false;
-        //List<DataGrid> gridOfEachSystem;
+        SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
+
+        // event
+        List<ComboBoxPairsEvento> cbp;
+        int IDEventSelected = -1;
+
         public Index()
         {
             InitializeComponent();
             db = new DB();
             fillCars();
-            cbp_browseAutos.Add(new ComboBoxPairsBrowseAutos(
-                      "-1",
-                      "TODOS"
-                    ));
+            cbp_browseAutos.Add(
+                new ComboBoxPairsBrowseAutos("-1", "TODOS")
+            );
+
+            string qry_getEventoNom = "SELECT nombre, ID FROM evento";
+
+            db.openConn();          
+            using (db.setComm(qry_getEventoNom))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    cbp.Add(new ComboBoxPairsEvento(
+                       Convert.ToString(db.getReader()["nombre"]),
+                       Convert.ToString(db.getReader()["ID"])
+                     ));
+                }
+
+            }
+            db.closeConn();
+
+            filtroEventos.DisplayMemberPath = "nombre";
+            filtroEventos.SelectedValuePath = "ID";
+            filtroEventos.ItemsSource = cbp;
+
         }
 
         public void fillCars()
@@ -66,7 +92,7 @@ namespace Project_VW
         
         // method to return any car that is needed
         // with a structure needed to show in frontend
-        public Cars getCar(string idOfCar, string nameOfcar)
+        public Cars getCar(string idOfCar, string nameOfcar, int eventSelected)
         {
             string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
 
@@ -211,7 +237,7 @@ namespace Project_VW
                         string qry_bmrFunktionCount = "SELECT COUNT (*) as bmrkCount FROM bemerkung WHERE funktion_ID = ";
                         qry_bmrFunktionCount += ID;
                         qry_bmrFunktionCount += " AND evento_ID = ";
-                        qry_bmrFunktionCount += SesionUsuario.getIDEvento();
+                        qry_bmrFunktionCount += eventSelected;
 
                         db_forloops.openConn();
                         using (db_forloops.setComm(qry_bmrFunktionCount))
@@ -233,7 +259,7 @@ namespace Project_VW
                             string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
                             qry_bmrFunktion += ID;
                             qry_bmrFunktion += " AND evento_ID = ";
-                            qry_bmrFunktion += SesionUsuario.getIDEvento();
+                            qry_bmrFunktion += eventSelected;
 
                             using (db_forloops.setComm(qry_bmrFunktion))
                             {
@@ -257,13 +283,13 @@ namespace Project_VW
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
                         qry_ECFCount += "FROM edit_campos_funktion ";
                         qry_ECFCount += "WHERE funktion_ID = " + ID;
-                        qry_ECFCount += " AND evento_ID = " + SesionUsuario.getIDEvento();
+                        qry_ECFCount += " AND evento_ID = " + eventSelected;
                         qry_ECFCount += " AND auto_ID = " + idOfCar;
 
                         string qry_ECF = "SELECT * ";
                         qry_ECF += "FROM edit_campos_funktion ";
                         qry_ECF += "WHERE funktion_ID = " + ID;
-                        qry_ECF += " AND evento_ID = " + SesionUsuario.getIDEvento();
+                        qry_ECF += " AND evento_ID = " + eventSelected;
                         qry_ECF += " AND auto_ID = " + idOfCar;
 
 
@@ -298,7 +324,7 @@ namespace Project_VW
                             insrtEditCampos += "(einsatz, abgesichert, editado_por, ";
                             insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
-                            insrtEditCampos += ID + ", " + SesionUsuario.getIDEvento() + ", ";
+                            insrtEditCampos += ID + ", " + eventSelected + ", ";
                             insrtEditCampos += idOfCar + ")";
 
                             using (getFunc.setComm(insrtEditCampos))
@@ -336,6 +362,7 @@ namespace Project_VW
 
                 // add funktions of each system to ItemsSource of GRID
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
+
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
 
@@ -358,7 +385,15 @@ namespace Project_VW
             if (filtroAutos.SelectedValue == null)
                 return;
 
-            // objeto de sistema de la base de datos
+            if(filtroEventos.SelectedValue == null)
+            {
+                IDEventSelected = SesionUsuario.getIDEvento();
+            }
+            else
+            {
+                IDEventSelected = Convert.ToInt32(filtroEventos.SelectedValue.ToString());
+            }
+            // HAVE to finish event dropdown handling 
 
             string ID_selectedCar = filtroAutos.SelectedValue.ToString();
             string selected_name = filtroAutos.Text;
@@ -372,26 +407,27 @@ namespace Project_VW
             {
                 foreach(ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
                 {
-                    selectedCars.Add(getCar(cbp.ID, cbp.modelo));
+                    selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected));
                 }  
             }
             else
             {
-                selectedCars.Add(getCar(ID_selectedCar, selected_name));
+                selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected));
             }
             showInformationOfCar();
         }
 
         public void showInformationOfCar()
         {
+            
             // SHOW infromation that was retreived from car
             expList = new List<Expander>();
-
-            foreach(Cars cars in selectedCars)
+            string header = "";
+            foreach (Cars cars in selectedCars)
             {
                 if (cars == null) continue;
                 Expander xpanderC = new Expander();
-                xpanderC.Background = Brushes.Tan;
+                xpanderC.Background = brush;
                 xpanderC.Header = cars.modelo;
 
                 StackPanel spC = new StackPanel();
@@ -401,7 +437,10 @@ namespace Project_VW
                     xpanderS.Background = Brushes.Tan;
                     xpanderS.Header = s.nombre;
 
+                    ScrollViewer sv = new ScrollViewer();
+                    sv.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
                     StackPanel spf = new StackPanel();
+                    //spf.Width = 900;
                     // stackpanel for EditCampos FUnktion
                     StackPanel spf_ECF = new StackPanel();
                     // change to horizontal to put ECF next to info of funktion
@@ -409,20 +448,22 @@ namespace Project_VW
 
                     // add datagrid of edit campos funk to  spf_ECF
                     spf_ECF.Children.Add(s.gvEditCamposFunk);
-
+                    
+                    
+                    
                     //append datagrid to each stackpanel 
                     spf.Children.Add(s.gvSystem);
                     spf.Children.Add(spf_ECF);
 
-                    spf.CanHorizontallyScroll = true;
+                    sv.Content = spf;
 
-                    xpanderS.Content = spf;
+                    xpanderS.Content = sv;
                     spC.Children.Add(xpanderS);
                 }
                 xpanderC.Content = spC;
                 SistemasAutos.Children.Add(xpanderC);
             }
-           
+            MessageBox.Show(header);
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
