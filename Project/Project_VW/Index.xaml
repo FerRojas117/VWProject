@@ -32,26 +32,6 @@
                 <ScrollViewer>
                     <StackPanel x:Name="SistemasAutos" Margin="5 5 5 5" Width="auto">
 
-                        <!--
-                            <Expander Name="myExpander" Background="Tan" 
-          HorizontalAlignment="Center" Header="My Expander" 
-          ExpandDirection="Down" IsExpanded="False">
-                                <TextBlock TextWrapping="Wrap">
-    Lorem ipsum dolor sit amet, consectetur
-    adipisicing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua
-                                </TextBlock>
-                            </Expander>
-                            <Expander x:Name="expander2" Background="Tan" 
-          HorizontalAlignment="Center" Header="My Expander" 
-          ExpandDirection="Down" IsExpanded="False" >
-                                <TextBlock TextWrapping="Wrap">
-    Lorem ipsum dolor sit amet, consectetur
-    adipisicing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua
-                                </TextBlock>
-                            </Expander>
-                      -->
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

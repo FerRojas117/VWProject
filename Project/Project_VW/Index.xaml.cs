@@ -54,6 +54,7 @@ namespace Project_VW
                       Convert.ToString(db.getReader()["ID"]),
                       Convert.ToString(db.getReader()["modelo"])
                     ));
+
                 }
             }
             db.closeConn();
@@ -63,41 +64,11 @@ namespace Project_VW
         }
 
         
-        public void showAllCars()
+        // method to return any car that is needed
+        // with a structure needed to show in frontend
+        public Cars getCar(string idOfCar, string nameOfcar)
         {
-
-        }
-
-        public void showOneCar()
-        {
-
-        }
-
-       
-        public void fAuto_dropdownClosed(object sender, EventArgs e)
-        {
-            // if nothing was chosen then return
-            if (filtroAutos.SelectedValue == null)
-                return;
-
             string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
-            string einsatz, abgesichert;
-
-            // objeto de sistema de la base de datos
-
-            string ID_selectedCar = filtroAutos.SelectedValue.ToString();
-
-            
-            // Have to add all cars or just one,
-            // methods are already declared, have to implement them
-            // there is already a list of global cars, to add as many as necessary
-            SistemasAutos.Children.Clear();
-            if (Convert.ToInt32(ID_selectedCar) == -1)
-            {
-                
-            }
-
-
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -107,9 +78,7 @@ namespace Project_VW
             Funcion ft;
             Bemerkung bmrkng;
             Edit_Campos_Funcion ecf = null;
-            
 
-            int ID_func;
 
             // get systems that relate to a car
             // We will filter bemerkungen and edit campos funktion later
@@ -121,14 +90,14 @@ namespace Project_VW
             qry_sistDeAutoCount += "INNER JOIN rel_autos_sist ";
             qry_sistDeAutoCount += "ON sistema.ID = rel_autos_sist.sistema_ID ";
             qry_sistDeAutoCount += "WHERE autos_ID = ";
-            qry_sistDeAutoCount += ID_selectedCar;
+            qry_sistDeAutoCount += idOfCar;
 
 
             string qry_sistDeAuto = "SELECT sistema.ID, sistema.nombre FROM sistema ";
             qry_sistDeAuto += "INNER JOIN rel_autos_sist ";
             qry_sistDeAuto += "ON sistema.ID = rel_autos_sist.sistema_ID ";
             qry_sistDeAuto += "WHERE autos_ID = ";
-            qry_sistDeAuto += ID_selectedCar;
+            qry_sistDeAuto += idOfCar;
 
 
             // get infromation of systems
@@ -143,10 +112,10 @@ namespace Project_VW
                 }
             }
             // there is no systems related to a car 
-            if(registerCounter <= 0)
+            if (registerCounter <= 0)
             {
-                db.sendMBandCloseConn("No hay Sistemas relacionados a este auto.");
-                return;
+                db.sendMBandCloseConn("No hay Sistemas relacionados a este auto: " + nameOfcar);
+                return null;
             }
 
             sistemasDelAuto = new List<Sistema>();
@@ -189,7 +158,7 @@ namespace Project_VW
                         registerCounter = Convert.ToInt32(db_forloops.getReader()["numFuncSistema"]);
                     }
                 }
-                if(registerCounter <= 0)
+                if (registerCounter <= 0)
                 {
                     continue;
                 }
@@ -222,7 +191,7 @@ namespace Project_VW
                         Console.WriteLine(ID);
                         ft = new Funcion()
                         {
-                            ID =  ID,
+                            ID = ID,
                             nombre = nombre,
                             NAR = NAR,
                             RDW = RDW,
@@ -257,7 +226,7 @@ namespace Project_VW
                         // if there is no bemerkungen in this function, we wont 
                         // add a thing in the lsit from bemerkungen
                         db_forloops.openConn();
-                        if (registerCounter > 0) 
+                        if (registerCounter > 0)
                         {
                             // filter bemerkungen by funktionID and eventID 
 
@@ -281,7 +250,7 @@ namespace Project_VW
                                     // store bemerkungen in list
                                     ft.addBemerkungFuncion(bmrkng);
                                 }
-                            }                           
+                            }
                         }
                         db_forloops.closeConn();
 
@@ -289,13 +258,13 @@ namespace Project_VW
                         qry_ECFCount += "FROM edit_campos_funktion ";
                         qry_ECFCount += "WHERE funktion_ID = " + ID;
                         qry_ECFCount += " AND evento_ID = " + SesionUsuario.getIDEvento();
-                        qry_ECFCount += " AND auto_ID = " + ID_selectedCar;
+                        qry_ECFCount += " AND auto_ID = " + idOfCar;
 
                         string qry_ECF = "SELECT * ";
                         qry_ECF += "FROM edit_campos_funktion ";
                         qry_ECF += "WHERE funktion_ID = " + ID;
                         qry_ECF += " AND evento_ID = " + SesionUsuario.getIDEvento();
-                        qry_ECF += " AND auto_ID = " + ID_selectedCar;
+                        qry_ECF += " AND auto_ID = " + idOfCar;
 
 
                         // filter edit campos funcion 
@@ -312,7 +281,7 @@ namespace Project_VW
                             }
                         }
                         db_forloops.closeConn();
-                       
+
                         // IF table does not exists, then insert table
                         // with values:
                         // in einsatz and abgesichert and edited_by ALL empty
@@ -323,14 +292,14 @@ namespace Project_VW
                         if (registerCounter <= 0)
                         {
                             // close the other connection so we dont lock the db file
-                          
+
                             int affectedRows;
                             string insrtEditCampos = "INSERT INTO edit_campos_funktion";
                             insrtEditCampos += "(einsatz, abgesichert, editado_por, ";
                             insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
                             insrtEditCampos += ID + ", " + SesionUsuario.getIDEvento() + ", ";
-                            insrtEditCampos += ID_selectedCar + ")";
+                            insrtEditCampos += idOfCar + ")";
 
                             using (getFunc.setComm(insrtEditCampos))
                             {
@@ -362,7 +331,7 @@ namespace Project_VW
                         db_forloops.closeConn();
                         // END information retrieval
                         ptrSistema.addFuncionSistema(ft);
-                    }                
+                    }
                 }
 
                 // add funktions of each system to ItemsSource of GRID
@@ -373,13 +342,43 @@ namespace Project_VW
                 #endregion
                 getFunc.closeConn();
             }
-         
-
             #endregion
+            Cars returnThisCar = new Cars(idOfCar, nameOfcar, sistemasDelAuto);
+            return returnThisCar;
 
             // end of systems of car retrieval
-
             // put information in frontend
+
+        }
+
+
+        public void fAuto_dropdownClosed(object sender, EventArgs e)
+        {
+            // if nothing was chosen then return
+            if (filtroAutos.SelectedValue == null)
+                return;
+
+            // objeto de sistema de la base de datos
+
+            string ID_selectedCar = filtroAutos.SelectedValue.ToString();
+            string selected_name = filtroAutos.Text;
+            SistemasAutos.Children.Clear();
+            selectedCars = new List<Cars>();
+            // Have to add all cars or just one,
+            // methods are already declared, have to implement them
+            // there is already a list of global cars, to add as many as necessary
+
+            if (Convert.ToInt32(ID_selectedCar) == -1)
+            {
+                foreach(ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
+                {
+                    selectedCars.Add(getCar(cbp.ID, cbp.modelo));
+                }  
+            }
+            else
+            {
+                selectedCars.Add(getCar(ID_selectedCar, selected_name));
+            }
             showInformationOfCar();
         }
 
@@ -387,32 +386,43 @@ namespace Project_VW
         {
             // SHOW infromation that was retreived from car
             expList = new List<Expander>();
-            foreach (Sistema s in sistemasDelAuto)
+
+            foreach(Cars cars in selectedCars)
             {
-                Expander xpanderS = new Expander();
-                xpanderS.Background = Brushes.Tan;
-                xpanderS.Header = s.nombre;
+                if (cars == null) continue;
+                Expander xpanderC = new Expander();
+                xpanderC.Background = Brushes.Tan;
+                xpanderC.Header = cars.modelo;
 
-               
+                StackPanel spC = new StackPanel();
+                foreach (Sistema s in cars.carSystems)
+                {
+                    Expander xpanderS = new Expander();
+                    xpanderS.Background = Brushes.Tan;
+                    xpanderS.Header = s.nombre;
 
-                StackPanel spf = new StackPanel();
-                // stackpanel for EditCampos FUnktion
-                StackPanel spf_ECF = new StackPanel();
-                // change to horizontal to put ECF next to info of funktion
-                spf.Orientation = Orientation.Horizontal;
+                    StackPanel spf = new StackPanel();
+                    // stackpanel for EditCampos FUnktion
+                    StackPanel spf_ECF = new StackPanel();
+                    // change to horizontal to put ECF next to info of funktion
+                    spf.Orientation = Orientation.Horizontal;
 
-                // add datagrid of edit campos funk to  spf_ECF
-                spf_ECF.Children.Add(s.gvEditCamposFunk);
+                    // add datagrid of edit campos funk to  spf_ECF
+                    spf_ECF.Children.Add(s.gvEditCamposFunk);
 
-                //append datagrid to each stackpanel 
-                spf.Children.Add(s.gvSystem);
-                spf.Children.Add(spf_ECF);
+                    //append datagrid to each stackpanel 
+                    spf.Children.Add(s.gvSystem);
+                    spf.Children.Add(spf_ECF);
 
-                spf.CanHorizontallyScroll = true;
+                    spf.CanHorizontallyScroll = true;
 
-                xpanderS.Content = spf;
-                SistemasAutos.Children.Add(xpanderS);
+                    xpanderS.Content = spf;
+                    spC.Children.Add(xpanderS);
+                }
+                xpanderC.Content = spC;
+                SistemasAutos.Children.Add(xpanderC);
             }
+           
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
