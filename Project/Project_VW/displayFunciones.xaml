@@ -9,9 +9,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Margin="50 50 50 50">
-        <StackPanel x:Name="panelPrueba">
-            
-        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible">
+            <StackPanel x:Name="panelPrueba" Orientation="Horizontal">
+                    
+            </StackPanel>
+        </ScrollViewer>
+       
         <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                             ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10" Margin="811,344,0,0" Click="CheckAtrrClass">
             <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" />

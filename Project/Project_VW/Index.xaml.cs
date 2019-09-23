@@ -255,7 +255,6 @@ namespace Project_VW
                         if (registerCounter > 0)
                         {
                             // filter bemerkungen by funktionID and eventID 
-
                             string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
                             qry_bmrFunktion += ID;
                             qry_bmrFunktion += " AND evento_ID = ";
@@ -266,13 +265,14 @@ namespace Project_VW
                                 db_forloops.setReader();
                                 while (db_forloops.getReader().Read())
                                 {
-                                    bmrkng = new Bemerkung(
-                                        Convert.ToString(db_forloops.getReader()["ID"]),
-                                        Convert.ToString(db_forloops.getReader()["bemerkung"]),
-                                        Convert.ToString(db_forloops.getReader()["funktion_ID"]),
-                                        Convert.ToString(db_forloops.getReader()["editado_por"]),
-                                        Convert.ToString(db_forloops.getReader()["evento_ID"])
-                                    );
+                                    bmrkng = new Bemerkung()
+                                    {
+                                        ID = Convert.ToString(db_forloops.getReader()["ID"]),
+                                        bemerkung = Convert.ToString(db_forloops.getReader()["bemerkung"]),
+                                        funktion_ID = Convert.ToString(db_forloops.getReader()["funktion_ID"]),
+                                        editado_por = Convert.ToString(db_forloops.getReader()["editado_por"]),
+                                        evento_ID = Convert.ToString(db_forloops.getReader()["evento_ID"])
+                                    };
                                     // store bemerkungen in list
                                     ft.addBemerkungFuncion(bmrkng);
                                 }
@@ -372,7 +372,6 @@ namespace Project_VW
             #endregion
             Cars returnThisCar = new Cars(idOfCar, nameOfcar, sistemasDelAuto);
             return returnThisCar;
-
             // end of systems of car retrieval
             // put information in frontend
 
@@ -457,11 +456,9 @@ namespace Project_VW
         }
 
         public void showInformationOfCar()
-        {
-            
+        {            
             // SHOW infromation that was retreived from car
             expList = new List<Expander>();
-            string header = "";
             foreach (Cars cars in selectedCars)
             {
                 if (cars == null) continue;
@@ -471,7 +468,13 @@ namespace Project_VW
 
                 StackPanel spC = new StackPanel();
                 foreach (Sistema s in cars.carSystems)
-                {
+                {    
+                    // check after how to hide the values of the id
+                    if(s.gvSystem.Columns.Count > 0)
+                    {
+                        s.gvSystem.Columns[0].Visibility = Visibility.Hidden;
+                    }                  
+
                     Expander xpanderS = new Expander();
                     xpanderS.Background = Brushes.Tan;
                     xpanderS.Header = s.nombre;
@@ -487,9 +490,7 @@ namespace Project_VW
 
                     // add datagrid of edit campos funk to  spf_ECF
                     spf_ECF.Children.Add(s.gvEditCamposFunk);
-                    
-                    
-                    
+       
                     //append datagrid to each stackpanel 
                     spf.Children.Add(s.gvSystem);
                     spf.Children.Add(spf_ECF);
@@ -502,7 +503,7 @@ namespace Project_VW
                 xpanderC.Content = spC;
                 SistemasAutos.Children.Add(xpanderC);
             }
-            MessageBox.Show(header);
+
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
@@ -553,23 +554,13 @@ namespace Project_VW
 
     public class Bemerkung
     {
-        public string ID, bemerkung, funktion_ID, editado_por, evento_ID;
-        
-        public Bemerkung(
-            string ID,
-            string bemerkung,
-            string funktion_ID,
-            string editado_por,
-            string evento_ID
-        )
-        {
-            this.ID = ID;
-            this.bemerkung = bemerkung;
-            this.funktion_ID = funktion_ID;
-            this.editado_por = editado_por;
-            this.evento_ID = evento_ID;
+        public string ID { get; set; }
+        public string bemerkung { get; set; }
+        public string funktion_ID { get; set; }
+        public string editado_por { get; set; }
+        public string evento_ID { get; set; }
 
-        }
+       
     }
 
     public class Edit_Campos_Funcion
@@ -605,7 +596,6 @@ namespace Project_VW
         public DataGrid gvSystem;
         public DataGrid gvEditCamposFunk;
         public DataGrid gvBemerkungen;
-
 
         public Sistema(
             int ID,

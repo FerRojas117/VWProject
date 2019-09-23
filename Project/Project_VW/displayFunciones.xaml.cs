@@ -25,6 +25,7 @@ namespace Project_VW
     public partial class displayFunciones : UserControl
     {
         DB db;
+        DB tDB;
         private string valorTB;
         Funcion f;
         string qry_getF = "SELECT * FROM funktion";
@@ -41,7 +42,7 @@ namespace Project_VW
             {
                 db.setReader();
                 while (db.getReader().Read())
-                {
+                {             
                     funktions.Add(new Funktion()
                     {
                         ID = Convert.ToInt32(db.getReader()["ID"]),
@@ -57,6 +58,39 @@ namespace Project_VW
                     }); 
                 }
             }
+
+            Bemerkung bmrkng;
+
+            foreach (Funktion f in funktions)
+            {
+                string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
+                qry_bmrFunktion += f.ID;
+                qry_bmrFunktion += " AND evento_ID = ";
+                qry_bmrFunktion += SesionUsuario.getIDEvento();
+
+
+                using (db.setComm(qry_bmrFunktion))
+                {
+                    db.setReader();
+                    while (db.getReader().Read())
+                    {
+                        bmrkng = new Bemerkung()
+                        {
+                            ID = Convert.ToString(db.getReader()["ID"]),
+                            bemerkung = Convert.ToString(db.getReader()["bemerkung"]),
+                            funktion_ID = Convert.ToString(db.getReader()["funktion_ID"]),
+                            editado_por = Convert.ToString(db.getReader()["editado_por"]),
+                            evento_ID = Convert.ToString(db.getReader()["evento_ID"])
+                        };
+                        // store bemerkungen in list
+                        f.addBemerkungFuncion(bmrkng);
+                    }
+                }
+                f.dgBemerkungen.ItemsSource = f.bemFuncion;
+            }
+            
+
+            db.closeConn();
 
         }
         public displayFunciones()
@@ -81,25 +115,27 @@ namespace Project_VW
         public void createDataGrid()
         {
 
-            /*
-            // Test this with a class and update to se if it works 
-            //  with enumerable object
-            DataGrid dg = new DataGrid();
-            
-            //string qry_getF = "SELECT * FROM funktion";
-            db.openConn();
-            mAdapter = new SQLiteDataAdapter(db.setComm(qry_getF));
-            mTable = new DataTable("funktion");
-            mAdapter.Fill(mTable);
-            db.closeConn();*/
-            
+            StackPanel sp_btnBemerkungen = new StackPanel();
+            StackPanel sp_bemerkungen = new StackPanel();
+            foreach (Funktion f in funktions)
+            {
+                Button btn = new Button()
+                {
+                    Content = string.Format("Bemerkung: {0}", f.nombre),
+                    Name = "_" + Convert.ToString(f.ID)
+                };
+                sp_btnBemerkungen.Children.Add(btn);
+                sp_bemerkungen.Children.Add(f.dgBemerkungen);
+                f.dgBemerkungen.Visibility = Visibility.Collapsed;
+            }
+
+           
+           
             dg.ItemsSource = funktions;
-            //dg.AutoGenerateColumns = false;
-            
-            //mAdapter.Update(mTable);
-            
             
             panelPrueba.Children.Add(dg);
+            panelPrueba.Children.Add(sp_btnBemerkungen);
+            panelPrueba.Children.Add(sp_bemerkungen);
         }
 
         /*
@@ -125,7 +161,19 @@ namespace Project_VW
         public string descripcion { get; set; }
         public string sistema_ID { get; set; }
         public string editado_por { get; set; }
+        public List<Bemerkung> bemFuncion;
+        public DataGrid dgBemerkungen;
 
+        public Funktion()
+        {
+            bemFuncion = new List<Bemerkung>();
+            dgBemerkungen = new DataGrid();
+        }
+
+        public void addBemerkungFuncion(Bemerkung b)
+        {
+            bemFuncion.Add(b);
+        }
 
     }
     public class Person
