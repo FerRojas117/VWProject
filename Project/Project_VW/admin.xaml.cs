@@ -76,19 +76,7 @@ namespace Project_VW
                 
         }
 
-        private void cambiarEvento_DropDownClosed(object sender, EventArgs e)
-        {
-            // clear childs of stackpanel with systems
-            if (EventoChanger.SelectedValue == null)
-                return;
-            ComboBoxPairsEvento cbp = (ComboBoxPairsEvento)EventoChanger.SelectedItem;
-            string evento_selected = cbp.nombre;
-            int ID_evento = Convert.ToInt32(cbp.ID);
-            SesionUsuario.setEvento(evento_selected);
-            SesionUsuario.setIDEvento(ID_evento);
-            EventoChanger.Text = evento_selected;
-
-        }
+       
         public void fillEventos()
         {
             cbp = new List<ComboBoxPairsEvento>();
@@ -106,9 +94,7 @@ namespace Project_VW
                 }
             }
             db.closeConn();
-            EventoChanger.DisplayMemberPath = "nombre";
-            EventoChanger.SelectedValuePath = "ID";
-            EventoChanger.ItemsSource = cbp;
+           
         }
 
         public void changeEventTitle()

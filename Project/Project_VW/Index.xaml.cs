@@ -42,7 +42,7 @@ namespace Project_VW
             cbp_browseAutos.Add(
                 new ComboBoxPairsBrowseAutos("-1", "TODOS")
             );
-
+            cbp = new List<ComboBoxPairsEvento>();
             string qry_getEventoNom = "SELECT nombre, ID FROM evento";
 
             db.openConn();          
@@ -409,6 +409,45 @@ namespace Project_VW
                 {
                     selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected));
                 }  
+            }
+            else
+            {
+                selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected));
+            }
+            showInformationOfCar();
+        }
+
+
+        public void fEvent_dropdownClosed(object sender, EventArgs e)
+        {
+            // if nothing was chosen then return
+            if (filtroEventos.SelectedValue == null)
+            {
+                IDEventSelected = SesionUsuario.getIDEvento();
+            }
+            else
+            {
+                IDEventSelected = Convert.ToInt32(filtroEventos.SelectedValue.ToString());
+            }
+            if (filtroAutos.SelectedValue == null)
+                return;
+            
+            // HAVE to finish event dropdown handling 
+
+            string ID_selectedCar = filtroAutos.SelectedValue.ToString();
+            string selected_name = filtroAutos.Text;
+            SistemasAutos.Children.Clear();
+            selectedCars = new List<Cars>();
+            // Have to add all cars or just one,
+            // methods are already declared, have to implement them
+            // there is already a list of global cars, to add as many as necessary
+
+            if (Convert.ToInt32(ID_selectedCar) == -1)
+            {
+                foreach (ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
+                {
+                    selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected));
+                }
             }
             else
             {

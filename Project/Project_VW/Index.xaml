@@ -30,7 +30,7 @@
                 <ComboBox  x:Name="filtroAutos" Margin="10,0,152,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
 
                 <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Grid.Column="1" Margin="346,0,0,0" Foreground="Black"/>
-                <ComboBox  x:Name="filtroEventos" Margin="121,0,148,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="1" />
+                <ComboBox x:Name="filtroEventos" Margin="121,0,148,0" Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="1" />
 
             </Grid>
         </materialDesign:Card>
