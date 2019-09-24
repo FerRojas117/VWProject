@@ -15,7 +15,7 @@
             </StackPanel>
         </ScrollViewer>
        
-        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+        <Button x:Name="btn" Style="{StaticResource MaterialDesignFloatingActionButton}"
                             ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10" Margin="811,344,0,0" Click="CheckAtrrClass">
             <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" />
         </Button>

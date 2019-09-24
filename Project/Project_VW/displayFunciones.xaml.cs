@@ -87,6 +87,7 @@ namespace Project_VW
                     }
                 }
                 f.dgBemerkungen.ItemsSource = f.bemFuncion;
+               
             }
             
 
@@ -100,42 +101,62 @@ namespace Project_VW
             LoadCollectionData();
             createDataGrid();
             //DataContext = person;
+            
+            btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
         {
+
+            //dg.Columns[0].Visibility = Visibility.Hidden;
+            /*
             string nombresAtributos = "";
             foreach(Funktion f in funktions)
             {
                 nombresAtributos += f.nombre + ", ";
             }
             MessageBox.Show(nombresAtributos);
+            */
         }
 
         public void createDataGrid()
         {
-
+          
             StackPanel sp_btnBemerkungen = new StackPanel();
+            sp_btnBemerkungen.Margin = new Thickness(5, 50, 0, 0);
+            // check how to format buttons 
+            //sp_btnBemerkungen.Resources["Style"]
             StackPanel sp_bemerkungen = new StackPanel();
             foreach (Funktion f in funktions)
             {
-                Button btn = new Button()
-                {
-                    Content = string.Format("Bemerkung: {0}", f.nombre),
-                    Name = "_" + Convert.ToString(f.ID)
-                };
+                Button btn = new Button();
+                btn.Content = string.Format("Bemerkung: {0}", f.nombre);
+                btn.Name = "_" + Convert.ToString(f.ID);
+                btn.Click += new RoutedEventHandler(btn_Click);
                 sp_btnBemerkungen.Children.Add(btn);
                 sp_bemerkungen.Children.Add(f.dgBemerkungen);
                 f.dgBemerkungen.Visibility = Visibility.Collapsed;
             }
-
-           
-           
             dg.ItemsSource = funktions;
             
             panelPrueba.Children.Add(dg);
             panelPrueba.Children.Add(sp_btnBemerkungen);
             panelPrueba.Children.Add(sp_bemerkungen);
+        }
+
+
+        void btn_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button buttonThatWasClicked = (Button)sender;
+            int buttonIDSelected = 
+                Convert.ToInt32(buttonThatWasClicked.Name.Trim(new char[] { '_'}));
+            foreach(Funktion f in funktions)
+            {
+                if (f.ID == buttonIDSelected)
+                    f.dgBemerkungen.Visibility = Visibility.Visible;
+                else f.dgBemerkungen.Visibility = Visibility.Collapsed;
+            }
         }
 
         /*

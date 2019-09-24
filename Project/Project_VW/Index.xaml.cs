@@ -470,10 +470,7 @@ namespace Project_VW
                 foreach (Sistema s in cars.carSystems)
                 {    
                     // check after how to hide the values of the id
-                    if(s.gvSystem.Columns.Count > 0)
-                    {
-                        s.gvSystem.Columns[0].Visibility = Visibility.Hidden;
-                    }                  
+                                   
 
                     Expander xpanderS = new Expander();
                     xpanderS.Background = Brushes.Tan;
