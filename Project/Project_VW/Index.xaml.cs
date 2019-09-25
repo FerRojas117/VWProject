@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -233,27 +234,10 @@ namespace Project_VW
                         // about edit_campos_funcion
 
 
-                        // count first if there is bemerkungen
-                        string qry_bmrFunktionCount = "SELECT COUNT (*) as bmrkCount FROM bemerkung WHERE funktion_ID = ";
-                        qry_bmrFunktionCount += ID;
-                        qry_bmrFunktionCount += " AND evento_ID = ";
-                        qry_bmrFunktionCount += eventSelected;
-
-                        db_forloops.openConn();
-                        using (db_forloops.setComm(qry_bmrFunktionCount))
-                        {
-                            db_forloops.setReader();
-                            while (db_forloops.getReader().Read())
-                            {
-                                registerCounter = Convert.ToInt32(db_forloops.getReader()["bmrkCount"]);
-                            }
-                        }
-                        db_forloops.closeConn();
                         // if there is no bemerkungen in this function, we wont 
                         // add a thing in the lsit from bemerkungen
                         db_forloops.openConn();
-                        if (registerCounter > 0)
-                        {
+
                             // filter bemerkungen by funktionID and eventID 
                             string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
                             qry_bmrFunktion += ID;
@@ -277,7 +261,7 @@ namespace Project_VW
                                     ft.addBemerkungFuncion(bmrkng);
                                 }
                             }
-                        }
+
                         db_forloops.closeConn();
 
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
@@ -459,6 +443,14 @@ namespace Project_VW
         {            
             // SHOW infromation that was retreived from car
             expList = new List<Expander>();
+            /*
+            Style st = FindResource("styleA") as Style;
+            StackPanel sp_btnBemerkungen = new StackPanel();
+            sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
+            // check how to format buttons 
+            //sp_btnBemerkungen.Resources["Style"]
+            StackPanel sp_bemerkungen = new StackPanel();
+            */
             foreach (Cars cars in selectedCars)
             {
                 if (cars == null) continue;
@@ -470,8 +462,6 @@ namespace Project_VW
                 foreach (Sistema s in cars.carSystems)
                 {    
                     // check after how to hide the values of the id
-                                   
-
                     Expander xpanderS = new Expander();
                     xpanderS.Background = Brushes.Tan;
                     xpanderS.Header = s.nombre;
@@ -503,8 +493,113 @@ namespace Project_VW
 
         }
 
-        private void CheckAtrrClass(object sender, RoutedEventArgs e)
+        private void Save(object sender, RoutedEventArgs e)
         {
+            try
+            {
+
+                db.openConn();
+                db.tr = db.getConn().BeginTransaction();
+                foreach (Cars c in selectedCars)
+                {
+                    foreach (Sistema s in sistemasDelAuto)
+                    {
+                        foreach (Funcion f in s.funkDeSistema)
+                        {
+                            string updateFunk = "UPDATE funktion SET ";
+                            updateFunk += "nombre = " + "'" + f.nombre  + "'" + ", ";
+                            updateFunk += "NAR = " + "'" + f.NAR + "'" + ", ";
+                            updateFunk += "RDW = " + "'" + f.RDW + "'" + ", ";
+                            updateFunk += "Gesetz = " + "'" + f.Gesetz + "'" + ", ";
+                            updateFunk += "KW = " + "'" + f.KW + "'" + ", ";
+                            updateFunk += "Jahr = " + "'" + f.Jahr + "'" + ", "; 
+                            updateFunk += "descripcion = " + "'" + f.descripcion + "'" + " ";
+                            updateFunk += "WHERE ID = " + f.ID;
+
+                            using (db.setComm(updateFunk))
+                            {
+                                db.getComm().ExecuteNonQuery();
+                            }
+
+                        }
+                        foreach (Edit_Campos_Funcion ecf in s.ecf)
+                        {
+                            string updateECF = "UPDATE edit_campos_funktion SET ";
+                            updateECF += "einsatz = " + "'" + ecf.einsatz + "'" + ", ";
+                            updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + " ";
+                            updateECF += "WHERE ID = " + ecf.ID;
+
+                            using (db.setComm(updateECF))
+                            {
+                                db.getComm().ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+
+                db.tr.Commit();
+
+            } catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: {0}", ex.ToString());
+
+                if (db.tr != null)
+                {
+                    try
+                    {
+                        db.tr.Rollback();
+
+                    }
+                    catch (SQLiteException ex2)
+                    {
+
+                        Console.WriteLine("Transaction rollback failed.");
+                        Console.WriteLine("Error: {0}", ex2.ToString());
+
+                    }
+                    finally
+                    {
+                        db.tr.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (db.getComm() != null)
+                {
+                    db.getComm().Dispose();
+                }
+
+                if (db.tr != null)
+                {
+                    db.tr.Dispose();
+                }
+
+                if (db.getConn() != null)
+                {
+                    try
+                    {
+                        db.getConn().Close();
+
+                    }
+                    catch (SQLiteException ex)
+                    {
+
+                        Console.WriteLine("Closing connection failed.");
+                        Console.WriteLine("Error: {0}", ex.ToString());
+
+                    }
+                    finally
+                    {
+                        db.getConn().Dispose();
+                    }
+                }
+            }
+
+
+            MessageBox.Show("Información actualizada correctamente");
+
+            /*
             string einsatzUndAbgesichert = "";
             string nombresAtributos = "";
             foreach (Sistema s in sistemasDelAuto)
@@ -520,6 +615,7 @@ namespace Project_VW
             }
             MessageBox.Show(nombresAtributos);
             MessageBox.Show(einsatzUndAbgesichert);
+            */
         }
 
     }
@@ -535,8 +631,8 @@ namespace Project_VW
         public string Jahr { get; set; }
         public string descripcion { get; set; }
         public List<Bemerkung> bemFuncion;
-       
-     
+        public DataGrid dgBemerkungen;
+
         public Funcion()
         {
             bemFuncion = new List<Bemerkung>();

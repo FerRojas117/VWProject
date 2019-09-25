@@ -33,6 +33,7 @@ namespace Project_VW
         DataTable mTable;
         List<Funktion> funktions = new List<Funktion>();
         DataGrid dg = new DataGrid();
+        
         //Person person = new Person { Name = "Salman", Age = 26 };
         private void LoadCollectionData()
         {
@@ -90,7 +91,6 @@ namespace Project_VW
                
             }
             
-
             db.closeConn();
 
         }
@@ -121,22 +121,25 @@ namespace Project_VW
 
         public void createDataGrid()
         {
-          
+            Style st = FindResource("styleA") as Style;
             StackPanel sp_btnBemerkungen = new StackPanel();
-            sp_btnBemerkungen.Margin = new Thickness(5, 50, 0, 0);
+            sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
             // check how to format buttons 
             //sp_btnBemerkungen.Resources["Style"]
             StackPanel sp_bemerkungen = new StackPanel();
+           
             foreach (Funktion f in funktions)
             {
                 Button btn = new Button();
                 btn.Content = string.Format("Bemerkung: {0}", f.nombre);
                 btn.Name = "_" + Convert.ToString(f.ID);
+                btn.Style = st;
                 btn.Click += new RoutedEventHandler(btn_Click);
                 sp_btnBemerkungen.Children.Add(btn);
                 sp_bemerkungen.Children.Add(f.dgBemerkungen);
                 f.dgBemerkungen.Visibility = Visibility.Collapsed;
             }
+            
             dg.ItemsSource = funktions;
             
             panelPrueba.Children.Add(dg);

@@ -8,6 +8,15 @@
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
+    
+    <UserControl.Resources>
+        <Style x:Key="styleA" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid Background="#FFDEDEDE" Margin="50 50 50 50">
         <ScrollViewer HorizontalScrollBarVisibility="Visible">
             <StackPanel x:Name="panelPrueba" Orientation="Horizontal">
@@ -16,8 +25,8 @@
         </ScrollViewer>
        
         <Button x:Name="btn" Style="{StaticResource MaterialDesignFloatingActionButton}"
-                            ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10" Margin="811,344,0,0" Click="CheckAtrrClass">
-            <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" />
+                            ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10" Margin="829,360,0,0" Click="CheckAtrrClass">
+            <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
         </Button>
         <!--
         <Grid.RowDefinitions>

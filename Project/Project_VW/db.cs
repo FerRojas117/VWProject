@@ -13,6 +13,7 @@ namespace Project_VW
         // Holds our connection with the database
         SQLiteConnection conexion;
         SQLiteCommand command;
+        public SQLiteTransaction tr;
         SQLiteDataReader reader;
         public DB()
         {
