@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\VAS6150A\Desktop\Pruebas_NAR - copia\VWProject\Project\Project_VW\obj\Debug\
+C:\Users\VAS6150A\Desktop\Pruebas_NAR - copia\VWProject\Project\Project_VW\obj\Release\
 Project_VW
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\VAS6150A\Desktop\Pruebas_NAR - copia\VWProject\Project\Project_VW\App.xaml
 16-1073927775
 
@@ -16,5 +16,5 @@ C:\Users\VAS6150A\Desktop\Pruebas_NAR - copia\VWProject\Project\Project_VW\App.x
 18687459772
 admin.xaml;AgregarAuto.xaml;AgregarEvento.xaml;AgregarSistema.xaml;CambiarEvento.xaml;displayFunciones.xaml;EditFunciones.xaml;EliminarUsuario.xaml;funcionesSistema.xaml;Index.xaml;login.xaml;MainWindow.xaml;NuevaFuncion.xaml;NuevoUsuario.xaml;UserControl1_test.xaml;UserControl2_test.xaml;
 
-False
+True
 
