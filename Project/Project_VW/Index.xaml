@@ -1,4 +1,4 @@
-﻿ <UserControl x:Class="Project_VW.Index"
+﻿<UserControl x:Class="Project_VW.Index"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,46 +15,39 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="366*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto" >
 
-        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="68,40,31,0"  Foreground="White" Grid.ColumnSpan="2">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="50,10,50,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="67*"/>
-                    <ColumnDefinition Width="85*"/>
-                </Grid.ColumnDefinitions>
 
 
-                <materialDesign:PackIcon Kind="car" Height="50" Width="147" Margin="255,0,0,0" Foreground="Black"/>
 
-                <ComboBox  x:Name="filtroAutos" Margin="10,0,152,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
+                <materialDesign:PackIcon Kind="car" Height="50" Width="142" Margin="310,0,0,0" Foreground="Black"/>
 
-                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Grid.Column="1" Margin="346,0,0,0" Foreground="Black"/>
-                <ComboBox x:Name="filtroEventos" Margin="121,0,148,0" Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="1" />
+                <ComboBox  x:Name="filtroAutos" Margin="52,0,605,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
+
+                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Margin="715,0,0,0" Foreground="Black"/>
+                <ComboBox x:Name="filtroEventos" Margin="480,0,164,0" Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
 
             </Grid>
         </materialDesign:Card>
-        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" Height="406" Margin="68,103,31,0" Grid.ColumnSpan="2">
 
-            <Grid>
-                <ScrollViewer>
-                    <StackPanel x:Name="SistemasAutos" Margin="5 5 5 5" Width="auto">
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Background="#FFDEDEDE" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="15 80 15 10" Grid.ColumnSpan="2">
+
+            <Grid Margin="5 5 5 5">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="SistemasAutos" Margin="5 5 5 5" >
 
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
 
         </materialDesign:Card>
-        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
-                            ToolTip="Guardar cambios"  Height="Auto" Width="Auto" FontSize="10"  Click="Save" Margin="647,456,10,10" Grid.Column="1" Grid.RowSpan="2">
+
+
+
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"           ToolTip="Guardar cambios"   FontSize="10"  Click="Save" Margin="0,0,15,27" >
             <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
         </Button>
 

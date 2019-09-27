@@ -95,7 +95,8 @@ namespace Project_VW
         // with a structure needed to show in frontend
         public Cars getCar(string idOfCar, string nameOfcar, int eventSelected)
         {
-            string ID, nombre, NAR, RDW, Gesetz, KW, Jahr, descripcion;
+            string ID, nombre, NAR, RDW, Gesetz, B1_notasGrales;
+            string B2_TCSRelevantes, B3_Deadlines, descripcion, Einsatz_KWJahr;
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -103,7 +104,6 @@ namespace Project_VW
             List<Funcion> funktionSistemas;
             Sistema st;
             Funcion ft;
-            Bemerkung bmrkng;
             Edit_Campos_Funcion ecf = null;
 
 
@@ -211,9 +211,13 @@ namespace Project_VW
                         NAR = Convert.ToString(getFunc.getReader()["NAR"]);
                         RDW = Convert.ToString(getFunc.getReader()["RDW"]);
                         Gesetz = Convert.ToString(getFunc.getReader()["Gesetz"]);
-                        KW = Convert.ToString(getFunc.getReader()["KW"]);
-                        Jahr = Convert.ToString(getFunc.getReader()["Jahr"]);
+                        B1_notasGrales = Convert.ToString(getFunc.getReader()["B1_notasGrales"]);
+                        B2_TCSRelevantes = Convert.ToString(getFunc.getReader()["B2_TCSRelevantes"]);
+                        B3_Deadlines = Convert.ToString(getFunc.getReader()["B3_Deadlines"]);
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
+                        Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
+                       
+                    
 
                         Console.WriteLine(ID);
                         ft = new Funcion()
@@ -223,9 +227,11 @@ namespace Project_VW
                             NAR = NAR,
                             RDW = RDW,
                             Gesetz = Gesetz,
-                            KW = KW,
-                            Jahr = Jahr,
-                            descripcion = descripcion
+                            B1_notasGrales = B1_notasGrales,
+                            B2_TCSRelevantes = B2_TCSRelevantes,
+                            B3_Deadlines = B3_Deadlines,
+                            descripcion = descripcion,
+                            Einsatz_KWJahr = Einsatz_KWJahr
                         };
 
                         // we get infromation from funktion 
@@ -234,35 +240,6 @@ namespace Project_VW
                         // about edit_campos_funcion
 
 
-                        // if there is no bemerkungen in this function, we wont 
-                        // add a thing in the lsit from bemerkungen
-                        db_forloops.openConn();
-
-                            // filter bemerkungen by funktionID and eventID 
-                            string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
-                            qry_bmrFunktion += ID;
-                            qry_bmrFunktion += " AND evento_ID = ";
-                            qry_bmrFunktion += eventSelected;
-
-                            using (db_forloops.setComm(qry_bmrFunktion))
-                            {
-                                db_forloops.setReader();
-                                while (db_forloops.getReader().Read())
-                                {
-                                    bmrkng = new Bemerkung()
-                                    {
-                                        ID = Convert.ToString(db_forloops.getReader()["ID"]),
-                                        bemerkung = Convert.ToString(db_forloops.getReader()["bemerkung"]),
-                                        funktion_ID = Convert.ToString(db_forloops.getReader()["funktion_ID"]),
-                                        editado_por = Convert.ToString(db_forloops.getReader()["editado_por"]),
-                                        evento_ID = Convert.ToString(db_forloops.getReader()["evento_ID"])
-                                    };
-                                    // store bemerkungen in list
-                                    ft.addBemerkungFuncion(bmrkng);
-                                }
-                            }
-
-                        db_forloops.closeConn();
 
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
                         qry_ECFCount += "FROM edit_campos_funktion ";
@@ -305,7 +282,7 @@ namespace Project_VW
 
                             int affectedRows;
                             string insrtEditCampos = "INSERT INTO edit_campos_funktion";
-                            insrtEditCampos += "(einsatz, abgesichert, editado_por, ";
+                            insrtEditCampos += "(Relevant, abgesichert, editado_por, ";
                             insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
                             insrtEditCampos += ID + ", " + eventSelected + ", ";
@@ -332,7 +309,7 @@ namespace Project_VW
                                 ecf = new Edit_Campos_Funcion()
                                 {
                                     ID = Convert.ToString(db_forloops.getReader()["ID"]),
-                                    einsatz = Convert.ToString(db_forloops.getReader()["einsatz"]),
+                                    Relevant = Convert.ToString(db_forloops.getReader()["Relevant"]),
                                     abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"])
                                 };
                                 ptrSistema.addECFFuncion(ecf);
@@ -511,9 +488,11 @@ namespace Project_VW
                             updateFunk += "NAR = " + "'" + f.NAR + "'" + ", ";
                             updateFunk += "RDW = " + "'" + f.RDW + "'" + ", ";
                             updateFunk += "Gesetz = " + "'" + f.Gesetz + "'" + ", ";
-                            updateFunk += "KW = " + "'" + f.KW + "'" + ", ";
-                            updateFunk += "Jahr = " + "'" + f.Jahr + "'" + ", "; 
-                            updateFunk += "descripcion = " + "'" + f.descripcion + "'" + " ";
+                            updateFunk += "B1_notasGrales = " + "'" + f.B1_notasGrales + "'" + ", ";
+                            updateFunk += "B2_TCSRelevantes = " + "'" + f.B2_TCSRelevantes + "'" + ", ";
+                            updateFunk += "B3_Deadlines = " + "'" + f.B3_Deadlines + "'" + ", ";
+                            updateFunk += "descripcion = " + "'" + f.descripcion + "'" + ", ";
+                            updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + " ";
                             updateFunk += "WHERE ID = " + f.ID;
 
                             using (db.setComm(updateFunk))
@@ -525,7 +504,7 @@ namespace Project_VW
                         foreach (Edit_Campos_Funcion ecf in s.ecf)
                         {
                             string updateECF = "UPDATE edit_campos_funktion SET ";
-                            updateECF += "einsatz = " + "'" + ecf.einsatz + "'" + ", ";
+                            updateECF += "einsatz = " + "'" + ecf.Relevant + "'" + ", ";
                             updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + " ";
                             updateECF += "WHERE ID = " + ecf.ID;
 
@@ -595,27 +574,8 @@ namespace Project_VW
                     }
                 }
             }
-
-
             MessageBox.Show("Información actualizada correctamente");
 
-            /*
-            string einsatzUndAbgesichert = "";
-            string nombresAtributos = "";
-            foreach (Sistema s in sistemasDelAuto)
-            {
-                foreach (Funcion f in s.funkDeSistema)
-                {
-                    nombresAtributos += f.nombre + ", ";
-                }
-                foreach (Edit_Campos_Funcion ecf in s.ecf)
-                {
-                    einsatzUndAbgesichert += ecf.einsatz + ", ";
-                }
-            }
-            MessageBox.Show(nombresAtributos);
-            MessageBox.Show(einsatzUndAbgesichert);
-            */
         }
 
     }
@@ -624,12 +584,15 @@ namespace Project_VW
     {
         public string ID { get; set; }
         public string nombre { get; set; }
+        public string descripcion { get; set; }
         public string NAR { get; set; }
         public string RDW { get; set; }
         public string Gesetz { get; set; }
-        public string KW { get; set; }
-        public string Jahr { get; set; }
-        public string descripcion { get; set; }
+        public string B1_notasGrales { get; set; }
+        public string B2_TCSRelevantes { get; set; }
+        public string B3_Deadlines { get; set; }
+        public string Einsatz_KWJahr { get; set; }
+
         public List<Bemerkung> bemFuncion;
         public DataGrid dgBemerkungen;
 
@@ -659,7 +622,7 @@ namespace Project_VW
     public class Edit_Campos_Funcion
     {
         public string ID { get; set; }
-        public string einsatz { get; set; }
+        public string Relevant { get; set; }
         public string abgesichert { get; set; }
         
     }
