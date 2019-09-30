@@ -60,7 +60,7 @@ namespace Project_VW
                 }
             }
 
-            Bemerkung bmrkng;
+
 
             foreach (Funktion f in funktions)
             {
@@ -75,19 +75,10 @@ namespace Project_VW
                     db.setReader();
                     while (db.getReader().Read())
                     {
-                        bmrkng = new Bemerkung()
-                        {
-                            ID = Convert.ToString(db.getReader()["ID"]),
-                            bemerkung = Convert.ToString(db.getReader()["bemerkung"]),
-                            funktion_ID = Convert.ToString(db.getReader()["funktion_ID"]),
-                            editado_por = Convert.ToString(db.getReader()["editado_por"]),
-                            evento_ID = Convert.ToString(db.getReader()["evento_ID"])
-                        };
-                        // store bemerkungen in list
-                        f.addBemerkungFuncion(bmrkng);
+                       
                     }
                 }
-                f.dgBemerkungen.ItemsSource = f.bemFuncion;
+
                
             }
             
@@ -185,19 +176,16 @@ namespace Project_VW
         public string descripcion { get; set; }
         public string sistema_ID { get; set; }
         public string editado_por { get; set; }
-        public List<Bemerkung> bemFuncion;
+
         public DataGrid dgBemerkungen;
 
         public Funktion()
         {
-            bemFuncion = new List<Bemerkung>();
+
             dgBemerkungen = new DataGrid();
         }
 
-        public void addBemerkungFuncion(Bemerkung b)
-        {
-            bemFuncion.Add(b);
-        }
+
 
     }
     public class Person

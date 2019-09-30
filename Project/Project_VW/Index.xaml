@@ -50,6 +50,16 @@
                  VerticalAlignment="Bottom"           ToolTip="Guardar cambios"   FontSize="10"  Click="Save" Margin="0,0,15,27" >
             <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
         </Button>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Left"
+            VerticalAlignment="Top"           ToolTip="Ocultar columnas"   FontSize="10"  Click="hideCols" Margin="0,44,15,0" >
+            <materialDesign:PackIcon Kind="Minus" Height="40" Width="40" />
+        </Button>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right"
+            VerticalAlignment="Top"           ToolTip="Desplegar columnas"   FontSize="10"  Click="showCols" Margin="0,44,0,0" >
+            <materialDesign:PackIcon Kind="Plus" Height="40" Width="40" />
+        </Button>
+
+
 
     </Grid>
 </UserControl>

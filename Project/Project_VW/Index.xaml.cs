@@ -28,7 +28,6 @@ namespace Project_VW
         List<Sistema> sistemasDelAuto;
         List<Cars> selectedCars;
         List<Expander> expList;
-        bool allAutos = false;
         SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
 
         // event
@@ -96,11 +95,11 @@ namespace Project_VW
         public Cars getCar(string idOfCar, string nameOfcar, int eventSelected)
         {
             string ID, nombre, NAR, RDW, Gesetz, B1_notasGrales;
-            string B2_TCSRelevantes, B3_Deadlines, descripcion, Einsatz_KWJahr;
+            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr;
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
-            List<Bemerkung> bemerkungsFunktion;
+
             List<Funcion> funktionSistemas;
             Sistema st;
             Funcion ft;
@@ -204,7 +203,7 @@ namespace Project_VW
 
                     while (getFunc.getReader().Read())
                     {
-                        bemerkungsFunktion = new List<Bemerkung>();
+                       
 
                         ID = Convert.ToString(getFunc.getReader()["ID"]);
                         nombre = Convert.ToString(getFunc.getReader()["nombre"]);
@@ -213,7 +212,6 @@ namespace Project_VW
                         Gesetz = Convert.ToString(getFunc.getReader()["Gesetz"]);
                         B1_notasGrales = Convert.ToString(getFunc.getReader()["B1_notasGrales"]);
                         B2_TCSRelevantes = Convert.ToString(getFunc.getReader()["B2_TCSRelevantes"]);
-                        B3_Deadlines = Convert.ToString(getFunc.getReader()["B3_Deadlines"]);
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
                         Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
                        
@@ -229,7 +227,6 @@ namespace Project_VW
                             Gesetz = Gesetz,
                             B1_notasGrales = B1_notasGrales,
                             B2_TCSRelevantes = B2_TCSRelevantes,
-                            B3_Deadlines = B3_Deadlines,
                             descripcion = descripcion,
                             Einsatz_KWJahr = Einsatz_KWJahr
                         };
@@ -279,10 +276,9 @@ namespace Project_VW
                         if (registerCounter <= 0)
                         {
                             // close the other connection so we dont lock the db file
-
                             int affectedRows;
                             string insrtEditCampos = "INSERT INTO edit_campos_funktion";
-                            insrtEditCampos += "(Relevant, abgesichert, editado_por, ";
+                            insrtEditCampos += "(Relevant, abgesichert, B3_deadlines, ";
                             insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
                             insrtEditCampos += ID + ", " + eventSelected + ", ";
@@ -296,9 +292,7 @@ namespace Project_VW
                             {
                                 MessageBox.Show("No se pudo obtener de manera correcta la informacion de una funcion. " + "FID: " + ID);
                             }
-
                         }
-
 
                         db_forloops.openConn();
                         using (db_forloops.setComm(qry_ECF))
@@ -310,7 +304,8 @@ namespace Project_VW
                                 {
                                     ID = Convert.ToString(db_forloops.getReader()["ID"]),
                                     Relevant = Convert.ToString(db_forloops.getReader()["Relevant"]),
-                                    abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"])
+                                    abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"]),
+                                    B3_deadlines = Convert.ToString(db_forloops.getReader()["B3_deadlines"])
                                 };
                                 ptrSistema.addECFFuncion(ecf);
                             }
@@ -326,7 +321,6 @@ namespace Project_VW
 
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
-
                 #endregion
                 getFunc.closeConn();
             }
@@ -474,7 +468,6 @@ namespace Project_VW
         {
             try
             {
-
                 db.openConn();
                 db.tr = db.getConn().BeginTransaction();
                 foreach (Cars c in selectedCars)
@@ -490,7 +483,6 @@ namespace Project_VW
                             updateFunk += "Gesetz = " + "'" + f.Gesetz + "'" + ", ";
                             updateFunk += "B1_notasGrales = " + "'" + f.B1_notasGrales + "'" + ", ";
                             updateFunk += "B2_TCSRelevantes = " + "'" + f.B2_TCSRelevantes + "'" + ", ";
-                            updateFunk += "B3_Deadlines = " + "'" + f.B3_Deadlines + "'" + ", ";
                             updateFunk += "descripcion = " + "'" + f.descripcion + "'" + ", ";
                             updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + " ";
                             updateFunk += "WHERE ID = " + f.ID;
@@ -505,7 +497,8 @@ namespace Project_VW
                         {
                             string updateECF = "UPDATE edit_campos_funktion SET ";
                             updateECF += "einsatz = " + "'" + ecf.Relevant + "'" + ", ";
-                            updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + " ";
+                            updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + ", ";
+                            updateECF += "B3_deadlines = " + "'" + ecf.B3_deadlines + "'" + " ";
                             updateECF += "WHERE ID = " + ecf.ID;
 
                             using (db.setComm(updateECF))
@@ -563,10 +556,8 @@ namespace Project_VW
                     }
                     catch (SQLiteException ex)
                     {
-
                         Console.WriteLine("Closing connection failed.");
                         Console.WriteLine("Error: {0}", ex.ToString());
-
                     }
                     finally
                     {
@@ -575,9 +566,51 @@ namespace Project_VW
                 }
             }
             MessageBox.Show("Información actualizada correctamente");
-
         }
 
+        private void hideCols(object sender, RoutedEventArgs e)
+        {
+            foreach (Cars c in selectedCars)
+            {
+                foreach (Sistema s in sistemasDelAuto)
+                {
+                    
+                    if (s.gvSystem.Columns.Count > 0)
+                    {
+                        foreach (DataGridColumn column in s.gvSystem.Columns)
+                        {
+                            column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                        }
+                        foreach (DataGridColumn column in s.gvEditCamposFunk.Columns)
+                        {
+                            column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                        }
+
+                        s.gvSystem.Columns[0].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
+
+                        s.gvEditCamposFunk.Columns[0].Visibility = Visibility.Collapsed;
+                    }                   
+                }
+            }
+        }
+
+        private void showCols(object sender, RoutedEventArgs e)
+        {
+            foreach (Cars c in selectedCars)
+            {
+                foreach (Sistema s in sistemasDelAuto)
+                {
+                    if (s.gvSystem.Columns.Count > 0)
+                    {
+                        s.gvSystem.Columns[6].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[8].Visibility = Visibility.Visible;                     
+                    }
+                }
+                        
+            }
+        }
     }
 
     public class Funcion
@@ -590,43 +623,17 @@ namespace Project_VW
         public string Gesetz { get; set; }
         public string B1_notasGrales { get; set; }
         public string B2_TCSRelevantes { get; set; }
-        public string B3_Deadlines { get; set; }
         public string Einsatz_KWJahr { get; set; }
-
-        public List<Bemerkung> bemFuncion;
-        public DataGrid dgBemerkungen;
-
-        public Funcion()
-        {
-            bemFuncion = new List<Bemerkung>();
-        }
-
-        public void addBemerkungFuncion(Bemerkung b)
-        {
-            bemFuncion.Add(b);
-        }
-
     }
 
-    public class Bemerkung
-    {
-        public string ID { get; set; }
-        public string bemerkung { get; set; }
-        public string funktion_ID { get; set; }
-        public string editado_por { get; set; }
-        public string evento_ID { get; set; }
-
-       
-    }
 
     public class Edit_Campos_Funcion
     {
         public string ID { get; set; }
         public string Relevant { get; set; }
         public string abgesichert { get; set; }
-        
+        public string B3_deadlines { get; set; }
     }
-
 
     public class Cars
     {
@@ -638,10 +645,7 @@ namespace Project_VW
             this.modelo = modelo;
             this.carSystems = carSystems;
         }
-
     }
-
-
 
     public class Sistema
     {
@@ -651,7 +655,7 @@ namespace Project_VW
         public List<Edit_Campos_Funcion> ecf;
         public DataGrid gvSystem;
         public DataGrid gvEditCamposFunk;
-        public DataGrid gvBemerkungen;
+
 
         public Sistema(
             int ID,
@@ -676,5 +680,4 @@ namespace Project_VW
             this.ecf.Add(ecf);
         }
     }
-
 }
