@@ -25,14 +25,10 @@ namespace Project_VW
     public partial class displayFunciones : UserControl
     {
         DB db;
-        DB tDB;
-        private string valorTB;
-        Funcion f;
         string qry_getF = "SELECT * FROM funktion";
-        SQLiteDataAdapter mAdapter;
-        DataTable mTable;
-        List<Funktion> funktions = new List<Funktion>();
+        List<Funcion> funktions = new List<Funcion>();
         DataGrid dg = new DataGrid();
+        
         
         //Person person = new Person { Name = "Salman", Age = 26 };
         private void LoadCollectionData()
@@ -44,150 +40,67 @@ namespace Project_VW
                 db.setReader();
                 while (db.getReader().Read())
                 {             
-                    funktions.Add(new Funktion()
+                    funktions.Add(new Funcion()
                     {
-                        ID = Convert.ToInt32(db.getReader()["ID"]),
+                        ID = Convert.ToString(db.getReader()["ID"]),
                         nombre = Convert.ToString(db.getReader()["nombre"]),
                         NAR = Convert.ToString(db.getReader()["NAR"]),
                         RDW = Convert.ToString(db.getReader()["RDW"]),
-                        Gesetz= Convert.ToString(db.getReader()["Gesetz"]),
-                        KW = Convert.ToString(db.getReader()["KW"]),
-                        Jahr = Convert.ToString(db.getReader()["Jahr"]),
+                        Gesetz = Convert.ToString(db.getReader()["Gesetz"]),
+                        B1_notasGrales = Convert.ToString(db.getReader()["B1_notasGrales"]),
+                        B2_TCSRelevantes = Convert.ToString(db.getReader()["B2_TCSRelevantes"]),
                         descripcion = Convert.ToString(db.getReader()["descripcion"]),
-                        sistema_ID = Convert.ToString(db.getReader()["sistema_ID"]),
-                        editado_por = Convert.ToString(db.getReader()["editado_por"])
+                        Einsatz_KWJahr = Convert.ToString(db.getReader()["Einsatz_KWJahr"])
                     }); 
                 }
             }
 
 
 
-            foreach (Funktion f in funktions)
-            {
-                string qry_bmrFunktion = "SELECT * FROM bemerkung WHERE funktion_ID = ";
-                qry_bmrFunktion += f.ID;
-                qry_bmrFunktion += " AND evento_ID = ";
-                qry_bmrFunktion += SesionUsuario.getIDEvento();
-
-
-                using (db.setComm(qry_bmrFunktion))
-                {
-                    db.setReader();
-                    while (db.getReader().Read())
-                    {
-                       
-                    }
-                }
-
-               
-            }
             
             db.closeConn();
 
         }
         public displayFunciones()
         {
+            
             db = new DB();
             InitializeComponent();
+            
             LoadCollectionData();
             createDataGrid();
             //DataContext = person;
-            
-            btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+         
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
         {
 
-            //dg.Columns[0].Visibility = Visibility.Hidden;
-            /*
-            string nombresAtributos = "";
-            foreach(Funktion f in funktions)
-            {
-                nombresAtributos += f.nombre + ", ";
-            }
-            MessageBox.Show(nombresAtributos);
-            */
+            
         }
 
         public void createDataGrid()
         {
-            Style st = FindResource("styleA") as Style;
+            Style st = FindResource("popCell") as Style;
             StackPanel sp_btnBemerkungen = new StackPanel();
             sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
             // check how to format buttons 
             //sp_btnBemerkungen.Resources["Style"]
-            StackPanel sp_bemerkungen = new StackPanel();
+
            
-            foreach (Funktion f in funktions)
-            {
-                Button btn = new Button();
-                btn.Content = string.Format("Bemerkung: {0}", f.nombre);
-                btn.Name = "_" + Convert.ToString(f.ID);
-                btn.Style = st;
-                btn.Click += new RoutedEventHandler(btn_Click);
-                sp_btnBemerkungen.Children.Add(btn);
-                sp_bemerkungen.Children.Add(f.dgBemerkungen);
-                f.dgBemerkungen.Visibility = Visibility.Collapsed;
-            }
             
             dg.ItemsSource = funktions;
-            
+            dg.CellStyle = st;
             panelPrueba.Children.Add(dg);
-            panelPrueba.Children.Add(sp_btnBemerkungen);
-            panelPrueba.Children.Add(sp_bemerkungen);
-        }
 
-
-        void btn_Click(object sender, RoutedEventArgs e)
-        {
-
-            Button buttonThatWasClicked = (Button)sender;
-            int buttonIDSelected = 
-                Convert.ToInt32(buttonThatWasClicked.Name.Trim(new char[] { '_'}));
-            foreach(Funktion f in funktions)
-            {
-                if (f.ID == buttonIDSelected)
-                    f.dgBemerkungen.Visibility = Visibility.Visible;
-                else f.dgBemerkungen.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        /*
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string message = person.Name + " is " + person.Age;
-            MessageBox.Show(message);
-        }
-        */
-
-    }
-
-
-    public class Funktion
-    {
-        public int ID { get; set; }
-        public string nombre { get; set; }
-        public string NAR { get; set; }
-        public string RDW { get; set; }
-        public string Gesetz { get; set; }
-        public string KW { get; set; }
-        public string Jahr { get; set; }
-        public string descripcion { get; set; }
-        public string sistema_ID { get; set; }
-        public string editado_por { get; set; }
-
-        public DataGrid dgBemerkungen;
-
-        public Funktion()
-        {
-
-            dgBemerkungen = new DataGrid();
         }
 
 
 
     }
+
+
+  
     public class Person
     {
 

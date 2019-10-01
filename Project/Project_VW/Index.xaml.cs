@@ -29,7 +29,7 @@ namespace Project_VW
         List<Cars> selectedCars;
         List<Expander> expList;
         SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
-
+        Style style = new Style();
         // event
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = -1;
@@ -63,7 +63,7 @@ namespace Project_VW
             filtroEventos.DisplayMemberPath = "nombre";
             filtroEventos.SelectedValuePath = "ID";
             filtroEventos.ItemsSource = cbp;
-
+            style = Resources["popCell"] as Style;
         }
 
         public void fillCars()
@@ -317,6 +317,7 @@ namespace Project_VW
                 }
 
                 // add funktions of each system to ItemsSource of GRID
+
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
 
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
@@ -585,7 +586,7 @@ namespace Project_VW
                         {
                             column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
                         }
-
+                       
                         s.gvSystem.Columns[0].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
@@ -668,6 +669,7 @@ namespace Project_VW
             ecf = new List<Edit_Campos_Funcion>();
             gvSystem = new DataGrid();
             gvEditCamposFunk = new DataGrid();
+
         }
 
         public void addFuncionSistema(Funcion f)
