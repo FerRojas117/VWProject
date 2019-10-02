@@ -26,7 +26,18 @@
 
         <ScrollViewer HorizontalScrollBarVisibility="Visible">
             <StackPanel x:Name="panelPrueba" Orientation="Horizontal">
-                    
+                <DataGrid ItemsSource="{Binding funktions}" AlternationCount="2" AutoGenerateColumns="False"  x:Name="dgfunciones" Width="271">
+                    <DataGrid.Columns>
+                        
+                        <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Nombre Func">
+                            
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Path=NAR}" Header="is NAR?">
+                            
+                        </DataGridTextColumn>
+                        
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </ScrollViewer>
        <!--

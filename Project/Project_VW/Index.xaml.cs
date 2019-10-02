@@ -320,6 +320,39 @@ namespace Project_VW
 
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
 
+                // create the data template
+                DataTemplate cardLayout = new DataTemplate();
+                cardLayout.DataType = typeof(Funcion);
+
+                #region Add popUp functionality
+
+                // try to add a popup to get description and gesetz relevantes
+
+                //set up the stack panel
+                FrameworkElementFactory spFactory = new FrameworkElementFactory(typeof(StackPanel));
+                spFactory.Name = "mStackFactory";
+                spFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
+
+                //set up the card holder textblock
+                FrameworkElementFactory descripcionDetails = new FrameworkElementFactory(typeof(TextBox));
+                descripcionDetails.SetBinding(TextBox.TextProperty, new Binding("descripcion"));
+                descripcionDetails.SetValue(TextBox.ToolTipProperty, "Descripcion");
+                spFactory.AppendChild(descripcionDetails);
+
+                //set up the card number textblock
+                FrameworkElementFactory B2_TCSRelevantesDetails = new FrameworkElementFactory(typeof(TextBox));
+                B2_TCSRelevantesDetails.SetBinding(TextBox.TextProperty, new Binding("B2_TCSRelevantes"));
+                B2_TCSRelevantesDetails.SetValue(TextBox.ToolTipProperty, "Credit Card Number");
+                spFactory.AppendChild(B2_TCSRelevantesDetails);
+
+                //set the visual tree of the data template
+                cardLayout.VisualTree = spFactory;
+
+                //set the item template to be our shiny new data template
+                ptrSistema.gvSystem.RowDetailsTemplate = cardLayout;
+
+                #endregion 
+
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
                 #endregion
@@ -330,7 +363,6 @@ namespace Project_VW
             return returnThisCar;
             // end of systems of car retrieval
             // put information in frontend
-
         }
 
 

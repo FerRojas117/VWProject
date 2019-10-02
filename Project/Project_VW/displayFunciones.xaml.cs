@@ -27,13 +27,11 @@ namespace Project_VW
         DB db;
         string qry_getF = "SELECT * FROM funktion";
         List<Funcion> funktions = new List<Funcion>();
-        DataGrid dg = new DataGrid();
-        
+        DataGrid dg = new DataGrid();      
         
         //Person person = new Person { Name = "Salman", Age = 26 };
         private void LoadCollectionData()
-        {
-           
+        {          
             db.openConn();
             using (db.setComm(qry_getF))
             {
@@ -53,29 +51,24 @@ namespace Project_VW
                         Einsatz_KWJahr = Convert.ToString(db.getReader()["Einsatz_KWJahr"])
                     }); 
                 }
-            }
-
-
-
-            
+            }           
             db.closeConn();
-
         }
         public displayFunciones()
         {
             
             db = new DB();
+            LoadCollectionData();
             InitializeComponent();
             
-            LoadCollectionData();
-            createDataGrid();
+            
+            //createDataGrid();
             //DataContext = person;
          
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
         {
-
             
         }
 
@@ -87,12 +80,10 @@ namespace Project_VW
             // check how to format buttons 
             //sp_btnBemerkungen.Resources["Style"]
 
-           
-            
             dg.ItemsSource = funktions;
+            //dg.RowDetailsTemplate
             dg.CellStyle = st;
             panelPrueba.Children.Add(dg);
-
         }
 
 
