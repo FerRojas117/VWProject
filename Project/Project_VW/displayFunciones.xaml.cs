@@ -90,11 +90,8 @@ namespace Project_VW
 
     }
 
-
-  
     public class Person
     {
-
         private string nameValue;
 
         public string Name

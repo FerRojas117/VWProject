@@ -33,7 +33,8 @@ namespace Project_VW
         // event
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = -1;
-
+        double widthSize = 200.0;
+        double heightSize = 100.0;
         public Index()
         {
             InitializeComponent();
@@ -329,24 +330,36 @@ namespace Project_VW
                 // try to add a popup to get description and gesetz relevantes
 
                 //set up the stack panel
+                FrameworkElementFactory expander = new FrameworkElementFactory(typeof(StackPanel));
+                
+
                 FrameworkElementFactory spFactory = new FrameworkElementFactory(typeof(StackPanel));
                 spFactory.Name = "mStackFactory";
-                spFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
+                spFactory.SetValue(StackPanel.OrientationProperty, Orientation.Horizontal);
 
+       
                 //set up the card holder textblock
                 FrameworkElementFactory descripcionDetails = new FrameworkElementFactory(typeof(TextBox));
                 descripcionDetails.SetBinding(TextBox.TextProperty, new Binding("descripcion"));
+                descripcionDetails.SetValue(TextBox.WidthProperty, widthSize);
+                descripcionDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
+                descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
                 descripcionDetails.SetValue(TextBox.ToolTipProperty, "Descripcion");
+
                 spFactory.AppendChild(descripcionDetails);
 
                 //set up the card number textblock
                 FrameworkElementFactory B2_TCSRelevantesDetails = new FrameworkElementFactory(typeof(TextBox));
                 B2_TCSRelevantesDetails.SetBinding(TextBox.TextProperty, new Binding("B2_TCSRelevantes"));
-                B2_TCSRelevantesDetails.SetValue(TextBox.ToolTipProperty, "Credit Card Number");
+                B2_TCSRelevantesDetails.SetValue(TextBox.WidthProperty, widthSize);
+                B2_TCSRelevantesDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
+                descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
+                B2_TCSRelevantesDetails.SetValue(TextBox.ToolTipProperty, "Gesetz Relevantes");
                 spFactory.AppendChild(B2_TCSRelevantesDetails);
 
+                expander.AppendChild(spFactory);
                 //set the visual tree of the data template
-                cardLayout.VisualTree = spFactory;
+                cardLayout.VisualTree = expander;
 
                 //set the item template to be our shiny new data template
                 ptrSistema.gvSystem.RowDetailsTemplate = cardLayout;
@@ -529,7 +542,7 @@ namespace Project_VW
                         foreach (Edit_Campos_Funcion ecf in s.ecf)
                         {
                             string updateECF = "UPDATE edit_campos_funktion SET ";
-                            updateECF += "einsatz = " + "'" + ecf.Relevant + "'" + ", ";
+                            updateECF += "Relevant = " + "'" + ecf.Relevant + "'" + ", ";
                             updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + ", ";
                             updateECF += "B3_deadlines = " + "'" + ecf.B3_deadlines + "'" + " ";
                             updateECF += "WHERE ID = " + ecf.ID;
@@ -612,7 +625,7 @@ namespace Project_VW
                     {
                         foreach (DataGridColumn column in s.gvSystem.Columns)
                         {
-                            column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                            column.Width = new DataGridLength(120);
                         }
                         foreach (DataGridColumn column in s.gvEditCamposFunk.Columns)
                         {
@@ -620,7 +633,9 @@ namespace Project_VW
                         }
                        
                         s.gvSystem.Columns[0].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[2].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
 
                         s.gvEditCamposFunk.Columns[0].Visibility = Visibility.Collapsed;
@@ -637,7 +652,9 @@ namespace Project_VW
                 {
                     if (s.gvSystem.Columns.Count > 0)
                     {
+                        s.gvSystem.Columns[2].Visibility = Visibility.Visible;
                         s.gvSystem.Columns[6].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[7].Visibility = Visibility.Visible;
                         s.gvSystem.Columns[8].Visibility = Visibility.Visible;                     
                     }
                 }
