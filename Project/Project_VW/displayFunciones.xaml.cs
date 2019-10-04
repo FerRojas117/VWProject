@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+
 using System.Data;
 
 namespace Project_VW
@@ -27,8 +28,10 @@ namespace Project_VW
         DB db;
         string qry_getF = "SELECT * FROM funktion";
         List<Funcion> funktions = new List<Funcion>();
-        DataGrid dg = new DataGrid();      
+        DataGrid dg = new DataGrid();
+        Dictionary<int, string> colores = new Dictionary<int, string>();
         
+
         //Person person = new Person { Name = "Salman", Age = 26 };
         private void LoadCollectionData()
         {          
@@ -48,7 +51,8 @@ namespace Project_VW
                         B1_notasGrales = Convert.ToString(db.getReader()["B1_notasGrales"]),
                         B2_TCSRelevantes = Convert.ToString(db.getReader()["B2_TCSRelevantes"]),
                         descripcion = Convert.ToString(db.getReader()["descripcion"]),
-                        Einsatz_KWJahr = Convert.ToString(db.getReader()["Einsatz_KWJahr"])
+                        Einsatz_KWJahr = Convert.ToString(db.getReader()["Einsatz_KWJahr"]),
+                        color = "3"
                     }); 
                 }
             }           
@@ -56,15 +60,13 @@ namespace Project_VW
         }
         public displayFunciones()
         {
-            
+            this.colores.Add(1, "Red");
+            this.colores.Add(2, "Yellow");
+            this.colores.Add(3, "NoColor");
             db = new DB();
             LoadCollectionData();
             InitializeComponent();
-            
-            
-            //createDataGrid();
-            //DataContext = person;
-         
+            createDataGrid();
         }
 
         private void CheckAtrrClass(object sender, RoutedEventArgs e)
@@ -80,40 +82,24 @@ namespace Project_VW
             // check how to format buttons 
             //sp_btnBemerkungen.Resources["Style"]
 
+            Binding bindColor = new Binding()
+            {
+                Path = new PropertyPath("color"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
+            comboBoxColumn.Header = "Color";
+            comboBoxColumn.SelectedValuePath = "Key";
+            comboBoxColumn.DisplayMemberPath = "Value";
+            comboBoxColumn.ItemsSource = colores;
+            comboBoxColumn.SelectedValueBinding = bindColor;
             dg.ItemsSource = funktions;
-            //dg.RowDetailsTemplate
-            dg.CellStyle = st;
+
+            dg.Columns.Add(comboBoxColumn);
+
             panelPrueba.Children.Add(dg);
         }
-
-
-
     }
 
-    public class Person
-    {
-        private string nameValue;
-
-        public string Name
-        {
-            get { return nameValue; }
-            set { nameValue = value; }
-        }
-
-        private double ageValue;
-
-        public double Age
-        {
-            get { return ageValue; }
-
-            set
-            {
-                if (value != ageValue)
-                {
-                    ageValue = value;
-                }
-            }
-        }
-
-    }
 }

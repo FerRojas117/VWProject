@@ -26,26 +26,15 @@
 
         <ScrollViewer HorizontalScrollBarVisibility="Visible">
             <StackPanel x:Name="panelPrueba" Orientation="Horizontal">
-                <DataGrid ItemsSource="{Binding funktions}" AlternationCount="2" AutoGenerateColumns="False"  x:Name="dgfunciones" Width="271">
-                    <DataGrid.Columns>
-                        
-                        <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Nombre Func">
-                            
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Path=NAR}" Header="is NAR?">
-                            
-                        </DataGridTextColumn>
-                        
-                    </DataGrid.Columns>
-                </DataGrid>
+                
             </StackPanel>
         </ScrollViewer>
-       <!--
+ 
         <Button x:Name="btn" Style="{StaticResource MaterialDesignFloatingActionButton}"
-                            ToolTip="MaterialDesignFloatingActionAccentButton"  Height="Auto" Width="Auto" FontSize="10" Margin="829,360,0,0" Click="CheckAtrrClass">
+                            ToolTip="MaterialDesignFloatingActionAccentButton"  HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10"  Click="CheckAtrrClass" Margin="0,0,10,26">
             <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
         </Button>
-    -->
+    
 
     </Grid>
     

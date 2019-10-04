@@ -24,15 +24,15 @@
 
         <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="50,10,50,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="49*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-
-
-                <materialDesign:PackIcon Kind="car" Height="50" Width="142" Margin="310,0,0,0" Foreground="Black"/>
-
-                <ComboBox  x:Name="filtroAutos" Margin="52,0,605,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
-
-                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Margin="715,0,0,0" Foreground="Black"/>
-                <ComboBox x:Name="filtroEventos" Margin="480,0,164,0" Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" />
+                <materialDesign:PackIcon Kind="car" Height="50" Width="142" Margin="310,0,0,0" Foreground="Black" Grid.RowSpan="2"/>
+                <ComboBox  x:Name="filtroAutos" Margin="52,0,605,0" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.RowSpan="2" />
+                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153" Margin="715,0,0,0" Foreground="Black" Grid.RowSpan="2"/>
+                <ComboBox x:Name="filtroEventos" Margin="480,0,164,0" Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.RowSpan="2" />
 
             </Grid>
         </materialDesign:Card>
@@ -63,8 +63,6 @@
             VerticalAlignment="Top"           ToolTip="Desplegar columnas"   FontSize="10"  Click="showCols" Margin="0,44,0,0" >
             <materialDesign:PackIcon Kind="Plus" Height="40" Width="40" />
         </Button>
-
-
 
     </Grid>
 </UserControl>

@@ -27,14 +27,14 @@ namespace Project_VW
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
         List<Cars> selectedCars;
-        List<Expander> expList;
         SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
         Style style = new Style();
-        // event
+        // eventos
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = -1;
         double widthSize = 200.0;
-        double heightSize = 100.0;
+        
+
         public Index()
         {
             InitializeComponent();
@@ -64,7 +64,7 @@ namespace Project_VW
             filtroEventos.DisplayMemberPath = "nombre";
             filtroEventos.SelectedValuePath = "ID";
             filtroEventos.ItemsSource = cbp;
-            style = Resources["popCell"] as Style;
+
         }
 
         public void fillCars()
@@ -325,22 +325,24 @@ namespace Project_VW
                 DataTemplate cardLayout = new DataTemplate();
                 cardLayout.DataType = typeof(Funcion);
 
-                #region Add popUp functionality
-
-                // try to add a popup to get description and gesetz relevantes
+                #region Add Details functionality
 
                 //set up the stack panel
                 FrameworkElementFactory expander = new FrameworkElementFactory(typeof(StackPanel));
                 
-
                 FrameworkElementFactory spFactory = new FrameworkElementFactory(typeof(StackPanel));
                 spFactory.Name = "mStackFactory";
                 spFactory.SetValue(StackPanel.OrientationProperty, Orientation.Horizontal);
 
-       
+                Binding bindDescripcion = new Binding()
+                {
+                    Path = new PropertyPath("descripcion"),
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+               
                 //set up the card holder textblock
                 FrameworkElementFactory descripcionDetails = new FrameworkElementFactory(typeof(TextBox));
-                descripcionDetails.SetBinding(TextBox.TextProperty, new Binding("descripcion"));
+                descripcionDetails.SetBinding(TextBox.TextProperty, bindDescripcion);
                 descripcionDetails.SetValue(TextBox.WidthProperty, widthSize);
                 descripcionDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
                 descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
@@ -348,9 +350,15 @@ namespace Project_VW
 
                 spFactory.AppendChild(descripcionDetails);
 
+                Binding bindTCS = new Binding()
+                {
+                    Path = new PropertyPath("B2_TCSRelevantes"),
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+
                 //set up the card number textblock
                 FrameworkElementFactory B2_TCSRelevantesDetails = new FrameworkElementFactory(typeof(TextBox));
-                B2_TCSRelevantesDetails.SetBinding(TextBox.TextProperty, new Binding("B2_TCSRelevantes"));
+                B2_TCSRelevantesDetails.SetBinding(TextBox.TextProperty, bindTCS);
                 B2_TCSRelevantesDetails.SetValue(TextBox.WidthProperty, widthSize);
                 B2_TCSRelevantesDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
                 descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
@@ -459,15 +467,7 @@ namespace Project_VW
         public void showInformationOfCar()
         {            
             // SHOW infromation that was retreived from car
-            expList = new List<Expander>();
-            /*
-            Style st = FindResource("styleA") as Style;
-            StackPanel sp_btnBemerkungen = new StackPanel();
-            sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
-            // check how to format buttons 
-            //sp_btnBemerkungen.Resources["Style"]
-            StackPanel sp_bemerkungen = new StackPanel();
-            */
+
             foreach (Cars cars in selectedCars)
             {
                 if (cars == null) continue;
@@ -537,7 +537,6 @@ namespace Project_VW
                             {
                                 db.getComm().ExecuteNonQuery();
                             }
-
                         }
                         foreach (Edit_Campos_Funcion ecf in s.ecf)
                         {
@@ -566,7 +565,6 @@ namespace Project_VW
                     try
                     {
                         db.tr.Rollback();
-
                     }
                     catch (SQLiteException ex2)
                     {
@@ -674,6 +672,7 @@ namespace Project_VW
         public string B1_notasGrales { get; set; }
         public string B2_TCSRelevantes { get; set; }
         public string Einsatz_KWJahr { get; set; }
+        public string color { get; set; }
     }
 
 
@@ -705,7 +704,6 @@ namespace Project_VW
         public List<Edit_Campos_Funcion> ecf;
         public DataGrid gvSystem;
         public DataGrid gvEditCamposFunk;
-
 
         public Sistema(
             int ID,
