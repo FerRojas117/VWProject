@@ -80,7 +80,6 @@ namespace Project_VW
             StackPanel sp_btnBemerkungen = new StackPanel();
             sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
             // check how to format buttons 
-            //sp_btnBemerkungen.Resources["Style"]
 
             Binding bindColor = new Binding()
             {
@@ -97,6 +96,34 @@ namespace Project_VW
             dg.ItemsSource = funktions;
 
             dg.Columns.Add(comboBoxColumn);
+            Style style = new Style();
+
+            style.TargetType = typeof(DataGridRow);
+
+            DataTrigger trigger = new DataTrigger();
+
+            Setter stt = new Setter()
+            {
+                Property = DataGridRow.BackgroundProperty,
+                Value = Brushes.Red
+            };
+
+            Binding bindC = new Binding()
+            {
+                Path = new PropertyPath("color") 
+            };
+
+            DataTrigger dt = new DataTrigger()
+            {
+                Binding = bindC,
+                Value = "3"
+            };
+
+            dt.Setters.Add(stt);
+            style.Triggers.Clear();
+            style.Triggers.Add(dt);
+
+            dg.RowStyle = style;
 
             panelPrueba.Children.Add(dg);
         }
