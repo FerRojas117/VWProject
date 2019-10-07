@@ -52,7 +52,7 @@ namespace Project_VW
                         B2_TCSRelevantes = Convert.ToString(db.getReader()["B2_TCSRelevantes"]),
                         descripcion = Convert.ToString(db.getReader()["descripcion"]),
                         Einsatz_KWJahr = Convert.ToString(db.getReader()["Einsatz_KWJahr"]),
-                        color = "3"
+                        color = Convert.ToString(db.getReader()["color"])
                     }); 
                 }
             }           
@@ -81,6 +81,8 @@ namespace Project_VW
             sp_btnBemerkungen.Margin = new Thickness(5, 45, 0, 0);
             // check how to format buttons 
 
+
+            #region to change color value of each grid 
             Binding bindColor = new Binding()
             {
                 Path = new PropertyPath("color"),
@@ -94,14 +96,17 @@ namespace Project_VW
             comboBoxColumn.ItemsSource = colores;
             comboBoxColumn.SelectedValueBinding = bindColor;
             dg.ItemsSource = funktions;
+            dg.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+
 
             dg.Columns.Add(comboBoxColumn);
+            #endregion
+            // style to append color triggers
             Style style = new Style();
 
             style.TargetType = typeof(DataGridRow);
 
-            DataTrigger trigger = new DataTrigger();
-
+            #region Trigger to color red
             Setter stt = new Setter()
             {
                 Property = DataGridRow.BackgroundProperty,
@@ -116,13 +121,36 @@ namespace Project_VW
             DataTrigger dt = new DataTrigger()
             {
                 Binding = bindC,
-                Value = "3"
+                Value = "1"
             };
 
+            #endregion
+
+            #region Trigger to color yellow
+
+            Setter sttY = new Setter()
+            {
+                Property = DataGridRow.BackgroundProperty,
+                Value = Brushes.Yellow
+            };
+
+            Binding bindCY = new Binding()
+            {
+                Path = new PropertyPath("color")
+            };
+
+            DataTrigger dtY = new DataTrigger()
+            {
+                Binding = bindCY,
+                Value = "2"
+            };
+            #endregion
+
             dt.Setters.Add(stt);
+            dtY.Setters.Add(sttY);
             style.Triggers.Clear();
             style.Triggers.Add(dt);
-
+            style.Triggers.Add(dtY);
             dg.RowStyle = style;
 
             panelPrueba.Children.Add(dg);

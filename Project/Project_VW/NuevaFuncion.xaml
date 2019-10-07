@@ -8,45 +8,95 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+       
+        
 
-
-        <materialDesign:Card Height="406" Margin="68,103,31,0">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="40" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
 
             <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.5*"/>
 
-                <Label Margin="341,76,406,297" Content="Nombre de Función"/>
-                <TextBox x:Name="NombreFuncion" HorizontalAlignment="Left" Height="41" Margin="341,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
+                </Grid.ColumnDefinitions>
                 
-                <Label Margin="341,285,404,88" Content="Descripcion"/>
-                <TextBox x:Name="Jahr" HorizontalAlignment="Left" Height="41" Margin="540,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
-                <Label Margin="341,180,406,190" Content="RdW"/>
-                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="10,10,10,0" Background="#FF673BB7" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition>
+                       
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="5 5 5 5" Background="#FF673BB7" Grid.ColumnSpan="4">
                     <Label Content="AÑADIR FUNCIÓN A SISTEMA" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
                 </materialDesign:Card>
-                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="27,76,601,0" Background="#FF673BB7" Height="308" >
+                
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="#FF673BB7" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="5 5 5 5" Grid.Row="1" Grid.RowSpan="3" >
                     <Grid>
-                        <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="56,40,66,170" FontSize="16" Content="&#xD;&#xA;Escoge sistema&#xD;&#xA;a añadir la función" Foreground="#DDF7F7F7"/>
-                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Left" Margin="31,164,0,0" VerticalAlignment="Top" Width="227" Height="76" Foreground="White" BorderBrush="#89FFFFFF"/>
+                        <Label  HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" VerticalAlignment="Top"  FontSize="16" Content="&#xD;&#xA;Escoge sistema&#xD;&#xA;a añadir la función" Foreground="#DDF7F7F7" Margin="0 30 0 0"/>
+                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="auto" Height="76" Foreground="White" BorderBrush="#89FFFFFF" Margin="10"/>
                     </Grid>
                 </materialDesign:Card>
-
-                <Button Content="Crear Función" HorizontalAlignment="Left" Margin="760,346,0,0" VerticalAlignment="Top" Width="141" Height="50" Click="AddFunktion_Click"/>
-                <TextBox x:Name="RdW" HorizontalAlignment="Left" Height="41" Margin="341,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
-                <Label Margin="735,76,10,297" Content="NAR"/>
-                <TextBox x:Name="NAR" HorizontalAlignment="Left" Height="41" Margin="735,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
-                <Label Margin="540,180,207,190" Content="Gesetz"/>
-                <TextBox x:Name="Gesetz" HorizontalAlignment="Left" Height="41" Margin="542,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
-                <Label Margin="735,180,12,190" Content="KW"/>
-                <TextBox x:Name="KW" HorizontalAlignment="Left" Height="41" Margin="735,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164"/>
-                <TextBox x:Name="DescripFuncion" HorizontalAlignment="Left" Height="66" Margin="341,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="378" AcceptsReturn="True" SpellCheck.IsEnabled="True"/>
-                <Label Margin="540,73,207,297" Content="Jahr"/>
-
-
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="Nombre de Funcion" 
+                         x:Name="NombreFuncion"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" 
+                         Margin="20 20 20 20" SpellCheck.IsEnabled="True" />
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="Descripcion" 
+                         x:Name="DescripFuncion"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" 
+                         Margin="20 20 20 20" SpellCheck.IsEnabled="True" />
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="NAR" 
+                         x:Name="NAR"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" 
+                         Margin="20 20 20 20" SpellCheck.IsEnabled="True" />
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="RDW" 
+                         x:Name="RdW"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" 
+                         Margin="20 20 20 20" SpellCheck.IsEnabled="True" />
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="Gesetz" 
+                         x:Name="Gesetz"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" 
+                         Margin="20 20 20 20" SpellCheck.IsEnabled="True" />
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        materialDesign:HintAssist.Hint="Einsatz_KWJahr" 
+                         x:Name="Einsatz_KWJahr"
+                        VerticalAlignment="Center"
+                       FontSize="20" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" 
+                         Margin="20 20 40 20" SpellCheck.IsEnabled="True" />
 
             </Grid>
 
-
-
         </materialDesign:Card>
+
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"           ToolTip="Guardar cambios"   FontSize="10"  Click="AddFunktion_Click" Margin="0,0,15,27" >
+            <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
+        </Button>
+
     </Grid>
 </UserControl>

@@ -54,35 +54,37 @@ namespace Project_VW
 
         private void AddFunktion_Click(object sender, RoutedEventArgs e)
         {
+            if (chooseSystem.SelectedValue == null)
+            {
+                MessageBox.Show("Selecciona un sistema para agregar esta función a este.");
+                return;
+            }
+                
             string nombreFunc = "";
-            string jahr = "";
             string nar = "";
             string rdw = "";
             string gesetz = "";
-            string kw = "";
             string descripcion = "";
 
             nombreFunc = NombreFuncion.Text;
-            jahr = Jahr.Text;
             nar = NAR.Text;
             rdw = RdW.Text;
             gesetz = Gesetz.Text;
-            kw = KW.Text;
             descripcion = DescripFuncion.Text;
             int ID_selectedSystem = Convert.ToInt32(chooseSystem.SelectedValue);
             db.openConn();
 
             string qry_addFunc = "INSERT INTO funktion (nombre, NAR, RDW, Gesetz, ";
-            qry_addFunc += "KW, Jahr, descripcion, sistema_ID, editado_por) VALUES (";
+            qry_addFunc += "descripcion, Einsatz_KWJahr, editado_por, sistema_ID, color) VALUES (";
             qry_addFunc += "'" + nombreFunc + "', ";
             qry_addFunc += "'" + nar + "', ";
             qry_addFunc += "'" + rdw + "', ";
             qry_addFunc += "'" + gesetz + "', ";
-            qry_addFunc += "'" + kw + "', ";
-            qry_addFunc += "'" + jahr + "', ";
             qry_addFunc += "'" + descripcion + "', ";
+            qry_addFunc += "'" + Einsatz_KWJahr + "', ";
+            qry_addFunc += "'" + SesionUsuario.getUser() + "', ";
             qry_addFunc += ID_selectedSystem;
-            qry_addFunc += ", '" + SesionUsuario.getUser() + "')";
+            qry_addFunc += ", " + "3" + ")";
 
             using (db.setComm(qry_addFunc))
             {
@@ -90,7 +92,7 @@ namespace Project_VW
             }
             if (affectedRows == 0)
             {
-                db.sendMBandCloseConn("No se pudo crear las relaciones pertinentes de sistemas y autos.");
+                db.sendMBandCloseConn("No se pudo crear la función.");
                 return;
             }
 

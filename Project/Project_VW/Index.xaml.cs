@@ -33,10 +33,25 @@ namespace Project_VW
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = -1;
         double widthSize = 200.0;
-        
+
+        #region to change color value of each grid 
+        Binding bindColor = new Binding()
+        {
+            Path = new PropertyPath("color"),
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+
+        DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
+        Dictionary<int, string> colores = new Dictionary<int, string>();
+        #endregion
 
         public Index()
         {
+            //ADD Colors to dictionary of color
+            this.colores.Add(1, "Red");
+            this.colores.Add(2, "Yellow");
+            this.colores.Add(3, "NoColor");
+
             InitializeComponent();
             db = new DB();
             fillCars();
@@ -65,6 +80,11 @@ namespace Project_VW
             filtroEventos.SelectedValuePath = "ID";
             filtroEventos.ItemsSource = cbp;
 
+            comboBoxColumn.Header = "Color";
+            comboBoxColumn.SelectedValuePath = "Key";
+            comboBoxColumn.DisplayMemberPath = "Value";
+            comboBoxColumn.ItemsSource = colores;
+            comboBoxColumn.SelectedValueBinding = bindColor;
         }
 
         public void fillCars()
@@ -96,7 +116,7 @@ namespace Project_VW
         public Cars getCar(string idOfCar, string nameOfcar, int eventSelected)
         {
             string ID, nombre, NAR, RDW, Gesetz, B1_notasGrales;
-            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr;
+            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr, color;
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -215,8 +235,8 @@ namespace Project_VW
                         B2_TCSRelevantes = Convert.ToString(getFunc.getReader()["B2_TCSRelevantes"]);
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
                         Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
-                       
-                    
+                        color = Convert.ToString(getFunc.getReader()["color"]);
+
 
                         Console.WriteLine(ID);
                         ft = new Funcion()
@@ -229,7 +249,8 @@ namespace Project_VW
                             B1_notasGrales = B1_notasGrales,
                             B2_TCSRelevantes = B2_TCSRelevantes,
                             descripcion = descripcion,
-                            Einsatz_KWJahr = Einsatz_KWJahr
+                            Einsatz_KWJahr = Einsatz_KWJahr,
+                            color = color
                         };
 
                         // we get infromation from funktion 
@@ -321,6 +342,65 @@ namespace Project_VW
 
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
 
+                ptrSistema.gvSystem.Columns.Add(comboBoxColumn);
+
+
+                #region COLOR ROWS 
+                // style to append color triggers
+                Style style = new Style();
+
+                style.TargetType = typeof(DataGridRow);
+
+                #region Trigger to color red
+                Setter stt = new Setter()
+                {
+                    Property = DataGridRow.BackgroundProperty,
+                    Value = Brushes.Red
+                };
+
+                Binding bindC = new Binding()
+                {
+                    Path = new PropertyPath("color")
+                };
+
+                DataTrigger dt = new DataTrigger()
+                {
+                    Binding = bindC,
+                    Value = "1"
+                };
+
+                #endregion
+
+                #region Trigger to color yellow
+
+                Setter sttY = new Setter()
+                {
+                    Property = DataGridRow.BackgroundProperty,
+                    Value = Brushes.Yellow
+                };
+
+                Binding bindCY = new Binding()
+                {
+                    Path = new PropertyPath("color")
+                };
+
+                DataTrigger dtY = new DataTrigger()
+                {
+                    Binding = bindCY,
+                    Value = "2"
+                };
+
+                #endregion
+
+
+                dt.Setters.Add(stt);
+                dtY.Setters.Add(sttY);
+                style.Triggers.Clear();
+                style.Triggers.Add(dt);
+                style.Triggers.Add(dtY);
+                ptrSistema.gvSystem.RowStyle = style;
+
+                #endregion
                 // create the data template
                 DataTemplate cardLayout = new DataTemplate();
                 cardLayout.DataType = typeof(Funcion);
@@ -530,7 +610,8 @@ namespace Project_VW
                             updateFunk += "B1_notasGrales = " + "'" + f.B1_notasGrales + "'" + ", ";
                             updateFunk += "B2_TCSRelevantes = " + "'" + f.B2_TCSRelevantes + "'" + ", ";
                             updateFunk += "descripcion = " + "'" + f.descripcion + "'" + ", ";
-                            updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + " ";
+                            updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + ", ";
+                            updateFunk += "color = " + "'" + f.color + "'" + " ";
                             updateFunk += "WHERE ID = " + f.ID;
 
                             using (db.setComm(updateFunk))
@@ -630,11 +711,12 @@ namespace Project_VW
                             column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
                         }
                        
-                        s.gvSystem.Columns[0].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[2].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[3].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
 
                         s.gvEditCamposFunk.Columns[0].Visibility = Visibility.Collapsed;
                     }                   
@@ -650,10 +732,10 @@ namespace Project_VW
                 {
                     if (s.gvSystem.Columns.Count > 0)
                     {
-                        s.gvSystem.Columns[2].Visibility = Visibility.Visible;
-                        s.gvSystem.Columns[6].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[3].Visibility = Visibility.Visible;
                         s.gvSystem.Columns[7].Visibility = Visibility.Visible;
-                        s.gvSystem.Columns[8].Visibility = Visibility.Visible;                     
+                        s.gvSystem.Columns[8].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[9].Visibility = Visibility.Visible;                     
                     }
                 }
                         
