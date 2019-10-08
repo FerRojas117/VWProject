@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Project_VW.Administracion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_VW"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="540" d:DesignWidth="1010">
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" Margin="15" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </materialDesign:Card>
+
+    </Grid>
+</UserControl>

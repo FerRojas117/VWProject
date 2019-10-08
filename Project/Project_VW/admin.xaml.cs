@@ -207,6 +207,10 @@ namespace Project_VW
                     usc = new displayFunciones();
                     GridMain.Children.Add(usc);
                     break;
+                case "Administracion":
+                    usc = new Administracion();
+                    GridMain.Children.Add(usc);
+                    break;
                 default:
                     break;
             }

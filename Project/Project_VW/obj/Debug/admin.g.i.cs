@@ -188,6 +188,14 @@ namespace Project_VW {
         #line default
         #line hidden
         
+        
+        #line 112 "..\..\admin.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.ListViewItem Administracion;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -337,6 +345,9 @@ namespace Project_VW {
             return;
             case 18:
             this.TestTB = ((System.Windows.Controls.ListViewItem)(target));
+            return;
+            case 19:
+            this.Administracion = ((System.Windows.Controls.ListViewItem)(target));
             return;
             }
             this._contentLoaded = true;

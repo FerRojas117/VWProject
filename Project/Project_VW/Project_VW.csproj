@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Administracion.xaml.cs">
+      <DependentUpon>Administracion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AgregarAuto.xaml.cs">
       <DependentUpon>AgregarAuto.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
     <Compile Include="ViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="admin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Administracion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
