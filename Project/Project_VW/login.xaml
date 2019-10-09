@@ -12,13 +12,29 @@ xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
 
     <Grid>
 
-        <materialDesign:Card Height="321" Margin="165,74,261,0"/>
-        <Button Content="Entrar" HorizontalAlignment="Left" Margin="325,312,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click" Height="44" FontSize="18" RenderTransformOrigin="1.118,0.573"/>
-        <TextBox x:Name="usuario" HorizontalAlignment="Left" Height="47" Margin="325,117,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" FontSize="20"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="180,200,0,0" VerticalAlignment="Top" Width="115" FontSize="20" RenderTransformOrigin="1.114,0.531" Height="46"/>
-        <Label Content="Usuario" HorizontalAlignment="Left" Margin="180,117,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.733,0.46" FontSize="20" Height="49"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="325,200,0,0" VerticalAlignment="Top" Height="47" Width="191" FontSize="20"/>
-        <Label Content="E-Funktion" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="59" Width="322" FontSize="26"/>
+
+        <materialDesign:Card  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    
+                </Grid.ColumnDefinitions>
+                <Grid.Background>
+                    <ImageBrush ImageSource="images/vw2.jpg"/>
+                </Grid.Background>
+                <Label Content="E-Funktion" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="59" Width="322" FontSize="30" Margin="0 50 0 0" Foreground="#DDFFFFFF" Grid.Column="1"/>
+
+                <TextBox x:Name="usuario" HorizontalAlignment="Center"  Height="47" Margin="0 180" TextWrapping="Wrap"  VerticalAlignment="Top" FontSize="20" Foreground="White" Background="{x:Null}" BorderBrush="#89FFFFFF" Width="247" Grid.Column="1"/>
+                <Label Content="Password" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="135" Margin="0 180 0 0"  FontSize="26" Height="46" Foreground="#DDFFFFFF"  Grid.Column="0"/>
+                <Label Content="Usuario" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right"  VerticalContentAlignment="Center" Width="135" Margin="0 180 0 0"  FontSize="26" Height="50" Foreground="#DDFFFFFF"  Grid.Column="0" />
+                <PasswordBox x:Name="passwordBox" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="50"  FontSize="20" BorderBrush="#89FFFFFF" Foreground="White" Width="247" Margin="0 180 0 0"  Grid.Column="1"/>
+                <Button IsDefault="True" FontSize="26"  HorizontalAlignment="Center" VerticalAlignment="Bottom"  Content="Entrar" Margin="0 0 0 50" Width="192" Height="69" Background="{x:Null}" BorderBrush="White" Grid.Column="1" Click="Button_Click"/>
+            </Grid>
+
+        </materialDesign:Card>
+
 
     </Grid>
 </Page>

@@ -10,15 +10,44 @@
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+
         </Grid.ColumnDefinitions>
-        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" Margin="15" Grid.Column="0">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="30" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:Card Background="#0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Foreground="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Margin="30 0 30 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Foreground="White" FontSize="30"> EDITAR: </Label>
+
+                        <ComboBox x:Name="edit" Grid.Column="1" HorizontalAlignment="Left" Width="300"  VerticalAlignment="Stretch" Margin=" 15 0 0 0" Foreground="White" DropDownClosed="buscar_DropDownClosed">
+                            <ComboBoxItem Content="Autos" />
+                            <ComboBoxItem Content="Sistemas" />
+                            <ComboBoxItem Content="Funciones" />
+                        </ComboBox>
+                    </Grid>                
+                </materialDesign:Card>
+                
+                <materialDesign:Card Background="#0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"  Grid.Column="0" Grid.Row="1" Foreground="White">
+                    <StackPanel x:Name="Content" Margin="15">
+                        <ListView x:Name="ListViewEdit"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
+                        </ListView>
+                    </StackPanel>
+                </materialDesign:Card>
+                
             </Grid>
         </materialDesign:Card>
 
