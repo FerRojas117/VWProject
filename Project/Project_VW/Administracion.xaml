@@ -34,16 +34,20 @@
                         <Label Margin="30 0 30 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Foreground="White" FontSize="30"> EDITAR: </Label>
 
                         <ComboBox x:Name="edit" Grid.Column="1" HorizontalAlignment="Left" Width="300"  VerticalAlignment="Stretch" Margin=" 15 0 0 0" Foreground="White" DropDownClosed="buscar_DropDownClosed">
-                            <ComboBoxItem Content="Autos" />
-                            <ComboBoxItem Content="Sistemas" />
-                            <ComboBoxItem Content="Funciones" />
+                           
                         </ComboBox>
                     </Grid>                
                 </materialDesign:Card>
                 
                 <materialDesign:Card Background="#0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"  Grid.Column="0" Grid.Row="1" Foreground="White">
                     <StackPanel x:Name="Content" Margin="15">
-                        <ListView x:Name="ListViewEdit"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
+                        <ListView x:Name="ListViewEdit"  ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="ListViewMenu_SelectionChanged" Foreground="#DDFFFFFF" BorderBrush="#89FFFFFF">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID, Mode = TwoWay}" />
+                                    <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding nombre, Mode = TwoWay}" />
+                                </GridView>
+                            </ListView.View>
                         </ListView>
                     </StackPanel>
                 </materialDesign:Card>

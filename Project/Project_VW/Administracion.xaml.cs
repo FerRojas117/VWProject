@@ -21,13 +21,21 @@ namespace Project_VW
     public partial class Administracion : UserControl
     {
         DB db;
-        Dictionary<string, string> items;
+        List<Item2Edit> items;
+        List<CheckBoxPairsSistemas> cbpairs;
         int whichItem = 0;
         public Administracion()
         {
             InitializeComponent();
             db = new DB();
-            items = new Dictionary<string, string>();
+            items = new List<Item2Edit>();
+            cbpairs = new List<CheckBoxPairsSistemas>();
+            cbpairs.Add(new CheckBoxPairsSistemas("Autos", "Autos" ));
+            cbpairs.Add(new CheckBoxPairsSistemas("Sistemas", "Sistemas"));
+            cbpairs.Add(new CheckBoxPairsSistemas("Funciones", "Funciones"));
+            edit.DisplayMemberPath = "nombre";
+            edit.SelectedValuePath = "ID";
+            edit.ItemsSource = cbpairs;
         }
 
         private void buscar_DropDownClosed(object sender, EventArgs e)
@@ -36,10 +44,10 @@ namespace Project_VW
             if (edit.SelectedValue == null)
                 return;
 
-            Content.Children.Clear();
+            items.Clear();
 
             string selectedEdition = edit.SelectedValue.ToString();
-
+            MessageBox.Show(selectedEdition);
             switch(selectedEdition)
             {
                 case "Autos":
@@ -54,7 +62,7 @@ namespace Project_VW
                     break;
                 case "Sistemas":
                     whichItem = 3;
-                    string qry_getFunciones = "SELECT ID, nombre FROM fukntion";
+                    string qry_getFunciones = "SELECT ID, nombre FROM funktion";
                     fillItems2Edit(qry_getFunciones, whichItem);
                     break;
             }
@@ -62,7 +70,6 @@ namespace Project_VW
 
         public void fillItems2Edit(string getItems, int autoOrSystem)
         {
-
             db.openConn();
             if(autoOrSystem == 1)
             {
@@ -71,10 +78,12 @@ namespace Project_VW
                     db.setReader();
                     while (db.getReader().Read())
                     {
-
                         items.Add(
-                            Convert.ToString(db.getReader()["ID"]),
-                            Convert.ToString(db.getReader()["modelo"])
+                            new Item2Edit
+                            {
+                                ID = Convert.ToString(db.getReader()["ID"]),
+                                nombre = Convert.ToString(db.getReader()["modelo"])
+                            }
                         );
                     }
                 }
@@ -86,20 +95,31 @@ namespace Project_VW
                     db.setReader();
                     while (db.getReader().Read())
                     {
-
                         items.Add(
-                            Convert.ToString(db.getReader()["ID"]),
-                            Convert.ToString(db.getReader()["nombre"])
+                            new Item2Edit
+                            {
+                                ID = Convert.ToString(db.getReader()["ID"]),
+                                nombre = Convert.ToString(db.getReader()["nombre"])
+                            }
                         );
                     }
                 }
             }            
             db.closeConn();
+         
+            ListViewEdit.ItemsSource = items;
+            fillItemsToListView();
+        }
+
+        public void fillItemsToListView()
+        {
+           
         }
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            Item2Edit i2ePtr = (Item2Edit)ListViewEdit.SelectedItems[0];
+            MessageBox.Show(i2ePtr.ID + ", " + i2ePtr.nombre + ", " + whichItem);    
         }
 
     }

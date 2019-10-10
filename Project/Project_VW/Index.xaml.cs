@@ -41,7 +41,7 @@ namespace Project_VW
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
 
-        DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
+        
         Dictionary<int, string> colores = new Dictionary<int, string>();
         #endregion
 
@@ -80,11 +80,7 @@ namespace Project_VW
             filtroEventos.SelectedValuePath = "ID";
             filtroEventos.ItemsSource = cbp;
 
-            comboBoxColumn.Header = "Color";
-            comboBoxColumn.SelectedValuePath = "Key";
-            comboBoxColumn.DisplayMemberPath = "Value";
-            comboBoxColumn.ItemsSource = colores;
-            comboBoxColumn.SelectedValueBinding = bindColor;
+          
         }
 
         public void fillCars()
@@ -339,6 +335,15 @@ namespace Project_VW
                 }
 
                 // add funktions of each system to ItemsSource of GRID
+
+
+                DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
+
+                comboBoxColumn.Header = "Color";
+                comboBoxColumn.SelectedValuePath = "Key";
+                comboBoxColumn.DisplayMemberPath = "Value";
+                comboBoxColumn.ItemsSource = colores;
+                comboBoxColumn.SelectedValueBinding = bindColor;
 
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
 
