@@ -60,7 +60,7 @@
                         <Button Content="Reset contraseñas..."/>
                         <Separator/>
                         <Button x:Name="cambiarEvento" Content="Cambiar de Evento..." Click="CambiarEvento_Click"/>
-                        <Button Content="Logout"/>
+                        <Button Content="Logout" Click="logout"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>

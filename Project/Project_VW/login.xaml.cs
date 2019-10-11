@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SQLite;
+using MaterialDesignThemes.Wpf;
+using System.ComponentModel;
 
 namespace Project_VW
 {
@@ -21,14 +23,23 @@ namespace Project_VW
     /// </summary>
     public partial class login : Page
     {
-        SQLiteConnection conexion;
-        SQLiteCommand command;
+        DB db;
         string pass;
         string user;
+        private bool _IsDialogOpen;
+        string user_ID = "", user_name = "", tipo_user = "", activo = "", user_password = "";
+        string isFirstLogin = "";
+
+        public bool IsDialogOpen
+        {
+            get;
+            set;
+        }
+        
         public login()
         {
             InitializeComponent();
-            conexion = new SQLiteConnection("Data Source=PruebasNar_DB.db;Version=3;");
+            db = new DB();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -41,16 +52,18 @@ namespace Project_VW
         {
             // check if user exists
             string user_exists = "";
-            openConn();
+            db.openConn();
             string qry_know_userExists = "SELECT count(user) AS numero FROM usuarios WHERE user = '" + user + "'";
-            using (command = new SQLiteCommand(qry_know_userExists, conexion) )
+
+            using (db.setComm(qry_know_userExists))
             {
-                SQLiteDataReader reader = command.ExecuteReader();
-                while ( reader.Read() )
+                db.setReader();
+                while (db.getReader().Read())
                 {
-                    user_exists = Convert.ToString(reader["numero"]);
+                    user_exists = Convert.ToString(db.getReader()["numero"]);
                 }
             }
+           
             // if not, then will return
             if( user_exists != "1" )
             {
@@ -59,37 +72,50 @@ namespace Project_VW
             }
             // else will check password
             string qry_get_userID = "SELECT * FROM usuarios WHERE user ='" + user + "'";
-            string user_ID = "", user_name = "", tipo_user = "", activo = "", user_password  = "";
 
-            using (command = new SQLiteCommand(qry_get_userID, conexion))
+            using (db.setComm(qry_get_userID))
             {
-                SQLiteDataReader reader = command.ExecuteReader();
-                while ( reader.Read() )
+                db.setReader();
+                while (db.getReader().Read())
                 {
-                    user_ID = Convert.ToString(reader["ID"]);
-                    user_name = Convert.ToString(reader["user"]);
-                    user_password = Convert.ToString(reader["password"]);
-                    tipo_user = Convert.ToString(reader["tipo_user"]);
-                    activo = Convert.ToString(reader["activo"]);
+                    user_ID = Convert.ToString(db.getReader()["ID"]);
+                    user_name = Convert.ToString(db.getReader()["user"]);
+                    user_password = Convert.ToString(db.getReader()["password"]);
+                    tipo_user = Convert.ToString(db.getReader()["tipo_user"]);
+                    activo = Convert.ToString(db.getReader()["activo"]);
+                    isFirstLogin = Convert.ToString(db.getReader()["isFirstLogin"]);
                 }
-                // here we will check if user is active(is not deleted)
-                if ( activo == "2" )
+
+                if (activo == "2")
                 {
                     sendMBandCloseConn("Lo siento. No tienes permiso para entrar al sistema");
                     return;
                 }
                 // here we will check the password
-                if ( pass != user_password )
+                if (pass != user_password)
                 {
                     sendMBandCloseConn("Revisa tu contraseña, no es correcta.");
                     return;
                 }
-                // else, we will store data session and Update last login
-                string qry_updt_lastLogin = "UPDATE usuarios SET last_login = datetime() WHERE ID ='" + user_ID + "'";
-                using (command = new SQLiteCommand(qry_updt_lastLogin, conexion))
-                {
 
-                }
+                // We Verify if is firstLogin of user, if it is, 
+                // then we should ask the user to change password and return
+
+            }
+
+
+            
+            db.closeConn();
+
+            if (isFirstLogin == "1")
+            {
+                dialogi.IsOpen = true;
+            }
+            else
+            {
+                // else, we will store data session and Update last login
+
+              
                 SesionUsuario.setID(Convert.ToInt32(user_ID));
                 SesionUsuario.setUser(user_name);
                 SesionUsuario.setUserTipo(Convert.ToInt32(tipo_user));
@@ -100,46 +126,45 @@ namespace Project_VW
                     ", UN: " + SesionUsuario.getUser() +
                     ", UT: " + SesionUsuario.getUserTipo()
                 );
-            }
-            closeConn();
 
-            // pasar a siguiente página
+                // pasar a siguiente página
 
-            admin Admin = new admin();
-            NavigationService.Navigate(Admin);
-;        }
+                admin Admin = new admin();
+                NavigationService.Navigate(Admin);
+            }
 
-        public void openConn()
-        {
-            try
-            {
-                conexion.Open();
-            }
-            catch (Exception ex)
-            {
-               sendMBandCloseConn("No pudo abrirse de forma correcta la base de datos.\n" + ex.Message);
-            }
         }
 
-        public void closeConn()
+        private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
-            try
+            string qry_updt_lastLogin = "UPDATE usuarios SET password = '" + PasswordTBox.Text + "' WHERE ID ='" + user_ID + "'";
+            db.openConn();
+            using (db.setComm(qry_updt_lastLogin))
             {
-                conexion.Close();
+                db.getComm().ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "No pudo cerrarse de forma correccta la base de datos.\n" +
-                    ex.Message
-                );
-            }
+            db.closeConn();
+            passChanged.IsOpen = true;
+
         }
+
+        private void passwordChange_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!Equals(eventArgs.Parameter, true)) return;
+        }
+
+
+       
 
         public void sendMBandCloseConn(string message)
         {
             MessageBox.Show(message);
-            closeConn();
+            db.closeConn();
         }
+    }
+
+    public class MainWindowsViewModel : ViewModelBase
+    {
+        
     }
 }

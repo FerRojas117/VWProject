@@ -7,11 +7,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
-    <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
+    <Grid Background="#FFDEDEDE" Height="auto" Width="auto" >
        
         
 
-        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="40" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="35"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -35,15 +35,15 @@
 
                 </Grid.RowDefinitions>
 
-                
-                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="5 5 5 5" Background="#FF673BB7" Grid.ColumnSpan="4">
-                    <Label Content="AÑADIR FUNCIÓN A SISTEMA" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="5 5 5 5" Background="#FF0D4671" Grid.ColumnSpan="4">
+                    <Label Content="AÑADIR FUNCIÓN A SISTEMA" FontSize="18" HorizontalContentAlignment="Center" Background="#FF0D4671" Foreground="#DDFFFFFF"></Label>
                 </materialDesign:Card>
-                
-                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="#FF673BB7" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="5 5 5 5" Grid.Row="1" Grid.RowSpan="3" >
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="#FF0D4671" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="20" Grid.Row="1" Grid.RowSpan="3" >
                     <Grid>
                         <Label  HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" VerticalAlignment="Top"  FontSize="16" Content="&#xD;&#xA;Escoge sistema&#xD;&#xA;a añadir la función" Foreground="#DDF7F7F7" Margin="0 30 0 0"/>
-                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="auto" Height="76" Foreground="White" BorderBrush="#89FFFFFF" Margin="10"/>
+                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="auto" Height="76" Foreground="White" Background="#FF0D4671" BorderBrush="#89FFFFFF" Margin="10"/>
                     </Grid>
                 </materialDesign:Card>
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 

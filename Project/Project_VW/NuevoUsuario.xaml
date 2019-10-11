@@ -8,40 +8,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
 
-    <UserControl.Resources>
-        <Style x:Key="DropDownStyle" TargetType="TextBlock">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ControlType}" Value="dropDown">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
+   
 
 
 
-
-    <!-- -->
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        
-        <materialDesign:Card Height="406" Margin="68,103,31,0">
+
+        <materialDesign:Card  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30">
             <Grid>
-                <Label Content="Usuario" HorizontalAlignment="Left" Margin="24,69,0,0" VerticalAlignment="Top" Height="57" Width="158" FontSize="20"/>
-                <TextBox x:Name="usuario_box" HorizontalAlignment="Left" Height="59" Margin="203,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239" FontSize="20"/>
-                <Button Content="CREAR USUARIO" HorizontalAlignment="Left" Margin="548,170,0,0" VerticalAlignment="Top" Width="306" Height="74" Click="Button_Click"/>
-                <PasswordBox x:Name="password_box" HorizontalAlignment="Left" Margin="203,153,0,0" VerticalAlignment="Top" Height="60" Width="239" FontSize="20"/>
-                <PasswordBox x:Name="confirmPassword_box" HorizontalAlignment="Left" Margin="203,252,0,0" VerticalAlignment="Top" Height="53" Width="239" FontSize="20"/>
-                <Label Content="Password" HorizontalAlignment="Left" Margin="24,153,0,0" VerticalAlignment="Top" Height="73" Width="150" FontSize="20"/>
-                <Label Content="Confirmar&#xD;&#xA;Password" HorizontalAlignment="Left" Margin="24,252,0,0" VerticalAlignment="Top" Height="68" Width="111" FontSize="20"/>
-                <CheckBox x:Name="esAdmin" Content="Hacerlo Administrador" HorizontalAlignment="Left" Margin="140,348,0,0" VerticalAlignment="Top" FontSize="20" IsChecked="false"/>
-                <Label Content="Añadir Nuevo Usuario" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="10" Background="#FF0D4671" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+                    <Label Content="Añadir Nuevo Usuario" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Background="#FF0D4671" Foreground="#DDFFFFFF"></Label>
+                </materialDesign:Card>
+                <Label Content="Nombre&#xD;&#xA;de Usuario" VerticalAlignment="Top" Margin="10 40 0 0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Grid.Column="0" Grid.Row="1" Height="73" Width="150" FontSize="20"/>
+                <TextBox x:Name="usuario_box" HorizontalAlignment="Center" Height="59" Grid.Column="0" Grid.Row="1"  TextWrapping="Wrap"  VerticalAlignment="Top" Margin="100 40 0 0" Width="239" FontSize="20"/>
+               
+                <PasswordBox x:Name="password_box" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Center" Margin="100 0 0 80" Height="60" Width="239" FontSize="20"/>
+                <PasswordBox x:Name="confirmPassword_box" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"  Height="53"  Margin="100 80 0 0" Width="239" FontSize="20"/>
+                <Label Content="Password" VerticalAlignment="Center" Margin="10 0 0 80" HorizontalAlignment="Left" VerticalContentAlignment="Center" Grid.Column="0" Grid.Row="1" Height="73" Width="150" FontSize="20"/>
+                <Label Content="Confirmar&#xD;&#xA;Password" HorizontalAlignment="Left"  Grid.Column="0" Grid.Row="1"  VerticalAlignment="Center" Margin="10 80 0 0" Height="68" Width="111" FontSize="20"/>
+                <CheckBox x:Name="esAdmin" Content="Hacerlo Administrador" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Margin="0 0 0 30" FontSize="26" IsChecked="false"/>
+                <Button Content="CREAR USUARIO" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"  VerticalAlignment="Center" Width="306" Height="74" Click="Button_Click"/>
 
             </Grid>
         </materialDesign:Card>
-
-
-
     </Grid>
 
 </UserControl>

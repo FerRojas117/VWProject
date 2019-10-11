@@ -9,13 +9,28 @@
              d:DesignHeight="540" d:DesignWidth="1010">
     
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        <materialDesign:Card Height="406" Margin="68,103,31,0">
+        <materialDesign:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30">
             <Grid>
-                <Label Content="Busca evento a cambiar" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="76,86,0,0" VerticalAlignment="Top" Height="57" Width="253" FontSize="20" />
 
-                <Button Content="Cambiar de evento" HorizontalAlignment="Left" Margin="548,170,0,0" VerticalAlignment="Top" Width="306" Height="74" Click="Button_Click" FontSize="20"/>
-                <Label Content="Cambiar Evento" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
-                <ComboBox x:Name="comboEventos" HorizontalAlignment="Left" Margin="76,187,0,0" VerticalAlignment="Top" Width="276" Height="57" FontSize="20"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Busca evento a cambiar" Margin="0 50 0 0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"  VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Height="57" Width="290" FontSize="26" />
+
+                <Button Content="Cambiar de evento" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Width="306" Height="74" Click="Button_Click" FontSize="20"/>
+                
+                <ComboBox x:Name="comboEventos" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="276" Grid.Column="0" Grid.Row="1" Height="57" FontSize="20"/>
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="10" Background="#FF0D4671" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+                    <Label Content="Cambiar Evento" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Background="#FF0D4671" Foreground="#DDFFFFFF"></Label>
+                </materialDesign:Card>
+
 
             </Grid>
         </materialDesign:Card>

@@ -8,14 +8,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="1010">
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto">
-        <materialDesign:Card Height="406" Margin="68,103,31,0">
+        <materialDesign:Card VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="30">
             <Grid>
-                <Label Content="Busca usuario a eliminar" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="76,86,0,0" VerticalAlignment="Top" Height="57" Width="253" FontSize="20" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                
+                <Label Content="Busca usuario a eliminar" HorizontalContentAlignment="Center" Margin="0 60 0 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Top" VerticalContentAlignment="Center" Height="57" Width="290" FontSize="26" />
 
-                <Button Content="ELIMINAR USUARIO" HorizontalAlignment="Left" Margin="548,170,0,0" VerticalAlignment="Top" Width="306" Height="74" Click="Button_Click"/>
-                <Label Content="Eliminar Usuario" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top" Width="832" Height="39" FontSize="20" HorizontalContentAlignment="Center"/>
-                <ComboBox x:Name="comboUsuarios" HorizontalAlignment="Left" Margin="76,187,0,0" VerticalAlignment="Top" Width="276" Height="57" FontSize="20"/>
+                <Button Content="ELIMINAR USUARIO" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"  VerticalAlignment="Center" Width="306" Height="74" Click="Button_Click"/>
 
+                <ComboBox x:Name="comboUsuarios" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Width="276" Height="57" FontSize="20"/>
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="10" Background="#FF0D4671" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+                    <Label Content="Eliminar Usuario" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Background="#FF0D4671" Foreground="#DDFFFFFF"></Label>
+                </materialDesign:Card>
             </Grid>
         </materialDesign:Card>
     </Grid>

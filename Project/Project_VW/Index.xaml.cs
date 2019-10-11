@@ -28,6 +28,7 @@ namespace Project_VW
         List<Sistema> sistemasDelAuto;
         List<Cars> selectedCars;
         SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
+        SolidColorBrush brushBlue = new SolidColorBrush(Color.FromArgb(255, (byte)13, (byte)70, (byte)113));
         Style style = new Style();
         // eventos
         List<ComboBoxPairsEvento> cbp;
@@ -565,7 +566,8 @@ namespace Project_VW
                 {    
                     // check after how to hide the values of the id
                     Expander xpanderS = new Expander();
-                    xpanderS.Background = Brushes.Tan;
+                    xpanderS.Background = brushBlue;
+                    xpanderS.Foreground = Brushes.White;
                     xpanderS.Header = s.nombre;
 
                     ScrollViewer sv = new ScrollViewer();

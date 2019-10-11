@@ -47,8 +47,8 @@ namespace Project_VW
             if (esAdmin.IsChecked == true)
                 tipo_usuario = "1";
             db.openConn();
-            string qry_new_user = "INSERT INTO usuarios (password, user, tipo_user, activo, last_login)";
-            qry_new_user += "VALUES('" + password + "', '" + nuevoUsuario + "', '" +  tipo_usuario + "', 1, 'fecha')";
+            string qry_new_user = "INSERT INTO usuarios (password, user, tipo_user, activo, last_login, isFirstLogin)";
+            qry_new_user += "VALUES('" + password + "', '" + nuevoUsuario + "', '" +  tipo_usuario + "', 1, 'fecha', " + 1 +")";
             using (db.setComm(qry_new_user))
             {
                 affectedRows = db.getComm().ExecuteNonQuery();

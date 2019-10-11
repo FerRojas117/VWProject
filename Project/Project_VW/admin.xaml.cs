@@ -216,5 +216,14 @@ namespace Project_VW
             }
         }
 
+        private void logout(object sender, RoutedEventArgs e)
+        {
+            SesionUsuario.setID(0);
+            SesionUsuario.setUser("");
+            SesionUsuario.setUserTipo(0);
+
+            login l = new login();
+            NavigationService.Navigate(l);
+        }
     }
 }

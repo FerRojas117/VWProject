@@ -22,7 +22,7 @@
 
     <Grid Background="#FFDEDEDE" Height="auto" Width="auto" >
 
-        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="50,10,50,0"  Foreground="White" Grid.ColumnSpan="2">
+        <materialDesign:Card Background="#FF0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  Height="50" Margin="50,10,50,0"  Foreground="White" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -31,10 +31,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <materialDesign:PackIcon Kind="car" Height="50" Width="142" Foreground="Black" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox  x:Name="filtroAutos" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="0" />
-                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153"  Foreground="Black" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox x:Name="filtroEventos"  Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="20" Grid.Column="2"/>
+                <materialDesign:PackIcon Kind="car" Height="50" Width="142" Foreground="White" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox  x:Name="filtroAutos" Height="50" DropDownClosed="fAuto_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="20" Grid.Column="0" Background="#FF0D4671" BorderBrush="White" />
+                <materialDesign:PackIcon Kind="Calendar" Height="50" Width="153"  Foreground="White" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox x:Name="filtroEventos"  Height="50" DropDownClosed="fEvent_dropdownClosed" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF0D4671" BorderBrush="White" Foreground="White" FontSize="20" Grid.Column="2"/>
 
             </Grid>
         </materialDesign:Card>

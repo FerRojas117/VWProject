@@ -37,9 +37,9 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <materialDesign:Card Grid.Row="0"  materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="10,0,0,0" Background="#FF673BB7" >
+                        <materialDesign:Card Grid.Row="0"  materialDesign:ShadowAssist.ShadowDepth="Depth5" Margin="10,0,0,0" Background="#FF0D4671" >
 
-                            <Label Grid.Row="0" Content="Selecciona Sistemas para relacionar&#xD;&#xA; el vehículo con estos" FontSize="18" HorizontalContentAlignment="Center" Background="#FF5C3D9C" Foreground="#DDFFFFFF"></Label>
+                            <Label Grid.Row="0" Content="Selecciona Sistemas para relacionar&#xD;&#xA; el vehículo con estos" FontSize="18" HorizontalContentAlignment="Center" Background="#FF0D4671" Foreground="#DDFFFFFF"></Label>
                         </materialDesign:Card>
 
                         <Label x:Name="noSystems" Grid.Row="1" Margin="49,92,57,77" Content="No hay sistemas &#xD;&#xA;disponibles por el momento" HorizontalContentAlignment="Center" FontSize="20"></Label>
