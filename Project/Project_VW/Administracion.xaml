@@ -31,29 +31,64 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Margin="30 0 30 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Foreground="White" FontSize="30"> EDITAR: </Label>
+                        <materialDesign:PackIcon Kind="TooltipEdit" Height="40" Width="40" Margin="0 0 30 0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
-                        <ComboBox x:Name="edit" Grid.Column="1" HorizontalAlignment="Left" Width="300"  VerticalAlignment="Stretch" Margin=" 15 0 0 0" Foreground="White" DropDownClosed="buscar_DropDownClosed">
+                        <ComboBox x:Name="edit" Grid.Column="1"  HorizontalAlignment="Left" Width="300"  VerticalAlignment="Stretch" Margin=" 15" Foreground="White" BorderBrush="White" DropDownClosed="buscar_DropDownClosed">
                            
                         </ComboBox>
                     </Grid>                
                 </materialDesign:Card>
                 
                 <materialDesign:Card Background="#0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"  Grid.Column="0" Grid.Row="1" Foreground="White">
-                    <StackPanel x:Name="Content" Margin="15">
-                        <ListView x:Name="ListViewEdit"  ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="ListViewMenu_SelectionChanged" Foreground="#DDFFFFFF" BorderBrush="#89FFFFFF">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID, Mode = TwoWay}" />
-                                    <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding nombre, Mode = TwoWay}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="Pencil" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ItemsCB" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="White" DropDownClosed="itemsCB_DropDownClosed"></ComboBox>
+                        <TextBox Margin="10" SpellCheck.IsEnabled="True" Grid.Row="2" Height="80" VerticalAlignment="Center" FontSize="26" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" BorderBrush="White">
+                            
+                        </TextBox>
+
+                        <Button Grid.Row="3" Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right"
+            VerticalAlignment="Bottom" ToolTip="Guardar cambios"   FontSize="10"  Click="Save" Margin="0 0 40 20"  >
+                            <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
+                        </Button>
+                        <Button Grid.Row="3" Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Left"
+            VerticalAlignment="Bottom" ToolTip="Eliminar"   FontSize="10"  Click="Delete" Margin="40 0 0 20"  >
+                            <materialDesign:PackIcon Kind="Delete" Height="40" Width="40" />
+                        </Button>
+
+                    </Grid>
+
+                   
                 </materialDesign:Card>
-                
+
+                <materialDesign:Card Background="#0D4671" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"  Grid.Column="1" Grid.Row="1" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="FileRestore" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="noItems" Grid.Row="1" Margin="30" FontSize="26" Padding="0 40 0 0" Visibility="Hidden">No hay elementos para restaurar</TextBlock>
+                        <StackPanel x:Name="RestoreStack" Grid.Row="1" Margin="10" ></StackPanel>
+
+                        <Button Grid.Row="2" Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Center"
+                            VerticalAlignment="Center" ToolTip="Eliminar"   FontSize="10"  Click="Restore"  >
+                            <materialDesign:PackIcon Kind="BackupRestore" Height="40" Width="40" />
+                        </Button>
+                    </Grid>
+                    
+                </materialDesign:Card>
+
             </Grid>
         </materialDesign:Card>
+        
 
     </Grid>
 </UserControl>

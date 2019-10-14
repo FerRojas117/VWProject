@@ -108,6 +108,9 @@
     <Compile Include="NuevoUsuario.xaml.cs">
       <DependentUpon>NuevoUsuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResetPassword.xaml.cs">
+      <DependentUpon>ResetPassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SesionUsuario.cs" />
     <Compile Include="UserControl1_test.xaml.cs">
       <DependentUpon>UserControl1_test.xaml</DependentUpon>
@@ -189,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NuevoUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResetPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

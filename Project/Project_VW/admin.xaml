@@ -57,7 +57,7 @@
                         <Button x:Name="AgregarFuncion" Content="Agregar Funcion..." Click="AnadirFuncion_Click"/>
                         <Button x:Name="NuevoUsuario" Content="Añadir Usuario" Click="AnadirUsuario_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
-                        <Button Content="Reset contraseñas..."/>
+                        <Button Content="Reset contraseñas..." x:Name="ResetPasswords" Click="ResetPasswords_Click"/>
                         <Separator/>
                         <Button x:Name="cambiarEvento" Content="Cambiar de Evento..." Click="CambiarEvento_Click"/>
                         <Button Content="Logout" Click="logout"/>

@@ -23,12 +23,16 @@ namespace Project_VW
         DB db;
         List<Item2Edit> items;
         List<CheckBoxPairsSistemas> cbpairs;
+        List<Item2EditAuto> restore;
+
         int whichItem = 0;
         public Administracion()
         {
             InitializeComponent();
             db = new DB();
             items = new List<Item2Edit>();
+            restore = new List<Item2EditAuto>();
+
             cbpairs = new List<CheckBoxPairsSistemas>();
             cbpairs.Add(new CheckBoxPairsSistemas("Autos", "Autos" ));
             cbpairs.Add(new CheckBoxPairsSistemas("Sistemas", "Sistemas"));
@@ -70,6 +74,8 @@ namespace Project_VW
 
         public void fillItems2Edit(string getItems, int autoOrSystem)
         {
+            string qry_RestoreItems = "SELECT ";
+            int numRegisters = 0;
             db.openConn();
             if(autoOrSystem == 1)
             {
@@ -86,6 +92,35 @@ namespace Project_VW
                             }
                         );
                     }
+                }
+                //  if car was selected, get elements that are notactive
+                qry_RestoreItems += "ID, modelo FROM autos WHERE isActive = 0";
+                using (db.setComm(qry_RestoreItems))
+                {
+                    numRegisters = db.getComm().ExecuteNonQuery();
+                }
+                if (numRegisters == 0)
+                {
+                    noItems.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    using (db.setComm(qry_RestoreItems))
+                    {
+                        db.setReader();
+                        while (db.getReader().Read())
+                        {
+                            restore.Add(
+                                new Item2EditAuto
+                                {
+                                    ID = Convert.ToString(db.getReader()["ID"]),
+                                    modelo = Convert.ToString(db.getReader()["modelo"])
+                                }
+                            );
+                        }
+
+                    }
+                    // fill stackpanel with elements that can be restored
                 }
             }
             else
@@ -104,22 +139,17 @@ namespace Project_VW
                         );
                     }
                 }
+
+                // check what was selected to bring to stackpanel the items      
+
             }            
             db.closeConn();
-         
-            ListViewEdit.ItemsSource = items;
-            fillItemsToListView();
-        }
 
-        public void fillItemsToListView()
-        {
-           
-        }
+            ItemsCB.DisplayMemberPath = "nombre";
+            ItemsCB.SelectedValuePath = "ID";
+            ItemsCB.ItemsSource = items;
 
-        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Item2Edit i2ePtr = (Item2Edit)ListViewEdit.SelectedItems[0];
-            MessageBox.Show(i2ePtr.ID + ", " + i2ePtr.nombre + ", " + whichItem);    
+          
         }
 
     }
@@ -128,5 +158,11 @@ namespace Project_VW
     {
         public string ID { get; set; }
         public string nombre { get; set; }
+    }
+
+    public class Item2EditAuto
+    {
+        public string ID { get; set; }
+        public string modelo { get; set; }
     }
 }

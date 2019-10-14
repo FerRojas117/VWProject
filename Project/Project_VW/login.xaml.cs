@@ -102,8 +102,6 @@ namespace Project_VW
                 // then we should ask the user to change password and return
 
             }
-
-
             
             db.closeConn();
 
@@ -111,11 +109,9 @@ namespace Project_VW
             {
                 dialogi.IsOpen = true;
             }
-            else
+            else // 0 is when is not first login
             {
                 // else, we will store data session and Update last login
-
-              
                 SesionUsuario.setID(Convert.ToInt32(user_ID));
                 SesionUsuario.setUser(user_name);
                 SesionUsuario.setUserTipo(Convert.ToInt32(tipo_user));
@@ -138,14 +134,18 @@ namespace Project_VW
         private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
             string qry_updt_lastLogin = "UPDATE usuarios SET password = '" + PasswordTBox.Text + "' WHERE ID ='" + user_ID + "'";
+            string qry_updt_isFirstLog = "UPDATE usuarios SET isFirstLogin = 0 WHERE ID ='" + user_ID + "'";
             db.openConn();
             using (db.setComm(qry_updt_lastLogin))
             {
                 db.getComm().ExecuteNonQuery();
             }
+            using (db.setComm(qry_updt_isFirstLog))
+            {
+                db.getComm().ExecuteNonQuery();
+            }
             db.closeConn();
             passChanged.IsOpen = true;
-
         }
 
         private void passwordChange_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)

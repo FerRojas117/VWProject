@@ -308,8 +308,6 @@ namespace Project_VW
                     // could not append several insert values so we do one insert each
                     qry_insAutoSystemMod = qry_insAutoSystem + ID_currentCB + ")";
 
-                    
-
                     using (db.setComm(qry_insAutoSystemMod))
                     {
                         affectedRows = db.getComm().ExecuteNonQuery();

@@ -178,6 +178,14 @@ namespace Project_VW
             GridMain.Children.Add(usc);
         }
 
+        private void ResetPasswords_Click(object sender, RoutedEventArgs e)
+        {
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new ResetPassword();
+            GridMain.Children.Add(usc);
+        }
+
         private void InfoUsuario_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("UID: " + SesionUsuario.getUserID() +
