@@ -49,7 +49,7 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Pencil" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <ComboBox x:Name="ItemsCB" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="White" DropDownClosed="itemsCB_DropDownClosed"></ComboBox>
-                        <TextBox Margin="10" SpellCheck.IsEnabled="True" Grid.Row="2" Height="80" VerticalAlignment="Center" FontSize="26" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" BorderBrush="White">
+                        <TextBox x:Name="nombreItem"  Margin="10" SpellCheck.IsEnabled="True" Grid.Row="2" Height="80" VerticalAlignment="Center" FontSize="26" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" BorderBrush="White">
                             
                         </TextBox>
 

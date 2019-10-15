@@ -146,7 +146,6 @@ namespace Project_VW
 
         public void fillCars()
         {
-
             cbp_browseAutos = new List<ComboBoxPairsBrowseAutos>();
             string qry_getEventos = "SELECT ID, modelo FROM autos";
             db.openConn();
