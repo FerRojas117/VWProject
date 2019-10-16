@@ -19,7 +19,7 @@
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
                 
-                <Label Content="Busca usuario a eliminar" HorizontalContentAlignment="Center" Margin="0 60 0 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Top" VerticalContentAlignment="Center" Height="57" Width="290" FontSize="26" />
+                <Label Content="Busca usuario a eliminar" HorizontalContentAlignment="Center" Margin="0 60 0 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Top" VerticalContentAlignment="Center" Height="57" Width="300" FontSize="26" />
 
                 <Button Content="ELIMINAR USUARIO" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"  VerticalAlignment="Center" Width="306" Height="74" Click="Button_Click"/>
 

@@ -87,17 +87,8 @@
     <Compile Include="CambiarEvento.xaml.cs">
       <DependentUpon>CambiarEvento.xaml</DependentUpon>
     </Compile>
-    <Compile Include="displayFunciones.xaml.cs">
-      <DependentUpon>displayFunciones.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EditFunciones.xaml.cs">
-      <DependentUpon>EditFunciones.xaml</DependentUpon>
-    </Compile>
     <Compile Include="EliminarUsuario.xaml.cs">
       <DependentUpon>EliminarUsuario.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="funcionesSistema.xaml.cs">
-      <DependentUpon>funcionesSistema.xaml</DependentUpon>
     </Compile>
     <Compile Include="Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
@@ -112,12 +103,6 @@
       <DependentUpon>ResetPassword.xaml</DependentUpon>
     </Compile>
     <Compile Include="SesionUsuario.cs" />
-    <Compile Include="UserControl1_test.xaml.cs">
-      <DependentUpon>UserControl1_test.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl2_test.xaml.cs">
-      <DependentUpon>UserControl2_test.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="admin.xaml">
@@ -144,19 +129,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="displayFunciones.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditFunciones.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="EliminarUsuario.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="funcionesSistema.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,14 +169,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResetPassword.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControl1_test.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControl2_test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

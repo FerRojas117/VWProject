@@ -101,8 +101,7 @@ namespace Project_VW
         {
             nombreEvento.Text = "";
             nombreEvento.Text = SesionUsuario.getUserTipoString() + " - Evento Actual: " +
-                    SesionUsuario.getEvento() +
-                    ". ID: " + SesionUsuario.getIDEvento();
+                    SesionUsuario.getEvento(); 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -205,14 +204,6 @@ namespace Project_VW
             {
                 case "ItemHome":
                     usc = new Index();
-                    GridMain.Children.Add(usc);
-                    break;
-                case "EditFunciones":
-                    usc = new EditFunciones();
-                    GridMain.Children.Add(usc);
-                    break;
-                case "TestTB":
-                    usc = new displayFunciones();
                     GridMain.Children.Add(usc);
                     break;
                 case "Administracion":

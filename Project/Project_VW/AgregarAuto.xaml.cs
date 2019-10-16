@@ -165,10 +165,8 @@ namespace Project_VW
             buscarAuto.SelectedValuePath = "ID";
             buscarAuto.ItemsSource = cbp_browseAutos;
 
-
             // clear childs of stackpanel with systems
-            stackSystems.Children.Clear();
-            
+            stackSystems.Children.Clear();          
         }
 
         // on dropdownclosed, we fill the systems so we can get the 
@@ -319,8 +317,6 @@ namespace Project_VW
                     
                 }
             }
-
-
         }
 
         private void relacionarAuto_Click(object sender, RoutedEventArgs e)

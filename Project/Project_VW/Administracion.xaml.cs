@@ -26,7 +26,13 @@ namespace Project_VW
         List<Item2EditAuto> restore;
         List<Item2Edit> itemsRestore;
         int numRegisters = 0;
-        int whichItem = 0;
+        int whichItem = 0; // 1 = cars  2 = functions  3 = systems
+
+        // queries to get items
+        string qry_getAutos = "SELECT ID, modelo FROM autos WHERE isActive = 1";
+        string qry_getSistemas = "SELECT ID, nombre FROM sistema WHERE isActive = 1";
+        string qry_getFunciones = "SELECT ID, nombre FROM funktion WHERE isActive = 1";
+        // EN of queries
         public Administracion()
         {
             InitializeComponent();
@@ -36,8 +42,8 @@ namespace Project_VW
             itemsRestore = new List<Item2Edit>();
             cbpairs = new List<CheckBoxPairsSistemas>();
             cbpairs.Add(new CheckBoxPairsSistemas("Autos", "Autos" ));
-            cbpairs.Add(new CheckBoxPairsSistemas("Sistemas", "Sistemas"));
             cbpairs.Add(new CheckBoxPairsSistemas("Funciones", "Funciones"));
+            cbpairs.Add(new CheckBoxPairsSistemas("Sistemas", "Sistemas"));          
             edit.DisplayMemberPath = "nombre";
             edit.SelectedValuePath = "ID";
             edit.ItemsSource = cbpairs;
@@ -48,30 +54,22 @@ namespace Project_VW
             // clear childs of stackpanel with systems
             if (edit.SelectedValue == null)
                 return;
-            RestoreStack.Children.Clear();
-            items.Clear();
-            restore.Clear();
-            itemsRestore.Clear();
-            ItemsCB.ItemsSource = null;
-            nombreItem.Text = "";
+            
 
             string selectedEdition = edit.SelectedValue.ToString();
             switch(selectedEdition)
             {
-                case "Autos":
-                    string qry_getAutos = "SELECT ID, modelo FROM autos WHERE isActive = 1";
+                case "Autos":                 
                     whichItem = 1;
                     fillItems2Edit(qry_getAutos, whichItem);
                     break;
                 case "Funciones":
                     whichItem = 2;
-                    string qry_getSistemas = "SELECT ID, nombre FROM sistema WHERE isActive = 1";
-                    fillItems2Edit(qry_getSistemas, whichItem);
+                    fillItems2Edit(qry_getFunciones, whichItem);
                     break;
                 case "Sistemas":
                     whichItem = 3;
-                    string qry_getFunciones = "SELECT ID, nombre FROM funktion WHERE isActive = 1";
-                    fillItems2Edit(qry_getFunciones, whichItem);
+                    fillItems2Edit(qry_getSistemas, whichItem);
                     break;
             }
         }
@@ -81,12 +79,18 @@ namespace Project_VW
             if (ItemsCB.SelectedValue == null)
                 return;
             nombreItem.Text = "";
-            string chosenItem = ItemsCB.SelectedValue.ToString();
+            string chosenItem = ItemsCB.Text;
             nombreItem.Text = chosenItem;
         }
 
         public void fillItems2Edit(string getItems, int autoOrSystem)
         {
+            RestoreStack.Children.Clear();
+            items.Clear();
+            restore.Clear();
+            itemsRestore.Clear();
+            ItemsCB.ItemsSource = null;
+            nombreItem.Text = "";
             string qry_countItems = "SELECT COUNT(ID) AS count ";
             string qry_RestoreItems = "SELECT ";
             
@@ -126,6 +130,7 @@ namespace Project_VW
                 }
                 else
                 {
+                    noItems.Visibility = Visibility.Collapsed;
                     using (db.setComm(qry_RestoreItems))
                     {
                         db.setReader();
@@ -197,6 +202,7 @@ namespace Project_VW
                 }
                 else
                 {
+                    noItems.Visibility = Visibility.Collapsed;
                     using (db.setComm(qry_RestoreItems))
                     {
                         db.setReader();
@@ -210,7 +216,6 @@ namespace Project_VW
                                 }
                             );
                         }
-
                     }
                     // fill stackpanel with elements that can be restored
                     foreach (Item2Edit i2e in itemsRestore)
@@ -229,21 +234,164 @@ namespace Project_VW
             ItemsCB.ItemsSource = items;      
         }
 
+        #region METHODS OF BUTTONS SAVE, DELETE, RESTORE
         private void Save(object sender, RoutedEventArgs e)
         {
-            
+            if(String.IsNullOrEmpty(nombreItem.Text))
+            {
+                MessageBox.Show("Escribe al menos una letra para editar.");
+                return;
+            }
+            if(ItemsCB.SelectedValue == null)
+            {
+                MessageBox.Show("Escoge un item para editar.");
+                return;
+            }
+
+            string updateItems = "UPDATE ";
+            db.openConn();
+            switch(whichItem)
+            {
+                case 1: //cars
+                    updateItems += "autos SET modelo = '" + nombreItem.Text + "' WHERE ID = ";
+                    updateItems += ItemsCB.SelectedValue.ToString();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Nombre de auto actualizado correctamente.");
+                    break;
+                case 2: // functions
+                    updateItems += "funktion SET nombre = '" + nombreItem.Text + "' WHERE ID = ";
+                    updateItems += ItemsCB.SelectedValue.ToString();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Nombre de funcion actualizado correctamente.");
+                    break;
+                case 3: // systems
+                    updateItems += "sistema SET nombre = '" + nombreItem.Text + "' WHERE ID = ";
+                    updateItems += ItemsCB.SelectedValue.ToString();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Nombre de sistema actualizado correctamente.");
+                    break;
+            }
+            db.closeConn();
         }
 
         private void Delete(object sender, RoutedEventArgs e)
         {
+            string item_selected = ItemsCB.Text;
+            string ID_item = ItemsCB.SelectedValue.ToString();
+            MessageBoxResult result = MessageBox.Show(
+                "Estás seguro de eliminar : " + item_selected + ", con ID: " + ID_item + "?",
+                "Eliminar Item",
+                MessageBoxButton.YesNoCancel
+            );
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    // update in db is not active, remove from CB and update stackpanel
+                    updateOrDelete(0, ID_item);
+                    break;
+                case MessageBoxResult.No:
+                    MessageBox.Show("Elemento no eliminado.", "Eliminar Elemento");
+                    break;
+                case MessageBoxResult.Cancel:
+                    MessageBox.Show("Elemento no eliminado.", "Eliminar Elemento");
+                    break;
+            }
 
         }
 
         private void Restore(object sender, RoutedEventArgs e)
         {
+            string ID_currentCB;
+            foreach (CheckBox cb in RestoreStack.Children)
+            {
+                // we get the id of the name of each cb, combobox, 
+                // of course we have to know if cb was checked
+                if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
+                {
+                    // ID OF CURRENT ITEM
+                    ID_currentCB = cb.Name.ToString();
+                    ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
+                    updateOrDelete(1, ID_currentCB);
+                }
+            }
 
+            switch (whichItem)
+            {
+                case 1:
+                    fillItems2Edit(qry_getAutos, whichItem);
+                    break;
+                case 2:
+                    fillItems2Edit(qry_getFunciones, whichItem);
+                    break;
+                case 3:
+                    fillItems2Edit(qry_getSistemas, whichItem);
+                    break;
+            }
         }
 
+        #endregion
+        public void updateOrDelete(int isActive, string ID_item)
+        {
+            string updateItems = "UPDATE ";
+            switch (whichItem)
+            {
+                case 1: //cars
+                    updateItems += "autos SET isActive = " + isActive + " WHERE ID = ";
+                    updateItems += ID_item;
+                    db.openConn();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    db.closeConn();
+                    if(isActive == 0)
+                    {
+                        MessageBox.Show("Auto eliminado.");
+                        fillItems2Edit(qry_getAutos, whichItem);
+                    }
+                    break;
+                case 2: // functions
+                    updateItems += "funktion SET isActive = " + isActive + " WHERE ID = ";
+                    updateItems += ID_item;
+                    db.openConn();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    db.closeConn();
+                    if (isActive == 0)
+                    {
+                        MessageBox.Show("Auto eliminado.");
+                        fillItems2Edit(qry_getFunciones, whichItem);
+                    }
+                    break;
+                case 3: // systems
+                    updateItems += "sistema SET isACtive = " + isActive + " WHERE ID = ";
+                    updateItems += ID_item;
+                    db.openConn();
+                    using (db.setComm(updateItems))
+                    {
+                        db.getComm().ExecuteNonQuery();
+                    }
+                    db.closeConn();
+                    if (isActive == 0)
+                    {
+                        MessageBox.Show("Auto eliminado.");
+                        fillItems2Edit(qry_getSistemas, whichItem);
+                    }
+                    break;
+            }
+        }
     }
 
     public class Item2Edit
