@@ -103,6 +103,12 @@
                             <TextBlock Text="Administracion" VerticalAlignment="Center"  Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
+                    <ListViewItem Height="60" x:Name="aplicaciones">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AppsBox" Height="25" Width="25" Margin="10"/>
+                            <TextBlock Text="Administracion" VerticalAlignment="Center"  Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
                 </ListView>
 
             </StackPanel>

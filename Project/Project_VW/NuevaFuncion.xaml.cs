@@ -33,7 +33,7 @@ namespace Project_VW
         public void fillSistema()
         {
             cbp_browseSistema = new List<CheckBoxPairsSistemas>();
-            string qry_getEventos = "SELECT ID, nombre FROM sistema";
+            string qry_getEventos = "SELECT ID, nombre FROM sistema WHERE isActive = 1";
             db.openConn();
             using (db.setComm(qry_getEventos))
             {

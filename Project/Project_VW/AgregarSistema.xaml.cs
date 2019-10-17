@@ -26,7 +26,7 @@ namespace Project_VW
         List<ComboBoxPairsBrowseAutos> cbp_Autos;
         List<CheckBoxPairsSistemas> cbp_browseSistema;
         int affectedRows = 0;
-        string qry_getNoSistemas = "SELECT COUNT(*) AS numAutos FROM autos";
+        string qry_getNoSistemas = "SELECT COUNT(*) AS numAutos FROM autos WHERE isActive = 1";
 
         public AgregarSistema()
         {
@@ -73,7 +73,7 @@ namespace Project_VW
         public void fillSistema()
         {
             cbp_browseSistema = new List<CheckBoxPairsSistemas>();
-            string qry_getEventos = "SELECT ID, nombre FROM sistema";
+            string qry_getEventos = "SELECT ID, nombre FROM sistema  WHERE isActive = 1";
             db.openConn();
             using (db.setComm(qry_getEventos))
             {
@@ -116,7 +116,7 @@ namespace Project_VW
             // llenar el stack con los autos encontrados
             else
             {
-                string qry_getSistemas = "SELECT ID, modelo FROM autos";
+                string qry_getSistemas = "SELECT ID, modelo FROM autos  WHERE isActive = 1";
                 using (db.setComm(qry_getSistemas))
                 {
                     db.setReader();
@@ -160,7 +160,7 @@ namespace Project_VW
             
             string qry_getSistemas = "SELECT * FROM autos WHERE ID NOT IN(";
             qry_getSistemas += "SELECT autos_ID FROM rel_autos_sist ";
-            qry_getSistemas += "WHERE sistema_ID = " + ID_selectedSystem + ")";
+            qry_getSistemas += "WHERE sistema_ID = " + ID_selectedSystem + " ) AND isActive = 1";
 
             using (db.setComm(qry_getSistemas))
             {

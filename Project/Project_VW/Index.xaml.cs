@@ -29,6 +29,8 @@ namespace Project_VW
         List<Cars> selectedCars;
         SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, (byte)92, (byte)153, (byte)214));
         SolidColorBrush brushBlue = new SolidColorBrush(Color.FromArgb(255, (byte)13, (byte)70, (byte)113));
+        SolidColorBrush brushRed = new SolidColorBrush(Color.FromArgb(255, (byte)220, (byte)53, (byte)34));
+        SolidColorBrush brushYellow = new SolidColorBrush(Color.FromArgb(255, (byte)241, (byte)203, (byte)98));
         Style style = new Style();
         // eventos
         List<ComboBoxPairsEvento> cbp;
@@ -87,7 +89,7 @@ namespace Project_VW
         public void fillCars()
         {
             cbp_browseAutos = new List<ComboBoxPairsBrowseAutos>();
-            string qry_getEventos = "SELECT ID, modelo FROM autos";
+            string qry_getEventos = "SELECT ID, modelo FROM autos WHERE isActive = 1";
             db.openConn();
             using (db.setComm(qry_getEventos))
             {
@@ -132,14 +134,14 @@ namespace Project_VW
             string qry_sistDeAutoCount = "SELECT COUNT(sistema.ID) AS numDeSist ";
             qry_sistDeAutoCount += "FROM sistema ";
             qry_sistDeAutoCount += "INNER JOIN rel_autos_sist ";
-            qry_sistDeAutoCount += "ON sistema.ID = rel_autos_sist.sistema_ID ";
+            qry_sistDeAutoCount += "ON sistema.ID = rel_autos_sist.sistema_ID AND sistema.isActive = 1 ";
             qry_sistDeAutoCount += "WHERE autos_ID = ";
             qry_sistDeAutoCount += idOfCar;
 
 
             string qry_sistDeAuto = "SELECT sistema.ID, sistema.nombre FROM sistema ";
             qry_sistDeAuto += "INNER JOIN rel_autos_sist ";
-            qry_sistDeAuto += "ON sistema.ID = rel_autos_sist.sistema_ID ";
+            qry_sistDeAuto += "ON sistema.ID = rel_autos_sist.sistema_ID AND sistema.isActive = 1 ";
             qry_sistDeAuto += "WHERE autos_ID = ";
             qry_sistDeAuto += idOfCar;
 
@@ -187,9 +189,13 @@ namespace Project_VW
             {
                 string qry_getFunctionsCount = "SELECT COUNT(*) AS numFuncSistema ";
                 qry_getFunctionsCount += "FROM funktion WHERE sistema_ID = ";
+                qry_getFunctionsCount += ptrSistema.ID;
+                qry_getFunctionsCount += " AND isActive = 1";
+
                 string qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
                 qry_getFunctions += ptrSistema.ID;
-                qry_getFunctionsCount += ptrSistema.ID;
+                qry_getFunctions += " AND isActive = 1";
+
                 db_forloops = new DB();
 
                 db_forloops.openConn();
@@ -347,7 +353,7 @@ namespace Project_VW
                 comboBoxColumn.SelectedValueBinding = bindColor;
 
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
-
+                ptrSistema.gvSystem.CanUserAddRows = false;
                 ptrSistema.gvSystem.Columns.Add(comboBoxColumn);
 
 
@@ -361,7 +367,7 @@ namespace Project_VW
                 Setter stt = new Setter()
                 {
                     Property = DataGridRow.BackgroundProperty,
-                    Value = Brushes.Red
+                    Value = brushRed
                 };
 
                 Binding bindC = new Binding()
@@ -382,7 +388,7 @@ namespace Project_VW
                 Setter sttY = new Setter()
                 {
                     Property = DataGridRow.BackgroundProperty,
-                    Value = Brushes.Yellow
+                    Value = brushYellow
                 };
 
                 Binding bindCY = new Binding()

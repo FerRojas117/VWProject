@@ -39,7 +39,7 @@ namespace Project_VW
         List<CheckBoxPairsSistemas> cbp_Sistemas;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         int affectedRows = 0;
-        string qry_getNoSistemas = "SELECT COUNT(*) AS numSistemas FROM sistema";
+        string qry_getNoSistemas = "SELECT COUNT(*) AS numSistemas FROM sistema WHERE isActive = 1";
 
         public AgregarAuto()
         {
@@ -102,7 +102,7 @@ namespace Project_VW
             // llenar el stack con los sistemas encontrados
             else
             {
-                string qry_getSistemas = "SELECT ID, nombre FROM sistema";
+                string qry_getSistemas = "SELECT ID, nombre FROM sistema WHERE isActive = 1";
                 using (db.setComm(qry_getSistemas))
                 {
                     db.setReader();
@@ -147,7 +147,7 @@ namespace Project_VW
         public void fillCars()
         {
             cbp_browseAutos = new List<ComboBoxPairsBrowseAutos>();
-            string qry_getEventos = "SELECT ID, modelo FROM autos";
+            string qry_getEventos = "SELECT ID, modelo FROM autos WHERE isActive = 1";
             db.openConn();
             using (db.setComm(qry_getEventos))
             {
@@ -171,6 +171,7 @@ namespace Project_VW
 
         // on dropdownclosed, we fill the systems so we can get the 
         // systems that are still not related to this vehicle
+        // WHERE isActive = 1
         private void buscarAuto_DropDownClosed(object sender, EventArgs e)
         {
             // clear childs of stackpanel with systems
@@ -181,9 +182,10 @@ namespace Project_VW
             cbp_Sistemas = new List<CheckBoxPairsSistemas>();
             string ID_selectedCar = buscarAuto.SelectedValue.ToString();
             db.openConn();
+            // modify to get only systems that are active 
             string qry_getSistemas = "SELECT * FROM sistema WHERE ID NOT IN(";
             qry_getSistemas += "SELECT sistema_ID FROM rel_autos_sist ";
-            qry_getSistemas += "WHERE autos_ID = " + ID_selectedCar + ")";
+            qry_getSistemas += "WHERE autos_ID = " + ID_selectedCar + " ) AND isActive = 1";
 
             using (db.setComm(qry_getSistemas))
             {
