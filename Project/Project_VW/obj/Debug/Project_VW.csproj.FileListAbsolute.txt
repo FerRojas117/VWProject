@@ -215,3 +215,5 @@ C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\Administracion.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\ResetPassword.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\ResetPassword.baml
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\AplicacionesExternas.g.cs
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\AplicacionesExternas.baml

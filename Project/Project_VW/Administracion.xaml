@@ -79,7 +79,7 @@
                         <StackPanel x:Name="RestoreStack" Grid.Row="1" Margin="10" ></StackPanel>
 
                         <Button Grid.Row="2" Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Center"
-                            VerticalAlignment="Center" ToolTip="Eliminar"   FontSize="10"  Click="Restore"  >
+                            VerticalAlignment="Center" ToolTip="Restaurar"   FontSize="10"  Click="Restore"  >
                             <materialDesign:PackIcon Kind="BackupRestore" Height="40" Width="40" />
                         </Button>
                     </Grid>
