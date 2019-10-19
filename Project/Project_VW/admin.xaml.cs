@@ -69,8 +69,16 @@ namespace Project_VW
             // Remove elements if not administrator
             if (SesionUsuario.getUserTipo() == 2)
             {
+                AgregarEvento.Visibility = Visibility.Collapsed;
+                AgregarAuto.Visibility = Visibility.Collapsed;
+                AgregarSistema.Visibility = Visibility.Collapsed;
+                AgregarFuncion.Visibility = Visibility.Collapsed;
                 NuevoUsuario.Visibility = Visibility.Collapsed;
                 EliminarUsuario.Visibility = Visibility.Collapsed;
+                ResetPasswords.Visibility = Visibility.Collapsed;
+
+                Administracion.Visibility = Visibility.Collapsed;
+
             }
             nombreUsuario.Text = SesionUsuario.getUser();
                 

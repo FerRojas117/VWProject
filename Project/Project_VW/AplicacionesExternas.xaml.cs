@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using MaterialDesignThemes.Wpf;
 using System.Windows.Shapes;
 
 namespace Project_VW
@@ -22,6 +23,7 @@ namespace Project_VW
     {
         DB db;
         string ruta = "";
+        int ID = 0;
         public AplicacionesExternas()
         {
             db = new DB();
@@ -33,10 +35,12 @@ namespace Project_VW
             switch (((Button)sender).Name)
             {
                 case "card_Intranet":
-                    openLink(1);
+                    ID = 1;
+                    openLink();
                     break;
                 case "card_SI":
-                    openLink(2);
+                    ID = 2;
+                    openLink();
                     break;
                 default:
                     break;
@@ -48,29 +52,51 @@ namespace Project_VW
             switch (((Button)sender).Name)
             {
                 case "edit_Intranet":
-                    EditLink(1);
+                    ID = 1;
+                    EditLink();
                     break;
                 case "edit_SI":
-                    EditLink(2);
+                    ID = 2;
+                    EditLink();
                     break;
                 default:
                     break;
             }
         }
 
-        public void EditLink(int ID)
+        public void EditLink()
         {
-            string qry_updateRuta = "UPDATE rutas SET ruta = '" + "https://portalvwm.vwm.na.vwg/s" +"' WHERE ID = 1";
+            getRuta();
+            NuevaRuta.Text = ruta;
+            dialogi.IsOpen = true;         
+        }
+
+        private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            string qry_updateRuta = "UPDATE rutas SET ruta = '" + NuevaRuta.Text + "' WHERE ID = " + ID; ;
             db.openConn();
             using (db.setComm(qry_updateRuta))
             {
                 db.getComm().ExecuteNonQuery();
-            }          
-            db.closeConn();
-            MessageBox.Show("Ruta actualizada.");
+            }
+            db.closeConn();            
+            RouteChanged.IsOpen = true;
         }
 
-        public void openLink(int ID)
+        private void RouteChange_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!Equals(eventArgs.Parameter, true)) return;
+        }
+
+        public void openLink()
+        {
+            getRuta();
+            //// Navigate to
+            System.Diagnostics.Process.Start(ruta);
+            
+        }
+
+        public void getRuta()
         {
             string qry_getRuta = "SELECT ruta FROM rutas WHERE ID = ";
             qry_getRuta += ID;
@@ -83,8 +109,6 @@ namespace Project_VW
                     ruta = Convert.ToString(db.getReader()["ruta"]);
                 }
             }
-            //// Navigate to
-            System.Diagnostics.Process.Start(ruta);
             db.closeConn();
         }
     }
