@@ -42,6 +42,38 @@ namespace Project_VW
                     ID = 2;
                     openLink();
                     break;
+                case "card_KPM":
+                    ID = 3;
+                    openLink();
+                    break;
+                case "card_PP":
+                    ID = 4;
+                    openLink();
+                    break;
+                case "card_Vacaciones":
+                    ID = 5;
+                    openLink();
+                    break;
+                case "card_JI":
+                    ID = 6;
+                    openLink();
+                    break;
+                case "card_SRH":
+                    ID = 7;
+                    openLink();
+                    break;
+                case "card_Wiki":
+                    ID = 8;
+                    openLink();
+                    break;
+                case "card_FB":
+                    ID = 9;
+                    openLink();
+                    break;
+                case "card_ODIS":
+                    ID = 10;
+                    openLink();
+                    break;
                 default:
                     break;
             }
@@ -57,6 +89,38 @@ namespace Project_VW
                     break;
                 case "edit_SI":
                     ID = 2;
+                    EditLink();
+                    break;
+                case "card_KPM":
+                    ID = 3;
+                    EditLink();
+                    break;
+                case "card_PP":
+                    ID = 4;
+                    EditLink();
+                    break;
+                case "card_Vacaciones":
+                    ID = 5;
+                    EditLink();
+                    break;
+                case "card_JI":
+                    ID = 6;
+                    EditLink();
+                    break;
+                case "card_SRH":
+                    ID = 7;
+                    EditLink();
+                    break;
+                case "card_Wiki":
+                    ID = 8;
+                    EditLink();
+                    break;
+                case "card_FB":
+                    ID = 9;
+                    EditLink();
+                    break;
+                case "card_ODIS":
+                    ID = 10;
                     EditLink();
                     break;
                 default:
@@ -92,7 +156,15 @@ namespace Project_VW
         {
             getRuta();
             //// Navigate to
-            System.Diagnostics.Process.Start(ruta);
+            try
+            {
+                System.Diagnostics.Process.Start(ruta);
+            } catch(Exception e)
+            {
+                MessageBox.Show("No es posible abrir la ruta: " + ruta);
+                MessageBox.Show(e.Message);
+            }
+            
             
         }
 
