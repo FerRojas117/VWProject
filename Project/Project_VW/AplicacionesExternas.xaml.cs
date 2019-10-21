@@ -24,10 +24,13 @@ namespace Project_VW
         DB db;
         string ruta = "";
         int ID = 0;
+        List<Rutas> routes;
         public AplicacionesExternas()
         {
             db = new DB();
-            InitializeComponent();            
+            routes = new List<Rutas>();
+            InitializeComponent();
+            getOtherRoutes();
         }
 
         private void redirect(object sender, RoutedEventArgs e)
@@ -91,41 +94,46 @@ namespace Project_VW
                     ID = 2;
                     EditLink();
                     break;
-                case "card_KPM":
+                case "edit_KPM":
                     ID = 3;
                     EditLink();
                     break;
-                case "card_PP":
+                case "edit_PP":
                     ID = 4;
                     EditLink();
                     break;
-                case "card_Vacaciones":
+                case "edit_Vacaciones":
                     ID = 5;
                     EditLink();
                     break;
-                case "card_JI":
+                case "edit_JI":
                     ID = 6;
                     EditLink();
                     break;
-                case "card_SRH":
+                case "edit_SRH":
                     ID = 7;
                     EditLink();
                     break;
-                case "card_Wiki":
+                case "edit_Wiki":
                     ID = 8;
                     EditLink();
                     break;
-                case "card_FB":
+                case "edit_FB":
                     ID = 9;
                     EditLink();
                     break;
-                case "card_ODIS":
+                case "edit_ODIS":
                     ID = 10;
                     EditLink();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void itemCLick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("No se pudo abrir el recurso");
         }
 
         public void EditLink()
@@ -164,8 +172,7 @@ namespace Project_VW
                 MessageBox.Show("No es posible abrir la ruta: " + ruta);
                 MessageBox.Show(e.Message);
             }
-            
-            
+                     
         }
 
         public void getRuta()
@@ -183,5 +190,30 @@ namespace Project_VW
             }
             db.closeConn();
         }
+
+        public void getOtherRoutes()
+        {
+            string qry_getAllRuta = "SELECT ruta, nombre FROM rutas WHERE ID > 10";
+            db.openConn();
+            using (db.setComm(qry_getAllRuta))
+            {
+                db.setReader();
+                while (db.getReader().Read())
+                {
+                    routes.Add(new Rutas{
+                        ruta = Convert.ToString(db.getReader()["ruta"]),
+                        nombre = Convert.ToString(db.getReader()["nombre"])
+                    }); 
+                }
+            }
+            db.closeConn();
+            OtherLinks.DataContext = routes;
+        }
+    }
+
+    public class Rutas
+    {
+        public string nombre { get; set; }
+        public string ruta { get; set; }
     }
 }

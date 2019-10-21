@@ -81,7 +81,7 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-
+                
                 <!-- START OF INTRANET VW -->
                 <materialDesign:Card Background="#FFF3EBEB" materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
                     <Grid>
@@ -102,7 +102,7 @@
 
                 <Button x:Name="edit_Intranet" Grid.Row="0" Grid.Column="1"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" Background="#FF009688" BorderBrush="{x:Null}"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" Background="#FF009688" BorderBrush="{x:Null}"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
                 
@@ -129,7 +129,7 @@
 
                 <Button x:Name="edit_SI" Grid.Row="0" Grid.Column="3"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" Background="#FF00BCD4" BorderBrush="{x:Null}"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" Background="#FF00BCD4" BorderBrush="{x:Null}"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -156,7 +156,7 @@
 
                 <Button x:Name="edit_KPM" Grid.Row="0" Grid.Column="5"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF03A9F4"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF03A9F4"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -183,7 +183,7 @@
 
                 <Button x:Name="edit_PP" Grid.Row="1" Grid.Column="1"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" Background="#FFAB5810" BorderBrush="{x:Null}"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" Background="#FFAB5810" BorderBrush="{x:Null}"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -211,7 +211,7 @@
 
                 <Button x:Name="edit_Vacaciones" Grid.Row="1" Grid.Column="3"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFFF9800"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFFF9800"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -237,7 +237,7 @@
 
                 <Button x:Name="edit_JI" Grid.Row="1" Grid.Column="5"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFFF5722"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFFF5722"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -263,7 +263,7 @@
 
                 <Button x:Name="edit_SRH" Grid.Row="2" Grid.Column="1"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF880E4F"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF880E4F"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -289,7 +289,7 @@
 
                 <Button x:Name="edit_Wiki" Grid.Row="2" Grid.Column="3"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFB71C1C"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FFB71C1C"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
@@ -315,14 +315,14 @@
 
                 <Button x:Name="edit_FB" Grid.Row="2" Grid.Column="5"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF4A148C"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" BorderBrush="{x:Null}" Background="#FF4A148C"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
                 <!--END of Fehler Beshreibung -->
 
                 <!-- START OF ODIS -->
-                <materialDesign:Card Background="#FFF3EBEB" materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
+                <materialDesign:Card Background="#FFF3EBEB" materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -333,19 +333,52 @@
 
                 </materialDesign:Card>
 
-                <materialDesign:Card Grid.Row="3" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20 0 10 20" Background="#607d8b">
+                <materialDesign:Card Grid.Row="3" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20 0 10 20" Background="#607d8b">
                     <Button x:Name="card_ODIS" Background="{x:Null}" HorizontalAlignment="Stretch"  Height="auto" Click="redirect" BorderBrush="{x:Null}">
                         <materialDesign:PackIcon Kind="AlphaOBoxOutline" Height="auto" Width="auto"  Margin="15"/>
                     </Button>
                 </materialDesign:Card>
 
-                <Button x:Name="edit_ODIS" Grid.Row="3" Grid.Column="3"
+                <Button x:Name="edit_ODIS" Grid.Row="3" Grid.Column="1"
                         Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             ToolTip="Restaurar"   FontSize="10"  Click="Edit" Background="#FF607D8B" BorderBrush="{x:Null}"  >
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="Edit" Background="#FF607D8B" BorderBrush="{x:Null}"  >
                     <materialDesign:PackIcon Kind="Edit" Height="40" Width="40" />
                 </Button>
 
                 <!--END of ODIS -->
+
+                <materialDesign:Card Background="#FFF3EBEB" materialDesign:ShadowAssist.ShadowDepth="Depth4" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="OTROS&#xD;&#xA;LINKS" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="26"></Label>
+
+                        <DataGrid Grid.Column="1" AutoGenerateColumns="False" Margin="5" x:Name="OtherLinks" ItemsSource="{Binding}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="nombre" Binding="{Binding nombre}">
+
+                                </DataGridTextColumn>
+                                <DataGridHyperlinkColumn Header="Ruta" Binding="{Binding ruta}">
+                                    <DataGridHyperlinkColumn.ElementStyle>
+                                        <Style>
+                                            <EventSetter Handler="itemClick"/>
+                                        </Style>
+                                    </DataGridHyperlinkColumn.ElementStyle>
+                                </DataGridHyperlinkColumn>
+                            </DataGrid.Columns>
+                            
+                            
+                        </DataGrid>
+                        
+                    </Grid>
+                </materialDesign:Card>
+
+                <StackPanel >
+                    
+                </StackPanel>
+                
 
             </Grid>
         </materialDesign:Card>
