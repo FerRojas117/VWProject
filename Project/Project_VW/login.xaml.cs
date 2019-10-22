@@ -116,12 +116,7 @@ namespace Project_VW
                 SesionUsuario.setUser(user_name);
                 SesionUsuario.setUserTipo(Convert.ToInt32(tipo_user));
 
-                MessageBox.Show(
-                    "Inicio de Sesión correcto. " +
-                    "UID: " + SesionUsuario.getUserID() +
-                    ", UN: " + SesionUsuario.getUser() +
-                    ", UT: " + SesionUsuario.getUserTipo()
-                );
+                MessageBox.Show("Inicio de Sesión correcto. " );
 
                 // pasar a siguiente página
 

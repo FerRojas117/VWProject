@@ -81,7 +81,7 @@ namespace Project_VW
             qry_addFunc += "'" + rdw + "', ";
             qry_addFunc += "'" + gesetz + "', ";
             qry_addFunc += "'" + descripcion + "', ";
-            qry_addFunc += "'" + Einsatz_KWJahr + "', ";
+            qry_addFunc += "'" + Einsatz_KWJahr.Text + "', ";
             qry_addFunc += "'" + SesionUsuario.getUser() + "', ";
             qry_addFunc += ID_selectedSystem;
             qry_addFunc += ", " + "3," + "1" + ")";
@@ -96,7 +96,8 @@ namespace Project_VW
                 return;
             }
 
-            db.sendMBandCloseConn("Funcion creada exitosamente dentro del sistema: ." + chooseSystem.SelectedItem.ToString());
+            db.sendMBandCloseConn("Funcion creada exitosamente dentro del sistema: " + chooseSystem.Text);
+
         }
     }
 }
