@@ -360,6 +360,8 @@
                                 <DataGridTextColumn Header="nombre" Binding="{Binding nombre}">
 
                                 </DataGridTextColumn>
+                                
+                                <!--
                                 <DataGridHyperlinkColumn Header="Ruta" Binding="{Binding ruta}">
                                     <DataGridHyperlinkColumn.ElementStyle>
                                         <Style>
@@ -367,6 +369,8 @@
                                         </Style>
                                     </DataGridHyperlinkColumn.ElementStyle>
                                 </DataGridHyperlinkColumn>
+                                
+                                -->
                             </DataGrid.Columns>
                             
                             

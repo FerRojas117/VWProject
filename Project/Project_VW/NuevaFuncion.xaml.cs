@@ -75,7 +75,7 @@ namespace Project_VW
             db.openConn();
 
             string qry_addFunc = "INSERT INTO funktion (nombre, NAR, RDW, Gesetz, ";
-            qry_addFunc += "descripcion, Einsatz_KWJahr, editado_por, sistema_ID, color) VALUES (";
+            qry_addFunc += "descripcion, Einsatz_KWJahr, editado_por, sistema_ID, color, isActive) VALUES (";
             qry_addFunc += "'" + nombreFunc + "', ";
             qry_addFunc += "'" + nar + "', ";
             qry_addFunc += "'" + rdw + "', ";
@@ -84,7 +84,7 @@ namespace Project_VW
             qry_addFunc += "'" + Einsatz_KWJahr + "', ";
             qry_addFunc += "'" + SesionUsuario.getUser() + "', ";
             qry_addFunc += ID_selectedSystem;
-            qry_addFunc += ", " + "3" + ")";
+            qry_addFunc += ", " + "3," + "1" + ")";
 
             using (db.setComm(qry_addFunc))
             {

@@ -82,7 +82,6 @@ namespace Project_VW
             filtroEventos.DisplayMemberPath = "nombre";
             filtroEventos.SelectedValuePath = "ID";
             filtroEventos.ItemsSource = cbp;
-
           
         }
 
@@ -240,7 +239,6 @@ namespace Project_VW
                         Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
                         color = Convert.ToString(getFunc.getReader()["color"]);
 
-
                         Console.WriteLine(ID);
                         ft = new Funcion()
                         {
@@ -260,8 +258,6 @@ namespace Project_VW
                         // we have to get information from bemerkungen of
                         // this funktion and its specific information
                         // about edit_campos_funcion
-
-
 
                         string qry_ECFCount = "SELECT COUNT(*) as existsECF ";
                         qry_ECFCount += "FROM edit_campos_funktion ";
@@ -467,6 +463,8 @@ namespace Project_VW
                 #endregion 
 
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
+                ptrSistema.gvEditCamposFunk.CanUserAddRows = false;
+                ptrSistema.gvEditCamposFunk.RowHeight = 36.65;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
                 #endregion
                 getFunc.closeConn();

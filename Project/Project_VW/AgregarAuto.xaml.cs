@@ -207,8 +207,8 @@ namespace Project_VW
         {
             string nombreModeloAuto = nombreAuto.Text;
             MessageBox.Show(nombreModeloAuto);
-            string qry_insAuto = "INSERT INTO autos (modelo) VALUES ('" +
-                nombreModeloAuto + "')";
+            string qry_insAuto = "INSERT INTO autos (modelo, isActive) VALUES ('" +
+                nombreModeloAuto + "', 1)";
             db.openConn();
             // if car was not inserted or if there is no systems registered, then
             if ( affectedRows == 0 ||  getNumSelectedCB() == 0)
