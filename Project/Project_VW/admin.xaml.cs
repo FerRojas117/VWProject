@@ -28,6 +28,8 @@ namespace Project_VW
         public admin()
         {
             InitializeComponent();
+            NavigationCommands.BrowseBack.InputGestures.Clear();
+            NavigationCommands.BrowseForward.InputGestures.Clear();
             db = new DB();
             string qry_getEvento = "SELECT COUNT(nombre) AS numEventos FROM evento WHERE is_current = 1";
             string qry_getEventoNom = "SELECT nombre, ID FROM evento WHERE is_current = 1";
