@@ -65,20 +65,20 @@
                 </Grid>
                 <!-- Botones laterlaes, menu de hacer pruebas -->
                 <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
-                    <ListViewItem x:Name="ItemHome" Height="60">
+                    <ListViewItem x:Name="ItemHome" Height="60" ToolTip="HOME">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
+                            <materialDesign:PackIcon  Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60" x:Name="Administracion">
+                    <ListViewItem Height="60" x:Name="Administracion" ToolTip="ADMINISTRACION">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Margin="10"/>
+                            <materialDesign:PackIcon  Kind="Settings" Height="25" Width="25" Margin="10"/>
                             <TextBlock Text="Administracion" VerticalAlignment="Center"  Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60" x:Name="Aplicaciones">
+                    <ListViewItem Height="60" x:Name="Aplicaciones" ToolTip="APLICACIONES EXTERNAS">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="AppsBox" Height="25" Width="25" Margin="10"/>
+                            <materialDesign:PackIcon ToolTip="APLICACIONES EXTERNAS" Kind="AppsBox" Height="25" Width="25" Margin="10"/>
                             <TextBlock Text="Aplicaciones Externas" VerticalAlignment="Center"  Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>

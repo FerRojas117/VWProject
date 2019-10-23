@@ -30,6 +30,19 @@ namespace Project_VW
             db = new DB();
             routes = new List<Rutas>();
             InitializeComponent();
+            if (SesionUsuario.getUserTipo() == 2)
+            {
+                edit_Intranet.Visibility = Visibility.Collapsed;
+                edit_SI.Visibility = Visibility.Collapsed;
+                edit_KPM.Visibility = Visibility.Collapsed;
+                edit_PP.Visibility = Visibility.Collapsed;
+                edit_Vacaciones.Visibility = Visibility.Collapsed;
+                edit_JI.Visibility = Visibility.Collapsed;
+                edit_SRH.Visibility = Visibility.Collapsed;
+                edit_Wiki.Visibility = Visibility.Collapsed;
+                edit_FB.Visibility = Visibility.Collapsed;
+                edit_ODIS.Visibility = Visibility.Collapsed;
+            }
             getOtherRoutes();
         }
 
@@ -216,4 +229,7 @@ namespace Project_VW
         public string nombre { get; set; }
         public string ruta { get; set; }
     }
+
+
+
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Data.SQLite;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -292,7 +293,6 @@ namespace Project_VW
                 "Eliminar Item",
                 MessageBoxButton.YesNoCancel
             );
-
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -309,8 +309,140 @@ namespace Project_VW
 
         }
 
+
+        // DELETE CARS FOREVER
+        private void deleteOnceNForAll(string ID_item)
+        {
+
+            string deleteECF = "DELETE FROM edit_campos_funktion ";
+            deleteECF += "WHERE auto_ID = " + ID_item;
+
+            string deleteRAS = "DELETE FROM rel_autos_sist ";
+            deleteRAS += "WHERE autos_ID = " + ID_item;
+
+            string deleteAuto = "DELETE FROM autos ";
+            deleteAuto += "WHERE ID = " + ID_item;
+
+            try
+            {
+                db.openConn();
+                db.tr = db.getConn().BeginTransaction();
+                using (db.setComm(deleteECF))
+                {
+                    db.getComm().ExecuteNonQuery();
+                }
+                using (db.setComm(deleteRAS))
+                {
+                    db.getComm().ExecuteNonQuery();
+                }
+                using (db.setComm(deleteAuto))
+                {
+                    db.getComm().ExecuteNonQuery();
+                }
+
+                db.tr.Commit();
+
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: {0}", ex.ToString());
+
+                if (db.tr != null)
+                {
+                    try
+                    {
+                        db.tr.Rollback();
+                    }
+                    catch (SQLiteException ex2)
+                    {
+
+                        Console.WriteLine("Transaction rollback failed.");
+                        Console.WriteLine("Error: {0}", ex2.ToString());
+
+                    }
+                    finally
+                    {
+                        db.tr.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (db.getComm() != null)
+                {
+                    db.getComm().Dispose();
+                }
+
+                if (db.tr != null)
+                {
+                    db.tr.Dispose();
+                }
+
+                if (db.getConn() != null)
+                {
+                    try
+                    {
+                        db.getConn().Close();
+
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        Console.WriteLine("Closing connection failed.");
+                        Console.WriteLine("Error: {0}", ex.ToString());
+                    }
+                    finally
+                    {
+                        db.getConn().Dispose();
+                    }
+                }
+            }
+            MessageBox.Show("Información actualizada correctamente");         
+        }
+
+        private void deletePermanent(object sender, RoutedEventArgs e)
+        {
+            if (RestoreStack.Children.Count < 1) return;
+            if (whichItem != 1)
+            {
+                MessageBox.Show("Solo puedes eliminar de manera permanente autos");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show(
+               "Estás seguro de eliminar este(os) auto(s) de maner definitiva? Esta accion no se puede revertir.",
+               "Eliminar Auto Permanente",
+               MessageBoxButton.YesNoCancel
+           );
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    string ID_currentCB;
+                    foreach (CheckBox cb in RestoreStack.Children)
+                    {
+                        // we get the id of the name of each cb, combobox, 
+                        // of course we have to know if cb was checked
+                        if (cb.IsChecked.HasValue && cb.IsChecked.Value == true)
+                        {
+                            // ID OF CURRENT ITEM
+                            ID_currentCB = cb.Name.ToString();
+                            ID_currentCB = ID_currentCB.Trim(new char[] { '_' });
+                            deleteOnceNForAll(ID_currentCB);
+                        }
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    MessageBox.Show("Auto(s) no eliminado(s).", "Eliminar Auto Permanente");
+                    break;
+                case MessageBoxResult.Cancel:
+                    MessageBox.Show("Auto(s) no eliminado(s).", "Eliminar Auto Permanente");
+                    break;
+            }
+            fillItems2Edit(qry_getAutos, whichItem);
+        }
+
         private void Restore(object sender, RoutedEventArgs e)
         {
+            if (RestoreStack.Children.Count < 1) return;
             string ID_currentCB;
             foreach (CheckBox cb in RestoreStack.Children)
             {
@@ -371,7 +503,7 @@ namespace Project_VW
                     db.closeConn();
                     if (isActive == 0)
                     {
-                        MessageBox.Show("Auto eliminado.");
+                        MessageBox.Show("Funcion eliminada.");
                         fillItems2Edit(qry_getFunciones, whichItem);
                     }
                     break;
@@ -386,7 +518,7 @@ namespace Project_VW
                     db.closeConn();
                     if (isActive == 0)
                     {
-                        MessageBox.Show("Auto eliminado.");
+                        MessageBox.Show("Sistema eliminado.");
                         fillItems2Edit(qry_getSistemas, whichItem);
                     }
                     break;

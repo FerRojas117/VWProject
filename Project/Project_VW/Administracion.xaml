@@ -12,7 +12,7 @@
             <ColumnDefinition Width="1*"/>
 
         </Grid.ColumnDefinitions>
-        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth4"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="30" Grid.Column="0">
+        <materialDesign:Card Background="#FFDEDEDE" materialDesign:ShadowAssist.ShadowDepth="Depth1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="30" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -30,8 +30,8 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-
-                        <materialDesign:PackIcon Kind="TooltipEdit" Height="40" Width="40" Margin="0 0 30 0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Label Content="Quiero editar..." Foreground="White" HorizontalContentAlignment="Right" FontSize="26" VerticalContentAlignment="Center"></Label>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="TooltipEdit" Height="40" Width="40" Margin="0 0 80 0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                         <ComboBox x:Name="edit" Grid.Column="1"  HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="300"  VerticalAlignment="Stretch" Margin=" 15" Foreground="White" BorderBrush="White" DropDownClosed="buscar_DropDownClosed">
                            
@@ -47,9 +47,16 @@
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="Pencil" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="Elige elemento." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"  FontSize="26"></Label>
+                        <materialDesign:PackIcon Kind="Pencil" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50 0 0 0"/>
                         <ComboBox x:Name="ItemsCB" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="White" DropDownClosed="itemsCB_DropDownClosed"></ComboBox>
-                        <TextBox x:Name="nombreItem"  Margin="10" SpellCheck.IsEnabled="True" Grid.Row="2" Height="80" VerticalAlignment="Center" FontSize="26" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" BorderBrush="White">
+                        <TextBox
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                            materialDesign:HintAssist.Hint="Nombre de Elemento" 
+                            x:Name="nombreItem"  Margin="10" SpellCheck.IsEnabled="True" 
+                            Grid.Row="2" Height="80" VerticalAlignment="Center" FontSize="26" 
+                            AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                            BorderBrush="White">
                             
                         </TextBox>
 
@@ -74,7 +81,8 @@
                             <RowDefinition Height="3*"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="FileRestore" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="Quiero Restaurar..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"  FontSize="26"></Label>
+                        <materialDesign:PackIcon Kind="FileRestore" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="50 0 0 0"/>
                         <TextBlock x:Name="noItems" Grid.Row="1" Margin="30" FontSize="26" Padding="0 40 0 0" Visibility="Hidden">No hay elementos para restaurar</TextBlock>
                         <StackPanel x:Name="RestoreStack" Grid.Row="1" Margin="10" ></StackPanel>
 
@@ -82,6 +90,12 @@
                             VerticalAlignment="Center" ToolTip="Restaurar"   FontSize="10"  Click="Restore"  >
                             <materialDesign:PackIcon Kind="BackupRestore" Height="40" Width="40" />
                         </Button>
+
+                        <Button Grid.Row="2" Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right"
+                            VerticalAlignment="Center" ToolTip="Eliminar Permanente"   FontSize="10"  Click="deletePermanent" Background="#FFF33421" BorderBrush="{x:Null}"  >
+                            <materialDesign:PackIcon Kind="DeleteCircleOutline" Height="40" Width="40" />
+                        </Button>
+                        
                     </Grid>
                     
                 </materialDesign:Card>

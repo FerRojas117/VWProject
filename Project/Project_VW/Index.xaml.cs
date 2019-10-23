@@ -56,6 +56,7 @@ namespace Project_VW
             this.colores.Add(3, "NoColor");
 
             InitializeComponent();
+            selectedCars = new List<Cars>();
             db = new DB();
             fillCars();
             cbp_browseAutos.Add(
@@ -350,7 +351,9 @@ namespace Project_VW
 
                 ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
                 ptrSistema.gvSystem.CanUserAddRows = false;
-                ptrSistema.gvSystem.Columns.Add(comboBoxColumn);
+                ptrSistema.gvSystem.CanUserDeleteRows = false;
+                ptrSistema.gvSystem.CanUserSortColumns = false;
+              ptrSistema.gvSystem.Columns.Add(comboBoxColumn);
 
 
                 #region COLOR ROWS 
@@ -464,7 +467,9 @@ namespace Project_VW
 
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 ptrSistema.gvEditCamposFunk.CanUserAddRows = false;
-                ptrSistema.gvEditCamposFunk.RowHeight = 36.65;
+                ptrSistema.gvEditCamposFunk.CanUserDeleteRows = false;
+                ptrSistema.gvEditCamposFunk.CanUserSortColumns = false;
+              ptrSistema.gvEditCamposFunk.RowHeight = 36.65;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
                 #endregion
                 getFunc.closeConn();
@@ -603,6 +608,7 @@ namespace Project_VW
 
         private void Save(object sender, RoutedEventArgs e)
         {
+            if (selectedCars.Count < 1) return;
             try
             {
                 db.openConn();
@@ -706,6 +712,7 @@ namespace Project_VW
 
         private void hideCols(object sender, RoutedEventArgs e)
         {
+            if (selectedCars.Count < 1) return;
             foreach (Cars c in selectedCars)
             {
                 foreach (Sistema s in sistemasDelAuto)
@@ -737,6 +744,7 @@ namespace Project_VW
 
         private void showCols(object sender, RoutedEventArgs e)
         {
+            if (selectedCars.Count < 1) return;
             foreach (Cars c in selectedCars)
             {
                 foreach (Sistema s in sistemasDelAuto)
