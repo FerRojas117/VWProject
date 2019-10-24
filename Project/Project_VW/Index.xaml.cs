@@ -24,6 +24,7 @@ namespace Project_VW
         DB db;
         DB db_forloops;
         DB getFunc;
+        List<CheckBoxPairsSistemas> cbpairs;
         List<ComboBoxPairsBrowseAutos> cbp_browseAutos;
         List<Sistema> sistemasDelAuto;
         List<Cars> selectedCars;
@@ -36,6 +37,8 @@ namespace Project_VW
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = -1;
         double widthSize = 200.0;
+
+        string selectedColor = "";
 
         #region to change color value of each grid 
         Binding bindColor = new Binding()
@@ -56,6 +59,16 @@ namespace Project_VW
             this.colores.Add(3, "NoColor");
 
             InitializeComponent();
+
+            cbpairs = new List<CheckBoxPairsSistemas>();
+            cbpairs.Add(new CheckBoxPairsSistemas("1", "Red"));
+            cbpairs.Add(new CheckBoxPairsSistemas("2", "Yellow"));
+            cbpairs.Add(new CheckBoxPairsSistemas("3", "NoColor"));
+
+            filtroColor.DisplayMemberPath = "nombre";
+            filtroColor.SelectedValuePath = "ID";
+            filtroColor.ItemsSource = cbpairs;
+
             selectedCars = new List<Cars>();
             db = new DB();
             fillCars();
@@ -82,8 +95,7 @@ namespace Project_VW
 
             filtroEventos.DisplayMemberPath = "nombre";
             filtroEventos.SelectedValuePath = "ID";
-            filtroEventos.ItemsSource = cbp;
-          
+            filtroEventos.ItemsSource = cbp;        
         }
 
         public void fillCars()
@@ -238,7 +250,7 @@ namespace Project_VW
                         B2_TCSRelevantes = Convert.ToString(getFunc.getReader()["B2_TCSRelevantes"]);
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
                         Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
-                        color = Convert.ToString(getFunc.getReader()["color"]);
+                       
 
                         Console.WriteLine(ID);
                         ft = new Funcion()
@@ -251,8 +263,7 @@ namespace Project_VW
                             B1_notasGrales = B1_notasGrales,
                             B2_TCSRelevantes = B2_TCSRelevantes,
                             descripcion = descripcion,
-                            Einsatz_KWJahr = Einsatz_KWJahr,
-                            color = color
+                            Einsatz_KWJahr = Einsatz_KWJahr
                         };
 
                         // we get infromation from funktion 
@@ -301,10 +312,10 @@ namespace Project_VW
                             int affectedRows;
                             string insrtEditCampos = "INSERT INTO edit_campos_funktion";
                             insrtEditCampos += "(Relevant, abgesichert, B3_deadlines, ";
-                            insrtEditCampos += "funktion_ID, evento_ID, auto_ID) VALUES (";
+                            insrtEditCampos += "funktion_ID, evento_ID, auto_ID, color) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
                             insrtEditCampos += ID + ", " + eventSelected + ", ";
-                            insrtEditCampos += idOfCar + ")";
+                            insrtEditCampos += idOfCar + ", 3)";
 
                             using (getFunc.setComm(insrtEditCampos))
                             {
@@ -322,12 +333,15 @@ namespace Project_VW
                             db_forloops.setReader();
                             while (db_forloops.getReader().Read())
                             {
+                                // problem
                                 ecf = new Edit_Campos_Funcion()
                                 {
                                     ID = Convert.ToString(db_forloops.getReader()["ID"]),
                                     Relevant = Convert.ToString(db_forloops.getReader()["Relevant"]),
                                     abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"]),
-                                    B3_deadlines = Convert.ToString(db_forloops.getReader()["B3_deadlines"])
+                                    B3_deadlines = Convert.ToString(db_forloops.getReader()["B3_deadlines"]),
+                                    color = Convert.ToString(db_forloops.getReader()["color"])
+
                                 };
                                 ptrSistema.addECFFuncion(ecf);
                             }
@@ -340,7 +354,7 @@ namespace Project_VW
 
                 // add funktions of each system to ItemsSource of GRID
 
-
+               
                 DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
 
                 comboBoxColumn.Header = "Color";
@@ -349,11 +363,11 @@ namespace Project_VW
                 comboBoxColumn.ItemsSource = colores;
                 comboBoxColumn.SelectedValueBinding = bindColor;
 
-                ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
+               ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
                 ptrSistema.gvSystem.CanUserAddRows = false;
                 ptrSistema.gvSystem.CanUserDeleteRows = false;
                 ptrSistema.gvSystem.CanUserSortColumns = false;
-              ptrSistema.gvSystem.Columns.Add(comboBoxColumn);
+               
 
 
                 #region COLOR ROWS 
@@ -404,12 +418,6 @@ namespace Project_VW
                 #endregion
 
 
-                dt.Setters.Add(stt);
-                dtY.Setters.Add(sttY);
-                style.Triggers.Clear();
-                style.Triggers.Add(dt);
-                style.Triggers.Add(dtY);
-                ptrSistema.gvSystem.RowStyle = style;
 
                 #endregion
                 // create the data template
@@ -462,25 +470,48 @@ namespace Project_VW
 
                 //set the item template to be our shiny new data template
                 ptrSistema.gvSystem.RowDetailsTemplate = cardLayout;
+                #endregion
 
-                #endregion 
-
+                ptrSistema.gvEditCamposFunk.Columns.Add(comboBoxColumn);
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
                 ptrSistema.gvEditCamposFunk.CanUserAddRows = false;
                 ptrSistema.gvEditCamposFunk.CanUserDeleteRows = false;
                 ptrSistema.gvEditCamposFunk.CanUserSortColumns = false;
-              ptrSistema.gvEditCamposFunk.RowHeight = 36.65;
+
+                dt.Setters.Add(stt);
+                dtY.Setters.Add(sttY);
+                style.Triggers.Clear();
+                style.Triggers.Add(dt);
+                style.Triggers.Add(dtY);
+                ptrSistema.gvEditCamposFunk.RowStyle = style;
+             
+                ptrSistema.gvEditCamposFunk.RowHeight = 34.62;
                 // add ItemsSource to GRID of EditCamposFunkt of each system
                 #endregion
                 getFunc.closeConn();
             }
             #endregion
+
+
             Cars returnThisCar = new Cars(idOfCar, nameOfcar, sistemasDelAuto);
             return returnThisCar;
             // end of systems of car retrieval
             // put information in frontend
         }
 
+
+        public void fColor_dropdownClosed(object sender, EventArgs e)
+        {
+            if (filtroAutos.SelectedValue == null)
+            {
+                selectedColor = filtroColor.SelectedValue.ToString();
+                MessageBox.Show(selectedColor);
+            }
+            else
+            {
+                MessageBox.Show("Will change all");
+            }
+        }
 
         public void fAuto_dropdownClosed(object sender, EventArgs e)
         {
@@ -535,7 +566,7 @@ namespace Project_VW
             if (filtroAutos.SelectedValue == null)
                 return;
             
-            // HAVE to finish event dropdown handling 
+            // IF EVENT WAS CHANGED
 
             string ID_selectedCar = filtroAutos.SelectedValue.ToString();
             string selected_name = filtroAutos.Text;
@@ -556,7 +587,10 @@ namespace Project_VW
             {
                 selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected));
             }
+            
             showInformationOfCar();
+
+            // END OF CHANGED EVENT
         }
 
         public void showInformationOfCar()
@@ -627,8 +661,7 @@ namespace Project_VW
                             updateFunk += "B1_notasGrales = " + "'" + f.B1_notasGrales + "'" + ", ";
                             updateFunk += "B2_TCSRelevantes = " + "'" + f.B2_TCSRelevantes + "'" + ", ";
                             updateFunk += "descripcion = " + "'" + f.descripcion + "'" + ", ";
-                            updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + ", ";
-                            updateFunk += "color = " + "'" + f.color + "'" + " ";
+                            updateFunk += "Einsatz_KWJahr = " + "'" + f.Einsatz_KWJahr + "'" + " ";
                             updateFunk += "WHERE ID = " + f.ID;
 
                             using (db.setComm(updateFunk))
@@ -641,7 +674,8 @@ namespace Project_VW
                             string updateECF = "UPDATE edit_campos_funktion SET ";
                             updateECF += "Relevant = " + "'" + ecf.Relevant + "'" + ", ";
                             updateECF += "abgesichert = " + "'" + ecf.abgesichert + "'" + ", ";
-                            updateECF += "B3_deadlines = " + "'" + ecf.B3_deadlines + "'" + " ";
+                            updateECF += "B3_deadlines = " + "'" + ecf.B3_deadlines + "'" + ", ";
+                            updateECF += "color = " + "'" + ecf.color + "'" + " ";
                             updateECF += "WHERE ID = " + ecf.ID;
 
                             using (db.setComm(updateECF))
@@ -728,15 +762,17 @@ namespace Project_VW
                         {
                             column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
                         }
-                       
-                        s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[3].Visibility = Visibility.Collapsed;
+
+                        s.gvSystem.Columns[0].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[2].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
                         s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
 
-                        s.gvEditCamposFunk.Columns[0].Visibility = Visibility.Collapsed;
+
+                        s.gvEditCamposFunk.Columns[1].Visibility = Visibility.Collapsed;
+                        s.gvEditCamposFunk.Columns[5].Visibility = Visibility.Collapsed;
+
                     }                   
                 }
             }
@@ -751,10 +787,10 @@ namespace Project_VW
                 {
                     if (s.gvSystem.Columns.Count > 0)
                     {
-                        s.gvSystem.Columns[3].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[2].Visibility = Visibility.Visible;
+                        s.gvSystem.Columns[6].Visibility = Visibility.Visible;
                         s.gvSystem.Columns[7].Visibility = Visibility.Visible;
-                        s.gvSystem.Columns[8].Visibility = Visibility.Visible;
-                        s.gvSystem.Columns[9].Visibility = Visibility.Visible;                     
+                        s.gvSystem.Columns[8].Visibility = Visibility.Visible;                     
                     }
                 }
                         
@@ -773,7 +809,6 @@ namespace Project_VW
         public string B1_notasGrales { get; set; }
         public string B2_TCSRelevantes { get; set; }
         public string Einsatz_KWJahr { get; set; }
-        public string color { get; set; }
     }
 
 
@@ -783,17 +818,20 @@ namespace Project_VW
         public string Relevant { get; set; }
         public string abgesichert { get; set; }
         public string B3_deadlines { get; set; }
+        public string color { get; set; }
     }
 
     public class Cars
     {
-        public string ID, modelo;
+        public string ID, modelo, color;
         public List<Sistema> carSystems;
         public Cars(string ID, string modelo, List<Sistema> carSystems)
         {
             this.ID = ID;
             this.modelo = modelo;
             this.carSystems = carSystems;
+            // ADD IMPLEMENTATION OF COLOR, FILTER FUNKTIONS IF THE ECF is the matching color
+
         }
     }
 
