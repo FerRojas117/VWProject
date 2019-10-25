@@ -362,15 +362,17 @@
                                 </DataGridTextColumn>
                                 
                                 <!--
+                               
                                 <DataGridHyperlinkColumn Header="Ruta" Binding="{Binding ruta}">
                                     <DataGridHyperlinkColumn.ElementStyle>
-                                        <Style>
-                                            <EventSetter Handler="itemClick"/>
+                                        <Style TargetType="TextBlock">
+                                            <EventSetter Event="Hyperlink.Click" Handler="itemClick"/>
+                                            
                                         </Style>
                                     </DataGridHyperlinkColumn.ElementStyle>
                                 </DataGridHyperlinkColumn>
                                 
-                                -->
+                               -->
                             </DataGrid.Columns>
                             
                             

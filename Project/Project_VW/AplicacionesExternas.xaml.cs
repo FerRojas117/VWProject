@@ -30,6 +30,7 @@ namespace Project_VW
             db = new DB();
             routes = new List<Rutas>();
             InitializeComponent();
+            
             if (SesionUsuario.getUserTipo() == 2)
             {
                 edit_Intranet.Visibility = Visibility.Collapsed;
@@ -144,9 +145,9 @@ namespace Project_VW
             }
         }
 
-        private void itemCLick(object sender, RoutedEventArgs e)
+        public void itemClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("No se pudo abrir el recurso");
+            
         }
 
         public void EditLink()

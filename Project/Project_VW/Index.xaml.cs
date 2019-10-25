@@ -38,7 +38,7 @@ namespace Project_VW
         int IDEventSelected = -1;
         double widthSize = 200.0;
 
-        string selectedColor = "";
+        int selectedColor = 0;
 
         #region to change color value of each grid 
         Binding bindColor = new Binding()
@@ -63,7 +63,7 @@ namespace Project_VW
             cbpairs = new List<CheckBoxPairsSistemas>();
             cbpairs.Add(new CheckBoxPairsSistemas("1", "Red"));
             cbpairs.Add(new CheckBoxPairsSistemas("2", "Yellow"));
-            cbpairs.Add(new CheckBoxPairsSistemas("3", "NoColor"));
+            cbpairs.Add(new CheckBoxPairsSistemas("3", "TODOS"));
 
             filtroColor.DisplayMemberPath = "nombre";
             filtroColor.SelectedValuePath = "ID";
@@ -124,10 +124,10 @@ namespace Project_VW
         
         // method to return any car that is needed
         // with a structure needed to show in frontend
-        public Cars getCar(string idOfCar, string nameOfcar, int eventSelected)
+        public Cars getCar(string idOfCar, string nameOfcar, int eventSelected, int color)
         {
             string ID, nombre, NAR, RDW, Gesetz, B1_notasGrales;
-            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr, color;
+            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr;
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -137,10 +137,8 @@ namespace Project_VW
             Funcion ft;
             Edit_Campos_Funcion ecf = null;
 
-
             // get systems that relate to a car
             // We will filter bemerkungen and edit campos funktion later
-
 
             // COUNT IF THERE IS SYSTEMS
             string qry_sistDeAutoCount = "SELECT COUNT(sistema.ID) AS numDeSist ";
@@ -195,18 +193,46 @@ namespace Project_VW
 
             db.closeConn();
 
-            #region Get funktions of each system
+            #region Get Systems of CAR
             // GET Funktions from each System
             foreach (Sistema ptrSistema in sistemasDelAuto)
             {
-                string qry_getFunctionsCount = "SELECT COUNT(*) AS numFuncSistema ";
-                qry_getFunctionsCount += "FROM funktion WHERE sistema_ID = ";
-                qry_getFunctionsCount += ptrSistema.ID;
-                qry_getFunctionsCount += " AND isActive = 1";
+                string qry_getFunctionsCount = "";
+                string qry_getFunctions = "";
 
-                string qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
-                qry_getFunctions += ptrSistema.ID;
-                qry_getFunctions += " AND isActive = 1";
+              
+                // IF no color was selected
+                if (color == 3)
+                {
+                    qry_getFunctionsCount = "SELECT COUNT(*) AS numFuncSistema ";
+                    qry_getFunctionsCount += "FROM funktion WHERE sistema_ID = ";
+                    qry_getFunctionsCount += ptrSistema.ID;
+                    qry_getFunctionsCount += " AND isActive = 1";
+
+                    qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
+                    qry_getFunctions += ptrSistema.ID;
+                    qry_getFunctions += " AND isActive = 1";
+                }
+                else
+                {
+                    qry_getFunctionsCount = "SELECT COUNT(*) AS numFuncSistema ";
+                    qry_getFunctionsCount += "FROM funktion INNER JOIN edit_campos_funktion " +
+                        "ON funktion.ID = edit_campos_funktion.funktion_ID AND color = " + color + " " +
+                        "WHERE sistema_ID = ";
+                    qry_getFunctionsCount += ptrSistema.ID;
+                    qry_getFunctionsCount += " AND isActive = 1";
+
+
+                    qry_getFunctions = "SELECT funktion.ID, " +
+                        "funktion.nombre, funktion.NAR, funktion.RDW, funktion.Gesetz, funktion.B1_notasGrales, " +
+                        "funktion.B2_TCSRelevantes, funktion.descripcion, funktion.Einsatz_KWJahr " +
+                        "FROM funktion INNER JOIN edit_campos_funktion ON funktion.ID = edit_campos_funktion.funktion_ID " +
+                        "AND color = " + color + " " +
+                        "WHERE sistema_ID = ";
+                    qry_getFunctions += ptrSistema.ID;
+                    qry_getFunctions += " AND isActive = 1";
+                }
+                
 
                 db_forloops = new DB();
 
@@ -341,7 +367,6 @@ namespace Project_VW
                                     abgesichert = Convert.ToString(db_forloops.getReader()["abgesichert"]),
                                     B3_deadlines = Convert.ToString(db_forloops.getReader()["B3_deadlines"]),
                                     color = Convert.ToString(db_forloops.getReader()["color"])
-
                                 };
                                 ptrSistema.addECFFuncion(ecf);
                             }
@@ -502,14 +527,49 @@ namespace Project_VW
 
         public void fColor_dropdownClosed(object sender, EventArgs e)
         {
-            if (filtroAutos.SelectedValue == null)
+            if (filtroAutos.SelectedValue == null )
             {
-                selectedColor = filtroColor.SelectedValue.ToString();
-                MessageBox.Show(selectedColor);
-            }
+                if (filtroColor.SelectedValue == null) return;
+                selectedColor = Convert.ToInt32(filtroColor.SelectedValue.ToString());
+            }          
+            // if car is checked then have to paint again all from this car.
             else
             {
-                MessageBox.Show("Will change all");
+                if (filtroEventos.SelectedValue == null)
+                {
+                    IDEventSelected = SesionUsuario.getIDEvento();
+                }
+                else
+                {
+                    IDEventSelected = Convert.ToInt32(filtroEventos.SelectedValue.ToString());
+                }
+
+                string ID_selectedCar = filtroAutos.SelectedValue.ToString();
+                string selected_name = filtroAutos.Text;
+                SistemasAutos.Children.Clear();
+                selectedCars = new List<Cars>();
+                // Have to add all cars or just one,
+                // methods are already declared, have to implement them
+                // there is already a list of global cars, to add as many as necessary
+
+                if (Convert.ToInt32(ID_selectedCar) == -1)
+                {
+                    foreach (ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
+                    {
+                        if (filtroColor.SelectedValue == null)
+                            selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, 3));
+                        else
+                            selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
+                    }
+                }
+                else
+                {
+                    if (filtroColor.SelectedValue == null)
+                        selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, 3));
+                    else
+                        selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
+                }
+                showInformationOfCar();
             }
         }
 
@@ -541,12 +601,18 @@ namespace Project_VW
             {
                 foreach(ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
                 {
-                    selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected));
+                    if (filtroColor.SelectedValue == null)
+                        selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, 3));
+                    else
+                        selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
                 }  
             }
             else
             {
-                selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected));
+                if (filtroColor.SelectedValue == null)
+                    selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, 3));
+                else
+                    selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
             }
             showInformationOfCar();
         }
@@ -580,16 +646,21 @@ namespace Project_VW
             {
                 foreach (ComboBoxPairsBrowseAutos cbp in cbp_browseAutos)
                 {
-                    selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected));
+                    if (filtroColor.SelectedValue == null)
+                        selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, 0));
+                    else
+                        selectedCars.Add(getCar(cbp.ID, cbp.modelo, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
                 }
             }
             else
             {
-                selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected));
+                if (filtroColor.SelectedValue == null)
+                    selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, 3));
+                else
+                    selectedCars.Add(getCar(ID_selectedCar, selected_name, IDEventSelected, Convert.ToInt32(filtroColor.SelectedValue.ToString())));
             }
             
             showInformationOfCar();
-
             // END OF CHANGED EVENT
         }
 
@@ -601,6 +672,7 @@ namespace Project_VW
             {
                 if (cars == null) continue;
                 Expander xpanderC = new Expander();
+                xpanderC.IsExpanded = true;
                 xpanderC.Background = brush;
                 xpanderC.Header = cars.modelo;
 
