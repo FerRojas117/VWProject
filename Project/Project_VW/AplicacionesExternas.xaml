@@ -355,24 +355,19 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="OTROS&#xD;&#xA;LINKS" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="26"></Label>
 
-                        <DataGrid Grid.Column="1" AutoGenerateColumns="False" Margin="5" x:Name="OtherLinks" ItemsSource="{Binding}">
+                        <DataGrid Grid.Column="1" AutoGenerateColumns="False" Margin="3" x:Name="OtherLinks" ItemsSource="{Binding}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="nombre" Binding="{Binding nombre}">
 
                                 </DataGridTextColumn>
-                                
-                                <!--
-                               
-                                <DataGridHyperlinkColumn Header="Ruta" Binding="{Binding ruta}">
+                                <DataGridHyperlinkColumn IsReadOnly="False" Header="Ruta" Binding="{Binding ruta}">
                                     <DataGridHyperlinkColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <EventSetter Event="Hyperlink.Click" Handler="itemClick"/>
-                                            
                                         </Style>
                                     </DataGridHyperlinkColumn.ElementStyle>
                                 </DataGridHyperlinkColumn>
-                                
-                               -->
+                      
                             </DataGrid.Columns>
                             
                             
@@ -381,10 +376,13 @@
                     </Grid>
                 </materialDesign:Card>
 
-                <StackPanel >
-                    
-                </StackPanel>
-                
+
+                <Button x:Name="checkLinks" Grid.Row="3" Grid.Column="5"
+                        Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                             ToolTip="Editar Ruta"   FontSize="10"  Click="checkRutas" Background="#FF607D8B" BorderBrush="{x:Null}"  >
+                    <materialDesign:PackIcon Kind="ContentSave" Height="40" Width="40" />
+                </Button>
+
 
             </Grid>
         </materialDesign:Card>

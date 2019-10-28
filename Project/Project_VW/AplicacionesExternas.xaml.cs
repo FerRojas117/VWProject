@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Shapes;
+using System.Data.SQLite;
 
 namespace Project_VW
 {
@@ -145,9 +146,100 @@ namespace Project_VW
             }
         }
 
-        public void itemClick(object sender, RoutedEventArgs e)
+        public void itemClick(object sender, ExceptionRoutedEventArgs e)
         {
             
+        }
+
+        private void checkRutas(object sender, RoutedEventArgs e)
+        {
+            string qry_insertRuta = "INSERT INTO rutas (ruta, nombre) VALUES ('";
+
+            try
+            {
+
+                db.openConn();
+                db.tr = db.getConn().BeginTransaction();
+                foreach (Rutas r in routes)
+                {
+                    if(String.IsNullOrEmpty(r.ID))
+                    {
+                        string newRoute = qry_insertRuta + r.ruta + "', '" + r.nombre + "')";
+                        using (db.setComm(newRoute))
+                        {
+                            db.getComm().ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        string updateRoute = "UPDATE rutas SET ";
+                        updateRoute += "ruta = " + "'" + r.ruta + "', ";
+                        updateRoute += "nombre = " + "'" + r.nombre + "' ";
+                        updateRoute += "WHERE ID = " + r.ID;
+                        using (db.setComm(updateRoute))
+                        {
+                            db.getComm().ExecuteNonQuery();
+                        }
+                    }
+                }
+                db.tr.Commit();
+                MessageBox.Show("Rutas Actualizadas.");
+
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: {0}", ex.ToString());
+
+                if (db.tr != null)
+                {
+                    try
+                    {
+                        db.tr.Rollback();
+                    }
+                    catch (SQLiteException ex2)
+                    {
+
+                        Console.WriteLine("Transaction rollback failed.");
+                        Console.WriteLine("Error: {0}", ex2.ToString());
+
+                    }
+                    finally
+                    {
+                        db.tr.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (db.getComm() != null)
+                {
+                    db.getComm().Dispose();
+                }
+
+                if (db.tr != null)
+                {
+                    db.tr.Dispose();
+                }
+
+                if (db.getConn() != null)
+                {
+                    try
+                    {
+                        db.getConn().Close();
+
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        Console.WriteLine("Closing connection failed.");
+                        Console.WriteLine("Error: {0}", ex.ToString());
+                    }
+                    finally
+                    {
+                        db.getConn().Dispose();
+                    }
+                }
+            }
+                 
         }
 
         public void EditLink()
@@ -207,7 +299,7 @@ namespace Project_VW
 
         public void getOtherRoutes()
         {
-            string qry_getAllRuta = "SELECT ruta, nombre FROM rutas WHERE ID > 10";
+            string qry_getAllRuta = "SELECT ID, ruta, nombre FROM rutas WHERE ID > 10";
             db.openConn();
             using (db.setComm(qry_getAllRuta))
             {
@@ -215,6 +307,7 @@ namespace Project_VW
                 while (db.getReader().Read())
                 {
                     routes.Add(new Rutas{
+                        ID = Convert.ToString(db.getReader()["ID"]),
                         ruta = Convert.ToString(db.getReader()["ruta"]),
                         nombre = Convert.ToString(db.getReader()["nombre"])
                     }); 
@@ -227,6 +320,7 @@ namespace Project_VW
 
     public class Rutas
     {
+        public string ID { get; set; }
         public string nombre { get; set; }
         public string ruta { get; set; }
     }
