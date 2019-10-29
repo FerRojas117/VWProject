@@ -362,8 +362,8 @@
                                 </DataGridTextColumn>
                                 <DataGridHyperlinkColumn IsReadOnly="False" Header="Ruta" Binding="{Binding ruta}">
                                     <DataGridHyperlinkColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <EventSetter Event="Hyperlink.Click" Handler="itemClick"/>
+                                        <Style>
+                                            <EventSetter Event="Hyperlink.Click" Handler="HL_Click"/>
                                         </Style>
                                     </DataGridHyperlinkColumn.ElementStyle>
                                 </DataGridHyperlinkColumn>

@@ -146,9 +146,17 @@ namespace Project_VW
             }
         }
 
-        public void itemClick(object sender, ExceptionRoutedEventArgs e)
+        public void HL_Click(object sender, RoutedEventArgs e)
         {
-            
+            Hyperlink hl = (Hyperlink)e.OriginalSource;
+            try
+            {
+                System.Diagnostics.Process.Start(hl.NavigateUri.AbsoluteUri);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void checkRutas(object sender, RoutedEventArgs e)
