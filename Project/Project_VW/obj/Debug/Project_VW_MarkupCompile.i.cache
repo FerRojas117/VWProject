@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\App.xaml
-141368054257
+15157219394
 
-24-1821584079
+25-2134195658
 188089146
-admin.xaml;Administracion.xaml;AgregarAuto.xaml;AgregarEvento.xaml;AgregarSistema.xaml;AplicacionesExternas.xaml;CambiarEvento.xaml;EliminarUsuario.xaml;Index.xaml;login.xaml;MainWindow.xaml;NuevaFuncion.xaml;NuevoUsuario.xaml;ResetPassword.xaml;
+admin.xaml;Administracion.xaml;AgregarAuto.xaml;AgregarEvento.xaml;AgregarSistema.xaml;AplicacionesExternas.xaml;CambiarEvento.xaml;EliminarUsuario.xaml;Index.xaml;Instruccions.xaml;login.xaml;MainWindow.xaml;NuevaFuncion.xaml;NuevoUsuario.xaml;ResetPassword.xaml;
 
-True
+False
 

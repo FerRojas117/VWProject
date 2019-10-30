@@ -96,6 +96,9 @@
     <Compile Include="Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Instruccions.xaml.cs">
+      <DependentUpon>Instruccions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NuevaFuncion.xaml.cs">
       <DependentUpon>NuevaFuncion.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Index.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Instruccions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,6 +219,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\vw3.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\VWADMIN.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\volkswagen_2019_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\VW.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\ShowMeTheXAML.MSBuild.1.0.12\build\net45\ShowMeTheXAML.MSBuild.targets" Condition="Exists('packages\ShowMeTheXAML.MSBuild.1.0.12\build\net45\ShowMeTheXAML.MSBuild.targets')" />

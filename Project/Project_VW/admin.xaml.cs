@@ -28,6 +28,12 @@ namespace Project_VW
         public admin()
         {
             InitializeComponent();
+
+            UserControl usc = null;
+            GridMain.Children.Clear();
+            usc = new Instruccions();
+            GridMain.Children.Add(usc);
+
             NavigationCommands.BrowseBack.InputGestures.Clear();
             NavigationCommands.BrowseForward.InputGestures.Clear();
             db = new DB();
