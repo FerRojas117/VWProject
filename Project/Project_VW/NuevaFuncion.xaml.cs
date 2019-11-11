@@ -75,7 +75,7 @@ namespace Project_VW
             db.openConn();
 
             string qry_addFunc = "INSERT INTO funktion (nombre, NAR, RDW, Gesetz, ";
-            qry_addFunc += "descripcion, Einsatz_KWJahr, editado_por, sistema_ID, color, isActive) VALUES (";
+            qry_addFunc += "descripcion, Einsatz_KWJahr, editado_por, sistema_ID, isActive) VALUES (";
             qry_addFunc += "'" + nombreFunc + "', ";
             qry_addFunc += "'" + nar + "', ";
             qry_addFunc += "'" + rdw + "', ";
@@ -84,7 +84,7 @@ namespace Project_VW
             qry_addFunc += "'" + Einsatz_KWJahr.Text + "', ";
             qry_addFunc += "'" + SesionUsuario.getUser() + "', ";
             qry_addFunc += ID_selectedSystem;
-            qry_addFunc += ", " + "3," + "1" + ")";
+            qry_addFunc += ", "+ "1" + ")";
 
             using (db.setComm(qry_addFunc))
             {
@@ -98,6 +98,12 @@ namespace Project_VW
 
             db.sendMBandCloseConn("Funcion creada exitosamente dentro del sistema: " + chooseSystem.Text);
 
+            NombreFuncion.Text = "";
+            DescripFuncion.Text = "";
+            NAR.Text = "";
+            RdW.Text = "";
+            Gesetz.Text = "";
+            Einsatz_KWJahr.Text = "";
         }
     }
 }

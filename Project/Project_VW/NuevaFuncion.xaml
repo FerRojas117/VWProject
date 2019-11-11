@@ -43,7 +43,7 @@
                 <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="#FF0D4671" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="20" Grid.Row="1" Grid.RowSpan="3" >
                     <Grid>
                         <Label  HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" VerticalAlignment="Top"  FontSize="16" Content="&#xD;&#xA;Escoge sistema&#xD;&#xA;a añadir la función" Foreground="#DDF7F7F7" Margin="0 30 0 0"/>
-                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="auto" Height="76" Foreground="White" Background="#FF0D4671" BorderBrush="#89FFFFFF" Margin="10"/>
+                        <ComboBox x:Name="chooseSystem" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="auto" Height="76" Foreground="White" Background="#FF0D4671" BorderBrush="#89FFFFFF" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Grid>
                 </materialDesign:Card>
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
