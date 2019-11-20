@@ -29,7 +29,7 @@
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="200">
                         <Button x:Name="InfoUsuario" Content="Informacion Usuario" Click="InfoUsuario_Click"/>
-                        <Button x:Name="AgregarEvento" Content="Agregar Evento..." Click="addEvento_Click"/>
+                       <!-- <Button x:Name="AgregarEvento" Content="Agregar Evento..." Click="addEvento_Click"/>  -->
                         <Button x:Name="AgregarAuto" Content="Agregar Auto" Click="AnadirAuto_Click" Visibility="{Binding Visibility}"/>
                         <Button x:Name="AgregarSistema" Content="Agregar Sistema" Click="AnadirSistema_Click"/>
                         <Button x:Name="AgregarFuncion" Content="Agregar Funcion..." Click="AnadirFuncion_Click"/>
@@ -37,7 +37,7 @@
                         <Button x:Name="EliminarUsuario" Content="Eliminar Usuario" Click="EliminarUsuario_Click"/>
                         <Button Content="Reset contraseñas..." x:Name="ResetPasswords" Click="ResetPasswords_Click"/>
                         <Separator/>
-                        <Button x:Name="cambiarEvento" Content="Cambiar de Evento..." Click="CambiarEvento_Click"/>
+                   <!--     <Button x:Name="cambiarEvento" Content="Cambiar de Evento..." Click="CambiarEvento_Click"/> -->
                         <Button Content="Logout" Click="logout"/>
                     </StackPanel>
                 </materialDesign:PopupBox>

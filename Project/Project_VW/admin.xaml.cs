@@ -77,7 +77,7 @@ namespace Project_VW
             // Remove elements if not administrator
             if (SesionUsuario.getUserTipo() == 2)
             {
-                AgregarEvento.Visibility = Visibility.Collapsed;
+               // AgregarEvento.Visibility = Visibility.Collapsed;
                 AgregarAuto.Visibility = Visibility.Collapsed;
                 AgregarSistema.Visibility = Visibility.Collapsed;
                 AgregarFuncion.Visibility = Visibility.Collapsed;
@@ -86,10 +86,8 @@ namespace Project_VW
                 ResetPasswords.Visibility = Visibility.Collapsed;
 
                 Administracion.Visibility = Visibility.Collapsed;
-
             }
-            nombreUsuario.Text = SesionUsuario.getUser();
-                
+            nombreUsuario.Text = SesionUsuario.getUser();               
         }
 
        
@@ -109,15 +107,13 @@ namespace Project_VW
                     ));
                 }
             }
-            db.closeConn();
-           
+            db.closeConn();          
         }
 
         public void changeEventTitle()
         {
             nombreEvento.Text = "";
-            nombreEvento.Text = SesionUsuario.getUserTipoString() + " - Evento Actual: " +
-                    SesionUsuario.getEvento(); 
+            nombreEvento.Text = SesionUsuario.getUserTipoString(); 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

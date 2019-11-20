@@ -98,6 +98,8 @@ namespace Project_VW
             filtroEventos.ItemsSource = cbp;        
         }
 
+        
+
         public void fillCars()
         {
             cbp_browseAutos = new List<ComboBoxPairsBrowseAutos>();
@@ -126,8 +128,9 @@ namespace Project_VW
         // with a structure needed to show in frontend
         public Cars getCar(string idOfCar, string nameOfcar, int eventSelected, int color)
         {
-            string ID, nombre, NAR, RDW, Gesetz, B1_notasGrales;
-            string B2_TCSRelevantes, B3_deadlines, descripcion, Einsatz_KWJahr;
+            string ID, Funktion, NAR, RDW, Gesetz, Bemerkungen1;
+            string Gesetz_TF, Beschreibung, Einsatz_KWJahr;
+            string ID_ECF, Relevant, Abgesichert, ampel, B3_deadlines, Bemerkungen2;
 
             int registerCounter = 0;
             sistemasDelAuto = new List<Sistema>();
@@ -155,6 +158,8 @@ namespace Project_VW
             qry_sistDeAuto += "WHERE autos_ID = ";
             qry_sistDeAuto += idOfCar;
 
+
+            //////////////////////////////////////////////////////////////////////////////////////
 
             // get infromation of systems
             db.openConn();
@@ -199,7 +204,6 @@ namespace Project_VW
             {
                 string qry_getFunctionsCount = "";
                 string qry_getFunctions = "";
-
               
                 // IF no color was selected
                 if (color == 3)
@@ -212,22 +216,22 @@ namespace Project_VW
                     qry_getFunctions = "SELECT * FROM funktion WHERE sistema_ID = ";
                     qry_getFunctions += ptrSistema.ID;
                     qry_getFunctions += " AND isActive = 1";
-                }
-                else
+                } 
+                else // select only registers that correspond to the specific color
                 {
                     qry_getFunctionsCount = "SELECT COUNT(*) AS numFuncSistema ";
                     qry_getFunctionsCount += "FROM funktion INNER JOIN edit_campos_funktion " +
-                        "ON funktion.ID = edit_campos_funktion.funktion_ID AND color = " + color + " " +
+                        "ON funktion.ID = edit_campos_funktion.funktion_ID AND Ampel = " + color + " " +
                         "WHERE sistema_ID = ";
                     qry_getFunctionsCount += ptrSistema.ID;
                     qry_getFunctionsCount += " AND isActive = 1";
 
 
                     qry_getFunctions = "SELECT funktion.ID, " +
-                        "funktion.nombre, funktion.NAR, funktion.RDW, funktion.Gesetz, funktion.B1_notasGrales, " +
-                        "funktion.B2_TCSRelevantes, funktion.descripcion, funktion.Einsatz_KWJahr " +
+                        "funktion.Funktion, funktion.NAR, funktion.RDW, funktion.Gesetz, funktion.Bemerkungen1, " +
+                        "funktion.Gesetz_TF, funktion.Beschreibung, funktion.Einsatz_KWJahr " +
                         "FROM funktion INNER JOIN edit_campos_funktion ON funktion.ID = edit_campos_funktion.funktion_ID " +
-                        "AND color = " + color + " " +
+                        "AND Ampel = " + color + " " +
                         "WHERE sistema_ID = ";
                     qry_getFunctions += ptrSistema.ID;
                     qry_getFunctions += " AND isActive = 1";
@@ -246,6 +250,7 @@ namespace Project_VW
                         registerCounter = Convert.ToInt32(db_forloops.getReader()["numFuncSistema"]);
                     }
                 }
+
                 if (registerCounter <= 0)
                 {
                     continue;
@@ -277,21 +282,6 @@ namespace Project_VW
                         descripcion = Convert.ToString(getFunc.getReader()["descripcion"]);
                         Einsatz_KWJahr = Convert.ToString(getFunc.getReader()["Einsatz_KWJahr"]);
                        
-
-                        Console.WriteLine(ID);
-                        ft = new Funcion()
-                        {
-                            ID = ID,
-                            nombre = nombre,
-                            NAR = NAR,
-                            RDW = RDW,
-                            Gesetz = Gesetz,
-                            B1_notasGrales = B1_notasGrales,
-                            B2_TCSRelevantes = B2_TCSRelevantes,
-                            descripcion = descripcion,
-                            Einsatz_KWJahr = Einsatz_KWJahr
-                        };
-
                         // we get infromation from funktion 
                         // we have to get information from bemerkungen of
                         // this funktion and its specific information
@@ -338,7 +328,7 @@ namespace Project_VW
                             int affectedRows;
                             string insrtEditCampos = "INSERT INTO edit_campos_funktion";
                             insrtEditCampos += "(Relevant, abgesichert, B3_deadlines, ";
-                            insrtEditCampos += "funktion_ID, evento_ID, auto_ID, color) VALUES (";
+                            insrtEditCampos += "funktion_ID, evento_ID, auto_ID, Ampel) VALUES (";
                             insrtEditCampos += " '" + "', '" + "', '" + "', ";
                             insrtEditCampos += ID + ", " + eventSelected + ", ";
                             insrtEditCampos += idOfCar + ", 3)";
@@ -358,8 +348,7 @@ namespace Project_VW
                         {
                             db_forloops.setReader();
                             while (db_forloops.getReader().Read())
-                            {
-                                // problem
+                            {                               
                                 ecf = new Edit_Campos_Funcion()
                                 {
                                     ID = Convert.ToString(db_forloops.getReader()["ID"]),
@@ -371,6 +360,21 @@ namespace Project_VW
                                 ptrSistema.addECFFuncion(ecf);
                             }
                         }
+
+                        // create funktion object  to append to system
+                        ft = new Funcion()
+                        {
+                            ID = ID,
+                            nombre = nombre,
+                            NAR = NAR,
+                            RDW = RDW,
+                            Gesetz = Gesetz,
+                            B1_notasGrales = B1_notasGrales,
+                            B2_TCSRelevantes = B2_TCSRelevantes,
+                            descripcion = descripcion,
+                            Einsatz_KWJahr = Einsatz_KWJahr
+                        };
+
                         db_forloops.closeConn();
                         // END information retrieval
                         ptrSistema.addFuncionSistema(ft);
@@ -388,7 +392,7 @@ namespace Project_VW
                 comboBoxColumn.ItemsSource = colores;
                 comboBoxColumn.SelectedValueBinding = bindColor;
 
-               ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
+                ptrSistema.gvSystem.ItemsSource = ptrSistema.funkDeSistema;
                 ptrSistema.gvSystem.CanUserAddRows = false;
                 ptrSistema.gvSystem.CanUserDeleteRows = false;
                 ptrSistema.gvSystem.CanUserSortColumns = false;
@@ -402,12 +406,19 @@ namespace Project_VW
                 style.TargetType = typeof(DataGridRow);
 
                 #region Trigger to color red
+                // setter for foreground color
+                Setter sttForeground = new Setter()
+                {
+                    Property = ForegroundProperty,
+                    Value = Brushes.White
+                };
+
                 Setter stt = new Setter()
                 {
                     Property = DataGridRow.BackgroundProperty,
                     Value = brushRed
                 };
-
+                // new bind for property color
                 Binding bindC = new Binding()
                 {
                     Path = new PropertyPath("color")
@@ -446,17 +457,11 @@ namespace Project_VW
 
                 #endregion
                 // create the data template
+
                 DataTemplate cardLayout = new DataTemplate();
                 cardLayout.DataType = typeof(Funcion);
 
                 #region Add Details functionality
-
-                //set up the stack panel
-                FrameworkElementFactory expander = new FrameworkElementFactory(typeof(StackPanel));
-                
-                FrameworkElementFactory spFactory = new FrameworkElementFactory(typeof(StackPanel));
-                spFactory.Name = "mStackFactory";
-                spFactory.SetValue(StackPanel.OrientationProperty, Orientation.Horizontal);
 
                 Binding bindDescripcion = new Binding()
                 {
@@ -472,30 +477,14 @@ namespace Project_VW
                 descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
                 descripcionDetails.SetValue(TextBox.ToolTipProperty, "Descripcion");
 
-                spFactory.AppendChild(descripcionDetails);
-
-                Binding bindTCS = new Binding()
-                {
-                    Path = new PropertyPath("B2_TCSRelevantes"),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-
-                //set up the card number textblock
-                FrameworkElementFactory B2_TCSRelevantesDetails = new FrameworkElementFactory(typeof(TextBox));
-                B2_TCSRelevantesDetails.SetBinding(TextBox.TextProperty, bindTCS);
-                B2_TCSRelevantesDetails.SetValue(TextBox.WidthProperty, widthSize);
-                B2_TCSRelevantesDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
-                descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
-                B2_TCSRelevantesDetails.SetValue(TextBox.ToolTipProperty, "Gesetz Relevantes");
-                spFactory.AppendChild(B2_TCSRelevantesDetails);
-
-                expander.AppendChild(spFactory);
                 //set the visual tree of the data template
-                cardLayout.VisualTree = expander;
+                cardLayout.VisualTree = descripcionDetails;
 
                 //set the item template to be our shiny new data template
                 ptrSistema.gvSystem.RowDetailsTemplate = cardLayout;
                 #endregion
+
+
 
                 ptrSistema.gvEditCamposFunk.Columns.Add(comboBoxColumn);
                 ptrSistema.gvEditCamposFunk.ItemsSource = ptrSistema.ecf;
@@ -503,8 +492,12 @@ namespace Project_VW
                 ptrSistema.gvEditCamposFunk.CanUserDeleteRows = false;
                 ptrSistema.gvEditCamposFunk.CanUserSortColumns = false;
 
+                // add setters to datatrgiggers
                 dt.Setters.Add(stt);
+                dt.Setters.Add(sttForeground);
+
                 dtY.Setters.Add(sttY);
+
                 style.Triggers.Clear();
                 style.Triggers.Add(dt);
                 style.Triggers.Add(dtY);
@@ -524,6 +517,12 @@ namespace Project_VW
             // put information in frontend
         }
 
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
 
         public void fColor_dropdownClosed(object sender, EventArgs e)
         {
@@ -678,32 +677,27 @@ namespace Project_VW
 
                 StackPanel spC = new StackPanel();
                 foreach (Sistema s in cars.carSystems)
-                {    
+                {
                     // check after how to hide the values of the id
+                    //ScrollViewer scv = new ScrollViewer();
+                    //.PreviewMouseWheel += DataGrid_PreviewMouseWheel;
+                    //scv.Content = s.gvSystem;
+                    
                     Expander xpanderS = new Expander();
                     xpanderS.Background = brushBlue;
                     xpanderS.Foreground = Brushes.White;
                     xpanderS.Header = s.nombre;
 
-                    ScrollViewer sv = new ScrollViewer();
-                    sv.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
                     StackPanel spf = new StackPanel();
-                    //spf.Width = 900;
-                    // stackpanel for EditCampos FUnktion
-                    StackPanel spf_ECF = new StackPanel();
+                    
                     // change to horizontal to put ECF next to info of funktion
                     spf.Orientation = Orientation.Horizontal;
 
-                    // add datagrid of edit campos funk to  spf_ECF
-                    spf_ECF.Children.Add(s.gvEditCamposFunk);
-       
-                    //append datagrid to each stackpanel 
+                    //append datagrids to stackpanel  
                     spf.Children.Add(s.gvSystem);
-                    spf.Children.Add(spf_ECF);
+                    spf.Children.Add(s.gvEditCamposFunk);
 
-                    sv.Content = spf;
-
-                    xpanderS.Content = sv;
+                    xpanderS.Content = spf;
                     spC.Children.Add(xpanderS);
                 }
                 xpanderC.Content = spC;
@@ -873,14 +867,23 @@ namespace Project_VW
     public class Funcion
     {
         public string ID { get; set; }
-        public string nombre { get; set; }
-        public string descripcion { get; set; }
+        public string funktion { get; set; }
         public string NAR { get; set; }
         public string RDW { get; set; }
         public string Gesetz { get; set; }
-        public string B1_notasGrales { get; set; }
-        public string B2_TCSRelevantes { get; set; }
+        public string Bemerkungen1 { get; set; }
+        public string Gesetz_TF { get; set; }
+        public string Beschreibung   { get; set; }
         public string Einsatz_KWJahr { get; set; }
+
+        // fields of Edit_Campos_Funcion
+        public string ID_ECF { get; set; }
+        public string ampel { get; set; }
+        public string Relevant { get; set; }
+        public string abgesichert { get; set; }
+        public string B3_deadlines { get; set; }
+        public string Bemerkungen2 { get; set; }
+
     }
 
 
@@ -902,8 +905,6 @@ namespace Project_VW
             this.ID = ID;
             this.modelo = modelo;
             this.carSystems = carSystems;
-            // ADD IMPLEMENTATION OF COLOR, FILTER FUNKTIONS IF THE ECF is the matching color
-
         }
     }
 
@@ -912,7 +913,7 @@ namespace Project_VW
         public int ID;
         public string nombre;
         public List<Funcion> funkDeSistema;
-        public List<Edit_Campos_Funcion> ecf;
+        //public List<Edit_Campos_Funcion> ecf;
         public DataGrid gvSystem;
         public DataGrid gvEditCamposFunk;
 
@@ -924,7 +925,7 @@ namespace Project_VW
             this.ID = ID;
             this.nombre = nombre;
             funkDeSistema = new List<Funcion>();
-            ecf = new List<Edit_Campos_Funcion>();
+            //ecf = new List<Edit_Campos_Funcion>();
             gvSystem = new DataGrid();
             gvEditCamposFunk = new DataGrid();
 
@@ -935,9 +936,10 @@ namespace Project_VW
             funkDeSistema.Add(f);
         }
 
-        public void addECFFuncion(Edit_Campos_Funcion ecf)
+       /* public void addECFFuncion(Edit_Campos_Funcion ecf)
         {
             this.ecf.Add(ecf);
         }
+        */
     }
 }
