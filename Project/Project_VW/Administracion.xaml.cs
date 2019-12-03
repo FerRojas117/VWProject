@@ -32,7 +32,7 @@ namespace Project_VW
         // queries to get items
         string qry_getAutos = "SELECT ID, modelo FROM autos WHERE isActive = 1";
         string qry_getSistemas = "SELECT ID, nombre FROM sistema WHERE isActive = 1";
-        string qry_getFunciones = "SELECT ID, nombre FROM funktion WHERE isActive = 1";
+        string qry_getFunciones = "SELECT ID, Funktion FROM funktion WHERE isActive = 1";
         // EN of queries
         public Administracion()
         {
@@ -159,6 +159,7 @@ namespace Project_VW
             }
             else
             {
+                /*
                 using (db.setComm(getItems))
                 {
                     db.setReader();
@@ -173,19 +174,49 @@ namespace Project_VW
                         );
                     }
                 }
-
+                */
                 // same for funktion and system, get elements and append them to stack
 
                 if(whichItem == 2)
                 {
-                    qry_RestoreItems += "ID, nombre FROM funktion WHERE isActive = 0";
+                    qry_RestoreItems += "ID, Funktion FROM funktion WHERE isActive = 0";
                     qry_countItems += "FROM funktion WHERE isActive = 0";
+
+                    using (db.setComm(getItems))
+                    {
+                        db.setReader();
+                        while (db.getReader().Read())
+                        {
+                            items.Add(
+                                new Item2Edit
+                                {
+                                    ID = Convert.ToString(db.getReader()["ID"]),
+                                    nombre = Convert.ToString(db.getReader()["Funktion"])
+                                }
+                            );
+                        }
+                    }
                 }
                                  
                 else
                 {
                     qry_RestoreItems += "ID, nombre FROM sistema WHERE isActive = 0";
                     qry_countItems += "FROM sistema WHERE isActive = 0";
+
+                    using (db.setComm(getItems))
+                    {
+                        db.setReader();
+                        while (db.getReader().Read())
+                        {
+                            items.Add(
+                                new Item2Edit
+                                {
+                                    ID = Convert.ToString(db.getReader()["ID"]),
+                                    nombre = Convert.ToString(db.getReader()["nombre"])
+                                }
+                            );
+                        }
+                    }
                 }
 
                 using (db.setComm(qry_countItems))
@@ -209,13 +240,26 @@ namespace Project_VW
                         db.setReader();
                         while (db.getReader().Read())
                         {
-                            itemsRestore.Add(
+                            if(whichItem == 2)
+                            {
+                                itemsRestore.Add(
+                                new Item2Edit
+                                {
+                                    ID = Convert.ToString(db.getReader()["ID"]),
+                                    nombre = Convert.ToString(db.getReader()["Funktion"])
+                                }
+                            );
+                            }
+                            else
+                            {
+                                itemsRestore.Add(
                                 new Item2Edit
                                 {
                                     ID = Convert.ToString(db.getReader()["ID"]),
                                     nombre = Convert.ToString(db.getReader()["nombre"])
                                 }
                             );
+                            }                          
                         }
                     }
                     // fill stackpanel with elements that can be restored
@@ -250,38 +294,49 @@ namespace Project_VW
             }
 
             string updateItems = "UPDATE ";
-            db.openConn();
+            
             switch(whichItem)
             {
                 case 1: //cars
                     updateItems += "autos SET modelo = '" + nombreItem.Text + "' WHERE ID = ";
                     updateItems += ItemsCB.SelectedValue.ToString();
+                    db.openConn();
                     using (db.setComm(updateItems))
                     {
                         db.getComm().ExecuteNonQuery();
                     }
+                    db.closeConn();
                     MessageBox.Show("Nombre de auto actualizado correctamente.");
+
+                    fillItems2Edit(qry_getAutos, whichItem);
                     break;
                 case 2: // functions
-                    updateItems += "funktion SET nombre = '" + nombreItem.Text + "' WHERE ID = ";
+                    updateItems += "funktion SET Funktion = '" + nombreItem.Text + "' WHERE ID = ";
                     updateItems += ItemsCB.SelectedValue.ToString();
+                    db.openConn();
                     using (db.setComm(updateItems))
                     {
                         db.getComm().ExecuteNonQuery();
                     }
+                    db.closeConn();
                     MessageBox.Show("Nombre de funcion actualizado correctamente.");
+                    fillItems2Edit(qry_getFunciones, whichItem);
                     break;
                 case 3: // systems
                     updateItems += "sistema SET nombre = '" + nombreItem.Text + "' WHERE ID = ";
                     updateItems += ItemsCB.SelectedValue.ToString();
+                    db.openConn();
                     using (db.setComm(updateItems))
                     {
                         db.getComm().ExecuteNonQuery();
                     }
+                    db.closeConn();
                     MessageBox.Show("Nombre de sistema actualizado correctamente.");
+
+                    fillItems2Edit(qry_getSistemas, whichItem);
                     break;
             }
-            db.closeConn();
+            
         }
 
         private void Delete(object sender, RoutedEventArgs e)
