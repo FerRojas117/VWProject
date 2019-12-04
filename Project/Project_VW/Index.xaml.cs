@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Excel = Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
+
 
 namespace Project_VW
 {
@@ -536,8 +538,6 @@ namespace Project_VW
             // if car is checked then have to paint again all from this car.
             else
             {
-               
-
                 string ID_selectedCar = filtroAutos.SelectedValue.ToString();
                 string selected_name = filtroAutos.Text;
                 SistemasAutos.Children.Clear();
@@ -785,33 +785,44 @@ namespace Project_VW
         private void exportExcel(object sender, RoutedEventArgs e)
         {
             if (selectedCars.Count < 1) return;
-            Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook excelWB;
-            Excel.Worksheet excelWS;
-            object misValue = System.Reflection.Missing.Value;
 
-            excelWB = excelApp.Workbooks.Add();
-            excelWS = (Excel.Worksheet)
-            foreach (Cars c in selectedCars)
+            using(ExcelPackage excel = new ExcelPackage())
             {
-                foreach (Sistema s in sistemasDelAuto)
+                var workSheets = excel.Workbook.Worksheets.Add("WS_Prueba1");
+
+                foreach (Cars c in selectedCars)
                 {
-                    if (s.gvSystem.Columns.Count > 0)
+                    workSheets.Cells["A1"].Value = c.modelo;
+                }
+
+                FileInfo excelFile = new FileInfo(@"C:\Users\VAS6150A\Desktop\text.xlsx");
+                excel.SaveAs(excelFile);
+            }
+
+           
+
+            /*
+                foreach (Cars c in selectedCars)
+                {
+                    foreach (Sistema s in sistemasDelAuto)
                     {
-                        foreach (DataGridColumn column in s.gvSystem.Columns)
+                        if (s.gvSystem.Columns.Count > 0)
                         {
-                            column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                            foreach (DataGridColumn column in s.gvSystem.Columns)
+                            {
+                                column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                            }
+                            s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
+                            s.gvSystem.Columns[11].Visibility = Visibility.Collapsed;
                         }
-                        s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
-                        s.gvSystem.Columns[11].Visibility = Visibility.Collapsed;
                     }
                 }
-            }
+                */
         }
 
         private void hideCols(object sender, RoutedEventArgs e)

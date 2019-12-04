@@ -232,3 +232,5 @@ C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\N
 C:\Users\verasmisombraencadap\Desktop\Proyecto_VW\Project\Project_VW\obj\Debug\ResetPassword.baml
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\Instruccions.g.cs
 C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\obj\Debug\Instruccions.baml
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\bin\Debug\EPPlus.dll
+C:\Users\VAS6150A\Desktop\Pruebas_NAR\VWProject-RealData\Project\Project_VW\bin\Debug\EPPlus.xml
