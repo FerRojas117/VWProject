@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Project_VW
 {
@@ -408,7 +409,7 @@ namespace Project_VW
                 ptrSistema.gvSystem.CanUserAddRows = false;
                 ptrSistema.gvSystem.CanUserDeleteRows = false;
                 ptrSistema.gvSystem.CanUserSortColumns = false;
-                ptrSistema.gvSystem.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                ptrSistema.gvSystem.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
                 #region COLOR ROWS 
                 // style to append color triggers
@@ -517,8 +518,8 @@ namespace Project_VW
             // end of systems of car retrieval
             // put information in frontend
         }
-
-        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+      
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
@@ -653,7 +654,6 @@ namespace Project_VW
         public void showInformationOfCar()
         {
             // SHOW infromation that was retreived from car
-
             foreach (Cars cars in selectedCars)
             {
                 if (cars == null) continue;
@@ -663,30 +663,18 @@ namespace Project_VW
                 xpanderC.Header = cars.modelo;
 
                 StackPanel spC = new StackPanel();
-                //ScrollViewer scv = new ScrollViewer();
-
                 foreach (Sistema s in cars.carSystems)
                 {
-                    // check after how to hide the values of the id
-                    //ScrollViewer scv = new ScrollViewer();
-                    //.PreviewMouseWheel += DataGrid_PreviewMouseWheel;
-                    //scv.Content = s.gvSystem;
-
                     Expander xpanderS = new Expander();
                     xpanderS.Background = brushBlue;
                     xpanderS.Foreground = Brushes.White;
                     xpanderS.Header = s.nombre;
-
-                    DockPanel spDG = new DockPanel();
-                    spDG.Children.Add(s.gvSystem);
-
-                    xpanderS.Content = spDG;
+                    xpanderS.Content = s.gvSystem;
                     spC.Children.Add(xpanderS);
                 }
                 xpanderC.Content = spC;
                 SistemasAutos.Children.Add(xpanderC);
             }
-
         }
 
         private void Save(object sender, RoutedEventArgs e)
@@ -792,6 +780,38 @@ namespace Project_VW
                 }
             }
             MessageBox.Show("Información actualizada correctamente");
+        }
+
+        private void exportExcel(object sender, RoutedEventArgs e)
+        {
+            if (selectedCars.Count < 1) return;
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook excelWB;
+            Excel.Worksheet excelWS;
+            object misValue = System.Reflection.Missing.Value;
+
+            excelWB = excelApp.Workbooks.Add();
+            excelWS = (Excel.Worksheet)
+            foreach (Cars c in selectedCars)
+            {
+                foreach (Sistema s in sistemasDelAuto)
+                {
+                    if (s.gvSystem.Columns.Count > 0)
+                    {
+                        foreach (DataGridColumn column in s.gvSystem.Columns)
+                        {
+                            column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                        }
+                        s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
+                        s.gvSystem.Columns[11].Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
         }
 
         private void hideCols(object sender, RoutedEventArgs e)
