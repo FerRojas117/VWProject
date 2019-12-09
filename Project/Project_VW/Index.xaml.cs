@@ -784,6 +784,8 @@ namespace Project_VW
 
         private void exportExcel(object sender, RoutedEventArgs e)
         {
+            return;
+            /*
             if (selectedCars.Count < 1) return;
 
             using(ExcelPackage excel = new ExcelPackage())
@@ -798,9 +800,8 @@ namespace Project_VW
                 FileInfo excelFile = new FileInfo(@"C:\Users\VAS6150A\Desktop\text.xlsx");
                 excel.SaveAs(excelFile);
             }
-
-           
-
+            */
+            
             /*
                 foreach (Cars c in selectedCars)
                 {
