@@ -783,47 +783,81 @@ namespace Project_VW
         }
 
         private void exportExcel(object sender, RoutedEventArgs e)
-        {
-            return;
-            /*
+        {          
             if (selectedCars.Count < 1) return;
-
+            int currentRow = 2;
             using(ExcelPackage excel = new ExcelPackage())
             {
-                var workSheets = excel.Workbook.Worksheets.Add("WS_Prueba1");
-
                 foreach (Cars c in selectedCars)
                 {
-                    workSheets.Cells["A1"].Value = c.modelo;
-                }
+                    var workSheets = excel.Workbook.Worksheets.Add(c.modelo);
+                    ///workSheets.Cells.Style.WrapText = true;
 
-                FileInfo excelFile = new FileInfo(@"C:\Users\VAS6150A\Desktop\text.xlsx");
-                excel.SaveAs(excelFile);
-            }
-            */
-            
-            /*
-                foreach (Cars c in selectedCars)
-                {
+                    workSheets.Cells["A1"].Value = "System";
+                    workSheets.Cells["B1"].Value = "Funktion";
+                    workSheets.Cells["C1"].Value = "NAR";
+                    workSheets.Cells["D1"].Value = "RDW";
+                    workSheets.Cells["E1"].Value = "Gesetz";
+                    workSheets.Cells["F1"].Value = "Bemerkungen1";
+                    workSheets.Cells["G1"].Value = "GesetzTF";
+                    workSheets.Cells["H1"].Value = "Beschreibung";
+                    workSheets.Cells["I1"].Value = "EinsatzKWJahr";
+                    workSheets.Cells["J1"].Value = "Relevant";
+                    workSheets.Cells["K1"].Value = "Abgesichert";
+                    workSheets.Cells["L1"].Value = "AbsicherungTermin";
+                    workSheets.Cells["M1"].Value = "Bemerkungen2";
+
                     foreach (Sistema s in sistemasDelAuto)
                     {
-                        if (s.gvSystem.Columns.Count > 0)
+                        workSheets.Cells["A" + Convert.ToString(currentRow)].Value = s.nombre;
+                        foreach (Funcion f in s.funkDeSistema)
                         {
-                            foreach (DataGridColumn column in s.gvSystem.Columns)
+                            switch(f.Ampel)
                             {
-                                column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                                case "1":
+                                    workSheets.Row(currentRow).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                    workSheets.Row(currentRow).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                                    workSheets.Row(currentRow).Style.Font.Color.SetColor(System.Drawing.Color.White);                                  
+                                    break;
+                                case "2":
+                                    workSheets.Row(currentRow).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                    workSheets.Row(currentRow).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gold);
+                                    break;
                             }
-                            s.gvSystem.Columns[1].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[6].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[7].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[8].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[9].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[10].Visibility = Visibility.Collapsed;
-                            s.gvSystem.Columns[11].Visibility = Visibility.Collapsed;
+                            workSheets.Cells["B" + Convert.ToString(currentRow)].Value = f.Funktion;
+                            workSheets.Cells["C" + Convert.ToString(currentRow)].Value = f.NAR;
+                            workSheets.Cells["D" + Convert.ToString(currentRow)].Value = f.RDW;
+                            workSheets.Cells["E" + Convert.ToString(currentRow)].Value = f.Gesetz;
+                            workSheets.Cells["F" + Convert.ToString(currentRow)].Value = f.Bemerkungen1;
+                            workSheets.Cells["G" + Convert.ToString(currentRow)].Value = f.Gesetz_TF;
+                            workSheets.Cells["H" + Convert.ToString(currentRow)].Value = f.Beschreibung;
+                            workSheets.Cells["I" + Convert.ToString(currentRow)].Value = f.Einsatz_KWJahr;
+                            workSheets.Cells["J" + Convert.ToString(currentRow)].Value = f.Relevant;
+                            workSheets.Cells["K" + Convert.ToString(currentRow)].Value = f.Abgesichert;
+                            workSheets.Cells["L" + Convert.ToString(currentRow)].Value = f.Absicherung_Termin;
+                            workSheets.Cells["M" + Convert.ToString(currentRow)].Value = f.Bemerkungen2;
+
+                            currentRow++;
                         }
                     }
-                }
-                */
+                    string nameOfFile = "E-Funktion-";
+                    DateTime localDate = DateTime.Now;
+                    //string file = @"C:\Users\VAS6150A\Desktop\" + nameOfFile + localDate.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss") + ".xlsx";
+                    string file = @"\\Mxvwmxpusfs002\elckstrateg\57_TOV\3219\" + nameOfFile + localDate.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss") + ".xlsx";
+                    MessageBox.Show(file);
+                    FileInfo excelFile = new FileInfo(file);
+                    try
+                    {
+                        
+                        excel.SaveAs(excelFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("No se pudo guardar de forma correcta el archivo.");
+                    }
+                   
+                }    
+            }                     
         }
 
         private void hideCols(object sender, RoutedEventArgs e)
