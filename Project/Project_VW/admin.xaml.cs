@@ -87,7 +87,14 @@ namespace Project_VW
 
                 Administracion.Visibility = Visibility.Collapsed;
             }
-            nombreUsuario.Text = SesionUsuario.getUser();               
+            if(SesionUsuario.getUser() == "cesar")
+            {
+                nombreUsuario.Text = "César";
+            }
+            else
+            {
+                nombreUsuario.Text = SesionUsuario.getUser();
+            }                      
         }
 
        

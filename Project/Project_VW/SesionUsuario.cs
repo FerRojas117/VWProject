@@ -66,11 +66,11 @@ namespace Project_VW
             switch(tipo_user)
             {
                 case 1:
-                    return "Administrador";
+                    return "Administrator";
                 case 2:
-                    return "Probador";
+                    return "Prüfer";
             }
-            return "Uuario";
+            return "Usuario";
         }
 
 
