@@ -36,6 +36,8 @@ namespace Project_VW
         SolidColorBrush brushRed = new SolidColorBrush(Color.FromArgb(255, (byte)220, (byte)53, (byte)34));
         SolidColorBrush brushYellow = new SolidColorBrush(Color.FromArgb(255, (byte)241, (byte)203, (byte)98));
         Style style = new Style();
+
+        string autoSelected;
         // eventos
         List<ComboBoxPairsEvento> cbp;
         int IDEventSelected = 1;
@@ -60,7 +62,7 @@ namespace Project_VW
             this.colores.Add(1, "Rot");
             this.colores.Add(2, "Gelb");
             this.colores.Add(3, "Keine");
-
+            autoSelected = "";
             InitializeComponent();
 
             cbpairs = new List<CheckBoxPairsSistemas>();
@@ -478,8 +480,11 @@ namespace Project_VW
                 Binding bindDescripcion = new Binding()
                 {
                     Path = new PropertyPath("Beschreibung"),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    
                 };
+
+
                
                 //set up the card holder textblock
                 FrameworkElementFactory descripcionDetails = new FrameworkElementFactory(typeof(TextBox));
@@ -488,6 +493,7 @@ namespace Project_VW
                 descripcionDetails.SetValue(TextBox.TextWrappingProperty, TextWrapping.Wrap);
                 descripcionDetails.SetValue(TextBox.AcceptsReturnProperty, true);
                 descripcionDetails.SetValue(TextBox.ToolTipProperty, "Beschreibung");
+               
 
                 //set the visual tree of the data template
                 cardLayout.VisualTree = descripcionDetails;
@@ -509,8 +515,8 @@ namespace Project_VW
                 style.Triggers.Add(dt);
                 style.Triggers.Add(dtY);
                 ptrSistema.gvSystem.RowStyle = style;
-             
-              
+                ptrSistema.gvSystem.MouseDoubleClick += GvSystem_MouseDoubleClick;
+                
                 #endregion
                 getFunc.closeConn();
             }
@@ -520,7 +526,22 @@ namespace Project_VW
             // end of systems of car retrieval
             // put information in frontend
         }
-      
+
+        private void GvSystem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var row = ItemsControl.ContainerFromElement((DataGrid) sender, e.OriginalSource as DependencyObject) as DataGridRow;
+            if (row == null) { e.Handled = true; return; }
+       
+            if(row.DetailsVisibility == Visibility.Visible)
+            {
+                row.DetailsVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                row.DetailsVisibility = Visibility.Visible;
+            }
+        }
+
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
@@ -570,10 +591,11 @@ namespace Project_VW
         public void fAuto_dropdownClosed(object sender, EventArgs e)
         {
             // if nothing was chosen then return
-            if (filtroAutos.SelectedValue == null)
+            if (filtroAutos.SelectedValue == null || autoSelected == filtroAutos.SelectedValue.ToString())
                 return;
 
             // HAVE to finish event dropdown handling 
+            autoSelected = filtroAutos.SelectedValue.ToString();
 
             string ID_selectedCar = filtroAutos.SelectedValue.ToString();
             string selected_name = filtroAutos.Text;
